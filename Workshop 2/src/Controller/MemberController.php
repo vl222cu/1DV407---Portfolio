@@ -21,20 +21,66 @@ class MemberController {
 
 		if($userAction === "registerpage") {
 
-			return $this->memberView->registerHTML();
+			return $this->registerMemberPage();
+
+		} elseif ($userAction === "register") {
+			
+			if ($this->memberModel->memberIsRegistered()) {
+
+				$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
+				return $this->mainMenuPage();
+
+			} else {
+
+				$this->memberView->setMessage(MemberView::MESSAGE_ERROR_REGISTRATION);
+				return $this->registerMemberPage();
+			}
+			
 
 		} elseif ($userAction === "return") {
 			
-			return $this->memberView->mainMenuHTML();
+			return $this->mainMenuPage();
 
 		} elseif ($userAction === "changedatapage") {
 			
-			return $this->memberView->changeMemberDataHTML();
+			return $this->changeMemberDataPage();
+
+		} elseif ($userAction === "change") {
+			
+			return $this->saveChangedMemberDataPage();
 
 		} else {
 
-			return $this->memberView->mainMenuHTML();
+			return $this->mainMenuPage();
 		}
+
+	}
+
+	private function mainMenuPage() {
+
+		$this->memberView->setBody($this->memberView->mainMenuHTML());
+		return $this->memberView->renderHTML();
+
+	}
+
+	private function registerMemberPage() {
+
+		$this->memberView->setBody($this->memberView->registerHTML());
+		return $this->memberView->renderHTML();
+
+	}
+
+	private function changeMemberDataPage() {
+
+		$this->memberView->setBody($this->memberView->changeMemberDataHTML());
+		return $this->memberView->renderHTML();
+
+	}
+
+	private function saveChangedMemberDataPage() {
+
+		$this->memberView->setBody($this->memberView->MemberDataToBeChangedHTML());
+		return $this->memberView->renderHTML();
 
 	}
 }

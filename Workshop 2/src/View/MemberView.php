@@ -3,6 +3,7 @@
 class MemberView {
 
 	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades.';
+	const MESSAGE_ERROR_REGISTRATION = 'Registreringen misslyckades.';
 	private $memberModel;
 	private $body = "";
 	private $message = "";
@@ -96,18 +97,37 @@ class MemberView {
         return $ret;    
 	}
 
-	public function setMessage ($msg) {
+	public function MemberDataToBeChangedHTML() {
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Ändra medlemsuppgifter</h2>
+            <form enctype='multipart/form-data' method='post' action='?changesaved'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i de fält som du vill ändra</legend>
+	                <p><label>Förnamn: </label><input type='text' name='firstname'/></p>
+	                <p><label>Efternamn: </label><input type='text' name='lastname'/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personalnumber'/></p>
+	                <p><input type='submit' value='Spara'/>
+	            </fieldset>
+            </form>
+         ";
+
+        return $ret;    
+	}
+
+	public function setMessage($msg) {
 
 		$this->message = '<p>' . $msg . '</p>';
 
 	}
 
-	public function setBody ($body) {
+	public function setBody($body) {
 
 		$this->body = $body;
 	}
 
-	public function renderHTML () {
+	public function renderHTML() {
 
 		return $this->message . $this->body;
 	}
