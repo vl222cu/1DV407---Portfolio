@@ -8,3 +8,5 @@ $htmlBody = $controller->doCheckRegistration();
 
 $view = new viewHTML();
 $view->showHTML($htmlBody);
+
+//testar lite här
