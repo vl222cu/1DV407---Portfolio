@@ -38,4 +38,28 @@ class BoatModel {
 		$this->dbQuery->addBoatToDB($boatOwner, $boatType, $boatLength);
 	}
 
+	public function saveBoatToFile($memberId, $boatType, $boatLength) {
+/*
+		$boatId = 1;
+
+		$lines = @file("boatList.txt");
+			
+			if($lines === false) {
+				//Do nothing
+			} else {
+				foreach ($lines as $line) {
+					$line = trim($line);
+
+					$lineParts = explode(":", $line);
+
+					$memberId = $lineParts[3] + 1;
+				}
+			}
+*/
+
+
+		$file = fopen('boatList.txt', 'a');
+		fwrite($file, ($memberId . ":" . $boatType . ":" . $boatLength . "\n"));
+	}
+
 }

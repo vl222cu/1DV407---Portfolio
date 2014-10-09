@@ -6,7 +6,7 @@ class BoatDAL {
 
 	public function __construct() {
 
-        $this->dbConnection = mysqli_connect("localhost", "vivi", "mastimasti1", "members");
+        $this->dbConnection = mysqli_connect("localhost", "root", "", "members");
 
         if(!$this->dbConnection) {
 
@@ -64,11 +64,11 @@ class BoatDAL {
             $lengthArray = mysqli_fetch_array($boatLengthResult);
             $boatIdArray = mysqli_fetch_array($boatIdResult);
 
-            array $boatList;
+            $boatList;
 
             foreach ($ownerArray as $key => $value) {
 
-                array $boatRow;
+                $boatRow;
 
                 array_push($boatRow, $ownerArray[$key]);
                 array_push($boatRow, $typeArray[$key]);

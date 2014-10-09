@@ -76,6 +76,12 @@ class MemberController {
 
 			return $this->editBoatPage();
 
+		} elseif ($userAction === "saveBoat") {
+
+			$this->boatModel->saveBoatToFile($this->memberView->getPostedMemberId(), $this->memberView->getPostedBoatType(), $this->memberView->getPostedLength());
+			$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
+			return $this->mainMenuPage();
+
 		} else {
 
 			return $this->mainMenuPage();
@@ -115,7 +121,9 @@ class MemberController {
 
 	private function addBoatPage() {
 
-		$this->memberView->setBody($this->memberView->addBoatHTML());
+		$memberList = $this->memberModel->getMemberListHTML();
+
+		$this->memberView->setBody($this->memberView->addBoatHTML($memberList));
 		return $this->memberView->renderHTML();
 	}
 
