@@ -46,7 +46,7 @@ class BoatDAL {
         return mysqli_fetch_array($boatData);
     }
 
-    public function getListOfBoats() {
+/*    public function getListOfBoats() {
 
         $boatOwnerResult = mysqli_query($this->dbConnection, "SELECT boatOwner
                                                         FROM boatList");
@@ -95,6 +95,6 @@ class BoatDAL {
             $this->dbConnection->close();
             return false;
         
-        }
-    }
+        } 
+    } */
 }
