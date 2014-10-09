@@ -38,8 +38,39 @@ class MemberModel {
 			
 			return false;
 
-		} 
+		} elseif ($firstName && $lastName && $personalNumber !== null) {
+			
+			$ret = $this->dbQuery->setMemberCredentialsInDB($firstName, $lastName, $personalNumber);
 
+			if($ret == true) {
+
+				$this->memberIsRegistered = true;
+				return true;
+
+			} else {
+
+				$this->memberIsRegistered = false;
+				return false;
+			}
+		}
 	}
 
+	public function checkIfCurrentMemberExists($personalNumber) {
+
+		if ($personalNumber !== null) {
+
+			$ret = $this->dbQuery->getMemberByPersonalNumberFromDB($personalNumber);
+
+			if ($ret == true) {
+
+				return true;
+
+			} else {
+
+				return false;
+
+			}
+		}
+
+	}
 }

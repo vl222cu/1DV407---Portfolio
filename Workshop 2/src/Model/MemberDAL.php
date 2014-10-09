@@ -27,7 +27,7 @@ class MemberDAL {
         } else {
 
             $sqlInsert = mysqli_query($this->dbConnection, "INSERT INTO register
-                                                            (FirstName, LastName, SocialSecurityNO)
+                                                            (firstName, lastName, socialSecurityNO)
                                                             VALUES ('$firstname', '$lastname', '$personalnumber')");
 
             $this->dbConnection->close();
@@ -43,4 +43,43 @@ class MemberDAL {
         }
     }
 
+    public function getMemberByPersonalNumberFromDB($personalnumber) {
+
+        $result = mysqli_query($this->dbConnection, "SELECT *
+                                                      FROM register
+                                                      WHERE socialSecurityNumber = '$personalnumber'");
+
+        $this->dbConnection->close();
+
+        if(mysqli_num_rows($result) == 1) {
+ 
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    public function getMemberCredentialsFromDB($firstName, $lastName, $personalnumber) {
+
+        $sqlQuery = mysqli_query($this->dbConnection, "SELECT memberID, firstName
+                                                      , lastName, socialSecurityNumber
+                                                      FROM register
+                                                      WHERE socialSecurityNumber = '$personalnumber'");
+
+        $this->dbConnection->close();
+
+        if(mysqli_num_rows($sqlQuery) == 1) {
+ 
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
 }

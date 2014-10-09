@@ -2,8 +2,8 @@
 
 class MemberView {
 
-	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades.';
-	const MESSAGE_ERROR_REGISTRATION = 'Registreringen misslyckades.';
+	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades';
+	const MESSAGE_ERROR_REGISTRATION = 'Personnumret är redan registrerat som medlem';
 	private $memberModel;
 	private $body = "";
 	private $message = "";
@@ -130,5 +130,23 @@ class MemberView {
 	public function renderHTML() {
 
 		return $this->message . $this->body;
+	}
+
+	public function getMemberRegisteredFirstName() {
+
+		return $_POST["firstname"];
+
+	}
+
+	public function getMemberRegisteredLastName() {
+
+		return $_POST["lastname"];
+
+	}
+
+	public function getMemberRegisteredPersonalNumber() {
+
+		return $_POST["personalnumber"];
+
 	}
 }

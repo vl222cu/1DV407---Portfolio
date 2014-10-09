@@ -25,7 +25,10 @@ class MemberController {
 
 		} elseif ($userAction === "register") {
 			
-			if ($this->memberModel->memberIsRegistered()) {
+			$validateMemberRegistration = $this->memberModel->authenticateMemberData($this->memberView->getMemberRegisteredFirstName(), 
+				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber());
+
+			if ($validateMemberRegistration == true) {
 
 				$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
 				return $this->mainMenuPage();
@@ -47,7 +50,13 @@ class MemberController {
 
 		} elseif ($userAction === "change") {
 			
-			return $this->saveChangedMemberDataPage();
+			$validateMember = $this->memberModel->checkIfCurrentMemberExists($this->memberView->getMemberRegisteredPersonalNumber());
+
+			if($validateMember == true) {
+
+				return $this->MemberDataToBeChangedPage();
+
+			}
 
 		} else {
 
@@ -77,7 +86,7 @@ class MemberController {
 
 	}
 
-	private function saveChangedMemberDataPage() {
+	private function MemberDataToBeChangedPage() {
 
 		$this->memberView->setBody($this->memberView->MemberDataToBeChangedHTML());
 		return $this->memberView->renderHTML();
