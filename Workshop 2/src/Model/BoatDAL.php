@@ -56,11 +56,11 @@ class BoatDAL {
             $lengthArray = mysqli_fetch_array($boatLengthResult);
             $boatIdArray = mysqli_fetch_array($boatIdResult);
 
-            array $boatList;
+            array ($boatList);
 
             foreach ($ownerArray as $key => $value) {
 
-                array $boatRow;
+                array ($boatRow);
 
                 array_push($boatRow, $ownerArray[$key]);
                 array_push($boatRow, $typeArray[$key]);
