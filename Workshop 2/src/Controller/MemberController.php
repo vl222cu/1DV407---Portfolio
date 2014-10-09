@@ -2,16 +2,19 @@
 
 require_once("src/Model/MemberModel.php");
 require_once("src/View/MemberView.php");
+require_once("src/Model/BoatModel.php");
 
 class MemberController {
 
 	private $memberModel;
 	private $memberView;
+	private $boatModel;
 
 	public function __construct() {
 
 		$this->memberModel = new MemberModel();
 		$this->memberView = new MemberView($this->memberModel);
+		$this->boeatModel = new BoatModel();
 
 	}
 
@@ -34,12 +37,11 @@ class MemberController {
 				return $this->mainMenuPage();
 
 			} else {
-
 				$this->memberView->setMessage(MemberView::MESSAGE_ERROR_REGISTRATION);
 				return $this->registerMemberPage();
+			
 			}
 			
-
 		} elseif ($userAction === "return") {
 			
 			return $this->mainMenuPage();
@@ -58,11 +60,29 @@ class MemberController {
 
 			}
 
+		} elseif ($userAction === "addBoat") {
+
+			return $this->addBoatPage();
+
+		} elseif ($userAction === "editBoat") {
+
+			return $this->editBoatPage();
+
+		} elseif ($userAction === "deleteBoat") {
+
+			return $this->deleteBoatPage();
+
+		} elseif($userAction === "editChosenBoat") {
+
+
+			$chosenBoatId =$this->memberView->getChosenBoatToEdit();
+
+			return $this->editBoatPage($chosenBoatId);
+
 		} else {
 
 			return $this->mainMenuPage();
 		}
-
 	}
 
 	private function mainMenuPage() {
@@ -91,5 +111,28 @@ class MemberController {
 		$this->memberView->setBody($this->memberView->MemberDataToBeChangedHTML());
 		return $this->memberView->renderHTML();
 
+	}
+
+
+
+
+	private function addBoatPage() {
+
+		$this->memberView->setBody($this->memberView->addBoatHTML());
+		return $this->memberView->renderHTML();
+	}
+
+	private function editBoatPage() {
+
+		$boatList = $this->boatModel->getBoatListHTML();
+		$this->memberView->setBody($this->memberView->editBoatHTML($boatList));
+		return $this->memberView->renderHTML();
+	}
+
+	private function deleteBoatPage() {
+
+		$boatList = $this->boatModel->getBoatList();
+		$this->memberView->setBody($this->memberView->deleteBoatHTML($boatList));
+		return $this->memberView->renderHTML();
 	}
 }
