@@ -38,6 +38,14 @@ class BoatDAL {
 
     }
 
+    public function getSpecificBoatData($boatId) {
+        $boatData = mysqli_query($this->dbConnection, "SELECT *
+                                                        FROM boatList
+                                                        WHERE boatId=$boatId");
+
+        return mysqli_fetch_array($boatData);
+    }
+
     public function getListOfBoats() {
 
         $boatOwnerResult = mysqli_query($this->dbConnection, "SELECT boatOwner

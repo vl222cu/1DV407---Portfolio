@@ -13,8 +13,8 @@ class MemberController {
 	public function __construct() {
 
 		$this->memberModel = new MemberModel();
-		$this->memberView = new MemberView($this->memberModel);
-		$this->boeatModel = new BoatModel();
+		$this->boatModel = new BoatModel();
+		$this->memberView = new MemberView($this->memberModel, $this->boatModel);
 
 	}
 
@@ -74,10 +74,7 @@ class MemberController {
 
 		} elseif($userAction === "editChosenBoat") {
 
-
-			$chosenBoatId =$this->memberView->getChosenBoatToEdit();
-
-			return $this->editBoatPage($chosenBoatId);
+			return $this->editBoatPage();
 
 		} else {
 

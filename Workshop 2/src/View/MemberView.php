@@ -7,10 +7,12 @@ class MemberView {
 	private $memberModel;
 	private $body = "";
 	private $message = "";
+	private $boatModel;
 
-	public function __construct(MemberModel $memberModel) {
+	public function __construct(MemberModel $memberModel, BoatModel $boatModel) {
 
 		$this->memberModel = $memberModel;
+		$this->boatModel = $boatModel;
 	}
 
 	public function getUserAction() {
@@ -172,9 +174,9 @@ class MemberView {
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
 	            <form enctype='multipart/form-data' method='post' action='?saveBoatChanges'>	            
-	                <p><label>Tillhör medlem: </label><input type='text' name='owner'/></p>
-	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
-	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
+	                <p><label>Tillhör medlem: </label><input type='text' name='owner' value='$boatOwner'/></p>
+	                <p><label>Båttyp: </label><input type='text' name='boatType' value='$boatType'/></p>
+	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength/></p>
 	                <p><input type='submit' value='Spara ändringar'/></p>
 	            </form>
 	        </fieldset>
@@ -240,6 +242,10 @@ class MemberView {
 	}
 
 	public function getChosenBoatToEdit() {
-		return $_POST['allBoats'];
+
+		$boatId = $_POST['allBoats'];
+
+		//Returnerar array med uppgifter
+		return $this->boatModel->getBoatArray();
 	}
 }

@@ -30,6 +30,10 @@ class BoatModel {
 		return $boatListHTML;
 	}
 
+	public function getBoatArray() {
+		return $this->dbQuery->getSpecificBoatData();
+	}
+
 	public function addBoat($boatOwner, $boatType, $boatLength) {
 		$this->dbQuery->addBoatToDB($boatOwner, $boatType, $boatLength);
 	}
