@@ -6,7 +6,7 @@ class BoatDAL {
 
 	public function __construct() {
 
-        $this->dbConnection = mysqli_connect("localhost", "vivi", "mastimasti1", "members");
+        $this->dbConnection = mysqli_connect("localhost", "root", "", "members");
 
         if(!$this->dbConnection) {
 
@@ -38,6 +38,14 @@ class BoatDAL {
 
     }
 
+    public function getSpecificBoatData($boatId) {
+        $boatData = mysqli_query($this->dbConnection, "SELECT *
+                                                        FROM boatList
+                                                        WHERE boatId=$boatId");
+
+        return mysqli_fetch_array($boatData);
+    }
+
     public function getListOfBoats() {
 
         $boatOwnerResult = mysqli_query($this->dbConnection, "SELECT boatOwner
@@ -61,6 +69,12 @@ class BoatDAL {
             foreach ($ownerArray as $key => $value) {
 
                 array ($boatRow);
+
+            $boatList;
+
+            foreach ($ownerArray as $key => $value) {
+
+                $boatRow;
 
                 array_push($boatRow, $ownerArray[$key]);
                 array_push($boatRow, $typeArray[$key]);

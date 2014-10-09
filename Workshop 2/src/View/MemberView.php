@@ -7,10 +7,12 @@ class MemberView {
 	private $memberModel;
 	private $body = "";
 	private $message = "";
+	private $boatModel;
 
-	public function __construct(MemberModel $memberModel) {
+	public function __construct(MemberModel $memberModel, BoatModel $boatModel) {
 
 		$this->memberModel = $memberModel;
+		$this->boatModel = $boatModel;
 	}
 
 	public function getUserAction() {
@@ -52,7 +54,13 @@ class MemberView {
 			$userAction = "deleteBoat";
 
 		} elseif (key($_GET) == "boatChosen") {
+			
 			$userAction = "editChosenBoat";
+		
+		} elseif (key($_GET) == "saveBoat") {
+
+			$userAction = "saveBoat";
+
 		}
 
 		else {
@@ -137,15 +145,20 @@ class MemberView {
 	}
 
 
-	public function addBoatHTML() {
+	public function addBoatHTML($memberList) {
+
+//		<input type='text' name='memberId'/>
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Lägg till båt</h2>
-            <form enctype='multipart/form-data' method='post' action='?boatSaved'>
+            <form enctype='multipart/form-data' method='post' action='?saveBoat'>
 	            <fieldset>
 	            <legend>Fyll i uppgifter får ny båt</legend>
-	                <p><label>Tillhör medlem: </label><input type='text' name='owner'/></p>
+	                <p><label>Tillhör medlem: </label></p>
+	                <select name='memberId'>
+		            	$memberList;
+		            </select>
 	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
 	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
 	                <p><input type='submit' value='Lägg till båt'/>
@@ -172,9 +185,9 @@ class MemberView {
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
 	            <form enctype='multipart/form-data' method='post' action='?saveBoatChanges'>	            
-	                <p><label>Tillhör medlem: </label><input type='text' name='owner'/></p>
-	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
-	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
+	                <p><label>Tillhör medlem: </label><input type='text' name='memberId' value='$boatOwner'/></p>
+	                <p><label>Båttyp: </label><input type='text' name='boatType' value='$boatType'/></p>
+	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength/></p>
 	                <p><input type='submit' value='Spara ändringar'/></p>
 	            </form>
 	        </fieldset>
@@ -195,7 +208,7 @@ class MemberView {
 		            <select name='allBoats'>
 		            	$boatList;
 		            </select>
-	                <p><label>Tillhör medlem: </label><input type='text' name='owner'/></p>
+	                <p><label>Tillhör medlem: </label><input type='text' name='memberId'/></p>
 	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
 	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
 	                <p><input type='submit' value='Ta bort båt'/>
@@ -240,6 +253,22 @@ class MemberView {
 	}
 
 	public function getChosenBoatToEdit() {
-		return $_POST['allBoats'];
+
+		$boatId = $_POST['allBoats'];
+
+		//Returnerar array med uppgifter
+		return $this->boatModel->getBoatArray();
+	}
+
+	public function getPostedMemberId() {
+		return $_POST['memberId'];
+	}
+
+	public function getPostedBoatType() {
+		return $_POST['boatType'];
+	}
+
+	public function getPostedLength(){
+		return $_POST['boatLength'];
 	}
 }

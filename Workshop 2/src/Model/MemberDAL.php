@@ -6,7 +6,7 @@ class MemberDAL {
 
 	public function __construct() {
 
-        $this->dbConnection = mysqli_connect("localhost", "vivi", "mastimasti1", "members");
+        $this->dbConnection = mysqli_connect("localhost", "root", "", "members");
 
         if(!$this->dbConnection) {
 
