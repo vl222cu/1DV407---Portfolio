@@ -27,38 +27,55 @@ class MemberController {
 			return $this->registerMemberPage();
 
 		} elseif ($userAction === "register") {
-			
-			$validateMemberRegistration = $this->memberModel->authenticateMemberData($this->memberView->getMemberRegisteredFirstName(), 
+
+			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber())) {
+				$this->memberModel->saveMemberToFile($this->memberView->getMemberRegisteredFirstName(), 
 				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber());
-
-			if ($validateMemberRegistration == true) {
-
 				$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
 				return $this->mainMenuPage();
-
 			} else {
 				$this->memberView->setMessage(MemberView::MESSAGE_ERROR_REGISTRATION);
 				return $this->registerMemberPage();
-			
 			}
-			
+
 		} elseif ($userAction === "return") {
 			
 			return $this->mainMenuPage();
 
 		} elseif ($userAction === "changedatapage") {
 			
-			return $this->changeMemberDataPage();
+			return $this->choseMemberDataPage();
 
 		} elseif ($userAction === "change") {
 			
-			$validateMember = $this->memberModel->checkIfCurrentMemberExists($this->memberView->getMemberRegisteredPersonalNumber());
-
-			if($validateMember == true) {
-
-				return $this->MemberDataToBeChangedPage();
-
+			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false) {
+				$memberArray = $this->memberModel->getSpecificMember($this->memberView->getMemberRegisteredPersonalNumber());
+				return $this->changeMemberDataPage($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
+			} else {
+				//Användaren fanns inte med i listan
+				$this->memberView->setMessage(MemberView::MESSAGE_USER_NOT_EXIST);
+				return $this->choseMemberDataPage();
 			}
+
+		} elseif($userAction === "saveMemberChange") {
+
+			//Någon form av validering här?
+
+			$this->memberModel->changeMemberData($this->memberView->getMemberRegisteredFirstName(), 
+				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber());
+
+			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_MEMBER);
+			return $this->mainMenuPage();
+
+		} elseif ($userAction === "deleteMember") {
+
+			return $this->deleteMemberPage();
+
+		} elseif ($userAction === "memberConfirmedDelete") {
+
+			$this->memberModel->deleteMember($this->memberView->getPostedMemberId());
+			$this->memberView->setMessage(MemberView::MESSAGE_USER_DELETED);
+			return $this->mainMenuPage();
 
 		} elseif ($userAction === "addBoat") {
 
@@ -102,11 +119,16 @@ class MemberController {
 
 	}
 
-	private function changeMemberDataPage() {
+	private function changeMemberDataPage($firstname, $lastname, $personalnumber, $memberId) {
 
-		$this->memberView->setBody($this->memberView->changeMemberDataHTML());
+		$this->memberView->setBody($this->memberView->changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId));
 		return $this->memberView->renderHTML();
 
+	}
+
+	private function choseMemberDataPage() {
+		$this->memberView->setBody($this->memberView->choseMemberDataHTML());
+		return $this->memberView->renderHTML();
 	}
 
 	private function MemberDataToBeChangedPage() {
@@ -114,6 +136,12 @@ class MemberController {
 		$this->memberView->setBody($this->memberView->MemberDataToBeChangedHTML());
 		return $this->memberView->renderHTML();
 
+	}
+
+	private function deleteMemberPage() {
+		$memberList = $this->memberModel->getMemberListHTML();
+		$this->memberView->setBody($this->memberView->deleteMemberHTML($memberList));
+		return $this->memberView->renderHTML();
 	}
 
 

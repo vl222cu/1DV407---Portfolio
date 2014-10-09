@@ -42,8 +42,6 @@ class MemberModel {
 			
 			$ret = $this->dbQuery->setMemberCredentialsInDB($firstName, $lastName, $personalNumber);
 
-			$this->saveMemberToFile($firstName, $lastName, $personalNumber);
-
 			if($ret == true) {
 
 				$this->memberIsRegistered = true;
@@ -80,54 +78,68 @@ class MemberModel {
 
 		//Fixa räknare för medlemsId också
 
-		$memberId = 1;
+		if(empty($firstName)) {
 
-		$lines = @file("members.txt");
+			return false;
+
+		} elseif (empty($lastName)) {
 			
-			if($lines === false) {
-				//Do nothing
-			} else {
-				foreach ($lines as $line) {
-					$line = trim($line);
+			return false;
 
-					$lineParts = explode(":", $line);
+		} elseif (empty($personalId)) {
+			
+			return false;
 
-					$memberId = $lineParts[3] + 1;
+		} elseif ($firstName && $lastName && $personalId !== null) {
+
+
+			//Räknare för memberId
+			$memberId = 1;
+
+			$lines = @file("members.txt");
+				
+				if($lines === false) {
+					//Do nothing
+				} else {
+					foreach ($lines as $line) {
+						$line = trim($line);
+
+						$lineParts = explode(":", $line);
+
+						$memberId = $lineParts[3] + 1;
+					}
 				}
-			}
 
+			$file = fopen('members.txt', 'a');
+			fwrite($file, ($firstName . ":" . $lastName . ":" . $personalId . ":" . $memberId . "\n"));
 
-
-		$file = fopen('members.txt', 'a');
-		fwrite($file, ($firstName . ":" . $lastName . ":" . $personalId . ":" . $memberId . "\n"));
+		}
 	}
 
 	public function getMemberListHTML() {
-		//Ska returnera array med båtar - Format: "Ägare", "Typ", "Längd"
+		//Ska returnera array med medlemmat - Format: "Förnamn", "Efternamn", "Personnummer", "Medlemmsnumemr"
 		$memberListArray = array();
 
 		$lineParts;
 
 		$lines = @file("members.txt");
 			
-			if($lines === false) {
-				//Do nothing
-			} else {
-				foreach ($lines as $line) {
-					$line = trim($line);
+		if($lines === false) {
+			//Do nothing
+		} else {
+			foreach ($lines as $line) {
+				$line = trim($line);
 
-					$lineParts = explode(":", $line);
+				$lineParts = explode(":", $line);
 
-					$lineParts[0];
-					$lineParts[1];
-					$lineParts[2];
-					$lineParts[3];
-					
-					array_push($memberListArray, $lineParts);
-				}
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+				
+				array_push($memberListArray, $lineParts);
 			}
-
-
+		}
 
 		$memberListHTML = "<option selected>Välj medlem</option>\n";
 
@@ -142,5 +154,126 @@ class MemberModel {
 		}
 
 		return $memberListHTML;
+	}
+
+	public function getSpecificMember($personalId) {
+
+		$lineParts;
+
+		$lines = @file("members.txt");
+			
+		if($lines === false) {
+			//Do nothing
+		} else {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[2] == $personalId){
+					return $lineParts;
+				}
+			}
+		}
+	}
+
+
+	public function changeMemberData($firstName, $lastName, $personalNumber) {
+
+
+
+		$lineParts;
+
+		$newArray = array();
+
+		$lines = @file("members.txt");
+			
+		if($lines !== false) {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[2] == $personalNumber){
+					$line = $firstName . ":" . $lastName . ":" . $personalNumber . ":" . $lineParts[3];
+				}
+				
+				array_push($newArray, $line);
+			}
+		}
+
+		$file2 = fopen('members.txt', 'w');
+
+		foreach ($newArray as $key => $value) {
+			fwrite($file2, $value . "\n");
+		}
+	}
+
+	public function validateNewMember($personalNumber) {
+			$lineParts;
+
+			$lines = @file("members.txt");
+				
+			if($lines !== false) {
+				foreach ($lines as $line) {
+					$line = trim($line);
+
+					$lineParts = explode(":", $line);
+
+					$lineParts[0];
+					$lineParts[1];
+					$lineParts[2];
+					$lineParts[3];
+
+					if($lineParts[2] == $personalNumber){
+						return false;
+					}					
+				}
+			}
+			
+			return true;
+		}
+
+
+	public function deleteMember($memberId) {
+
+		$lineParts;
+
+		$newArray = array();
+
+		$lines = @file("members.txt");
+			
+		if($lines !== false) {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[3] != $memberId){
+					array_push($newArray, $line);
+				}
+			}
+		}
+
+		$file2 = fopen('members.txt', 'w');
+
+		foreach ($newArray as $key => $value) {
+			fwrite($file2, $value . "\n");
+		}
 	}
 }

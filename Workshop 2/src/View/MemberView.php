@@ -4,6 +4,9 @@ class MemberView {
 
 	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades';
 	const MESSAGE_ERROR_REGISTRATION = 'Personnumret är redan registrerat som medlem';
+	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Medlems uppgifter ändrades';
+	const MESSAGE_USER_NOT_EXIST = 'Användaren finns inte i databasen';
+	const MESSAGE_USER_DELETED = 'User was deleted';
 	private $memberModel;
 	private $body = "";
 	private $message = "";
@@ -29,13 +32,21 @@ class MemberView {
 			
 			$userAction = "changedatapage";
 
+		} elseif(key($_GET) == "saveMemberChange") {
+
+			$userAction = "saveMemberChange";
+
 		} elseif (key($_GET) == "change") {
 			
 			$userAction = "change";
 
-		} elseif (key($_GET) == "delete") {
+		} elseif (key($_GET) == "deleteMember") {
 			
-			$userAction = "delete";
+			$userAction = "deleteMember";
+
+		} elseif(key($_GET) == "memberConfirmedDelete") {
+
+			$userAction = "memberConfirmedDelete";
 
 		} elseif (key($_GET) == "return") {
 			
@@ -71,7 +82,7 @@ class MemberView {
 		return $userAction;
 	}
 
-	public function changeMemberDataHTML() {
+	public function choseMemberDataHTML() {
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
@@ -81,6 +92,46 @@ class MemberView {
 	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
 	                <p><input type='submit' value='Ändra'/>
+	            </fieldset>
+            </form>
+
+            <form enctype='multipart/form-data' method='post' action='?saveMemberChange'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	                <p><label>Förnamn: </label><input type='text' name='firstname' value='' disabled/></p>
+	                <p><label>Efternamn: </label><input type='text' name='lastname' value='' disabled/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='' disabled/></p>
+	                <p><input type='submit' value='Registrera' disabled/>
+	            </fieldset>
+	            </fieldset>
+            </form>
+
+		";
+
+		return $ret;
+	}
+
+	public function changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId) {
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Ändra medlemsuppgifter</h2>
+            <form enctype='multipart/form-data' method='post' action='?change'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
+	                <p><input type='submit' value='Ändra'/>
+	            </fieldset>
+            </form>
+
+            <form enctype='multipart/form-data' method='post' action='?saveMemberChange'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	                <p><label>Förnamn: </label><input type='text' name='firstname' value='$firstname' required/></p>
+	                <p><label>Efternamn: </label><input type='text' name='lastname' value='$lastname' required/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='$personalnumber' required/></p>
+	                <p><input type='submit' value='Registrera'/>
+	            </fieldset>
 	            </fieldset>
             </form>
 
@@ -95,11 +146,14 @@ class MemberView {
 			<h2>Huvudmeny</h2>
             <p>1. <a href='?registerpage'>Registrera ny medlem</a></p>
             <p>2. <a href='?changedatapage'>Ändra medlemsuppgifter</a></p>
-            <p>3. <a href='?delete'>Ta bort medlem</a></p>
+            <p>3. <a href='?deleteMember'>Ta bort medlem</a></p>
             <p>4. <a href='?addBoat'>Lägg till båt</a></p>
             <p>5. <a href='?editBoat'>Ändra båt</a></p>
             <p>6. <a href='?deleteBoat'>Ta bort båt</a></p>
-
+            <br>
+            <p>7. <a href='?showSpecificMember'>Visa medlem</a></p>
+            <p>8. <a href='?showSimpleList'>Visa medlemslista</a></p>
+            <p>9. <a href='?showDetailedList'>Visa detaljerad lista</a></p>
         ";
 
         return $ret;
@@ -142,6 +196,26 @@ class MemberView {
          ";
 
         return $ret;    
+	}
+
+	public function deleteMemberHTML($memberList) {
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Ta bort medlemm</h2>
+            <form enctype='multipart/form-data' method='post' action='?memberConfirmedDelete'>
+	            <fieldset>
+	            <legend>Välj medlem och bekräfta borttagning</legend>
+	                <p><label>Tillhör medlem: </label></p>
+	                <select name='memberId'>
+		            	$memberList;
+		            </select>
+	                <p><input type='submit' value='Ja, jag vill ta bort denna medlem!'/>
+	            </fieldset>
+            </form>
+		";
+
+		return $ret;
 	}
 
 
