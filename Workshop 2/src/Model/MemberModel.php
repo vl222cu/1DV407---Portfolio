@@ -192,6 +192,49 @@ class MemberModel {
 		return $output;
 	}
 
+		public function getDetailedMembersList() {
+
+		$memberListArray = array();
+		$output = "<tr>";
+		
+		if (($handle = fopen("members.txt", "r")) !== false) {
+
+			while (($data = fgetcsv($handle)) !== false) {
+
+				$output .= "<tr>";
+				foreach ($data as $value) {
+
+					$value = trim($value);
+
+					$lineParts = explode(":", $value);
+
+					$lineParts[0];
+					$lineParts[1];
+					$lineParts[2];
+					$lineParts[3];
+				
+					array_push($memberListArray, $lineParts);
+				}
+
+				foreach($memberListArray as $key => $value) {
+
+					$firstName = $value[0];
+					$lastName = $value[1];
+					$personalId = $value[2];
+					$memberId = $value[3];
+				}
+				$output .= "<td>$memberId</td>";
+				$output .= "<td>$personalId</td>";
+				$output .= "<td>$firstName</td>";
+				$output .= "<td>$lastName</td>";
+				$output .= "</tr>";
+			}
+			fclose($handle);
+		}
+		return $output;
+	}
+
+
 	public function getSpecificMember($personalId) {
 
 		$lineParts;

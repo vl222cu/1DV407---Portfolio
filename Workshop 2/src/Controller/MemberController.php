@@ -112,6 +112,10 @@ class MemberController {
 
 			return $this->showSimpleMembersList();
 
+		} elseif($userAction === "showDetailedList") {
+
+			return $this->showDetailedMembersList();
+
 		} else {
 
 			return $this->mainMenuPage();
@@ -157,9 +161,6 @@ class MemberController {
 		return $this->memberView->renderHTML();
 	}
 
-
-
-
 	private function addBoatPage() {
 
 		$memberList = $this->memberModel->getMemberListHTML();
@@ -197,7 +198,15 @@ class MemberController {
 	public function showSimpleMembersList() {
 
 		$memberListing = $this->memberModel->getSimpleMembersList();
-		$this->memberView->setBody($this->memberView->showSimpleMembersList($memberListing));
+		$this->memberView->setBody($this->memberView->SimpleMembersListHTML($memberListing));
+		return $this->memberView->renderHTML();
+	}
+
+
+	public function showDetailedMembersList() {
+
+		$memberListing = $this->memberModel->getDetailedMembersList();
+		$this->memberView->setBody($this->memberView->DetailedMembersListHTML($memberListing));
 		return $this->memberView->renderHTML();
 	}
 }

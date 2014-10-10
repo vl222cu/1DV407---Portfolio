@@ -84,6 +84,10 @@ class MemberView {
 
 			$userAction = "showSimpleList";
 
+		} elseif(key($_GET) =="showDetailedList") {
+
+			$userAction = "showDetailedList";
+
 		} else {
 
 			$userAction = "";
@@ -160,10 +164,9 @@ class MemberView {
             <p>4. <a href='?addBoat'>Lägg till båt</a></p>
             <p>5. <a href='?editBoat'>Ändra båt</a></p>
             <p>6. <a href='?deleteBoat'>Ta bort båt</a></p>
-            <br>
             <p>7. <a href='?showSpecificMember'>Visa medlem</a></p>
             <p>8. <a href='?showSimpleList'>Visa medlemslista</a></p>
-            <p>9. <a href='?showDetailedList'>Visa detaljerad lista</a></p>
+            <p>9. <a href='?showDetailedList'>Visa detaljerad medlemslista</a></p>
         ";
 
         return $ret;
@@ -374,16 +377,38 @@ class MemberView {
 		return $ret;
 	}
 
-	public function showSimpleMembersList($memberlisting) {
+	public function SimpleMembersListHTML($memberlisting) {
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
-			<h2>Lista på samtliga medlemmar</h2>
+			<h2>Kompakt lista på samtliga medlemmar</h2>
             <fieldset>
             <legend>Medlemsuppgifter</legend>
             	<table>
             		<tr>
             			<th>Medlemsnummer</th>
+            			<th>Förnamn</th>
+            			<th>Efternamn</th>
+                		<p>$memberlisting</p>
+                	</tr>
+                </table>
+            </fieldset>
+		";
+
+		return $ret;
+	}
+
+	public function DetailedMembersListHTML($memberlisting) {
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Fullständig lista på samtliga medlemmar</h2>
+            <fieldset>
+            <legend>Medlemsuppgifter</legend>
+            	<table>
+            		<tr>
+            			<th>Medlemsnummer</th>
+            			<th>Personnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
                 		<p>$memberlisting</p>
