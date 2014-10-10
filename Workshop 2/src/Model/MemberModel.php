@@ -24,7 +24,7 @@ class MemberModel {
 
 	}
 
-	public function authenticateMemberData ($firstName, $lastName, $personalNumber) {
+/*	public function authenticateMemberData ($firstName, $lastName, $personalNumber) {
 
 		if(empty($firstName)) {
 
@@ -53,9 +53,9 @@ class MemberModel {
 				return false;
 			}
 		}
-	}
+	} */
 
-	public function checkIfCurrentMemberExists($personalNumber) {
+/*	public function checkIfCurrentMemberExists($personalNumber) {
 
 		if ($personalNumber !== null) {
 
@@ -72,7 +72,7 @@ class MemberModel {
 			}
 		}
 
-	}
+	} */
 
 	public function saveMemberToFile($firstName, $lastName, $personalId) {
 
@@ -86,7 +86,7 @@ class MemberModel {
 			
 			return false;
 
-		} elseif (empty($personalId)) {
+		} elseif (empty($personalId) || !is_numeric($personalId) || $personalId == 10) {
 			
 			return false;
 

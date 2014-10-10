@@ -3,10 +3,11 @@
 class MemberView {
 
 	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades';
+	const MESSAGE_WRONG_INPUT_REGISTRATION = 'Personnumret är redan registrerat som medlem';
 	const MESSAGE_ERROR_REGISTRATION = 'Personnumret är redan registrerat som medlem';
-	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Medlems uppgifter ändrades';
-	const MESSAGE_USER_NOT_EXIST = 'Användaren finns inte i databasen';
-	const MESSAGE_USER_DELETED = 'User was deleted';
+	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Ändring av medlemsuppgifter lyckades';
+	const MESSAGE_USER_NOT_EXIST = 'Medlemmen finns inte i databasen';
+	const MESSAGE_USER_DELETED = 'Medlemmen är borttagen';
 	private $memberModel;
 	private $body = "";
 	private $message = "";
@@ -77,7 +78,9 @@ class MemberView {
 			$userAction = "showSpecificMember";
 
 		} elseif(key($_GET) =="showMemberChosen") {
+
 			$userAction = "showMemberChosen";
+
 		} else {
 
 			$userAction = "";
@@ -206,7 +209,7 @@ class MemberView {
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
-			<h2>Ta bort medlemm</h2>
+			<h2>Ta bort medlem</h2>
             <form enctype='multipart/form-data' method='post' action='?memberConfirmedDelete'>
 	            <fieldset>
 	            <legend>Välj medlem och bekräfta borttagning</legend>
@@ -232,12 +235,19 @@ class MemberView {
 			<h2>Lägg till båt</h2>
             <form enctype='multipart/form-data' method='post' action='?saveBoat'>
 	            <fieldset>
-	            <legend>Fyll i uppgifter får ny båt</legend>
+	            <legend>Fyll i uppgifter för ny båt</legend>
 	                <p><label>Tillhör medlem: </label></p>
 	                <select name='memberId'>
 		            	$memberList;
 		            </select>
-	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
+		            <p><label>Båttyp: </label></p>
+	                <select name='boatType'>
+		            	<option value='Segelbåt'>Segelbåt</option>
+						<option value='Motorseglare'>Motorseglare</option>
+						<option value='Motorbåt'>Motorbåt</option>
+						<option value='Kajak/Kanot'>Kajak/Kanot</option>
+						<option value='Övrigt'>Övrigt</option>
+		            </select>
 	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
 	                <p><input type='submit' value='Lägg till båt'/>
 	            </fieldset>
