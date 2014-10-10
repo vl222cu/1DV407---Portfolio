@@ -86,10 +86,6 @@ class MemberModel {
 			
 			return false;
 
-		} elseif (empty($personalId) || !is_numeric($personalId) || $personalId == 10) {
-			
-			return false;
-
 		} elseif ($firstName && $lastName && $personalId !== null) {
 
 
@@ -246,29 +242,37 @@ class MemberModel {
 	}
 
 	public function validateNewMember($personalNumber) {
-			$lineParts;
+		$lineParts;
 
-			$lines = @file("members.txt");
+		$lines = @file("members.txt");
 				
-			if($lines !== false) {
-				foreach ($lines as $line) {
-					$line = trim($line);
-
-					$lineParts = explode(":", $line);
-
-					$lineParts[0];
-					$lineParts[1];
-					$lineParts[2];
-					$lineParts[3];
-
-					if($lineParts[2] == $personalNumber){
-						return false;
-					}					
-				}
-			}
+		if($lines !== false) {
 			
-			return true;
+			foreach ($lines as $line) {
+				
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[2] == $personalNumber) {
+					return false;
+				}					
+			}
 		}
+
+		if (empty($personalId) || !is_numeric($personalId) || $personalId == 10) {
+			
+			return false;
+
+		}
+			
+		return true;
+	}
 
 
 	public function deleteMember($memberId) {
