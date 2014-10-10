@@ -254,7 +254,7 @@ class MemberModel {
 					$boatType = $value[1];
 					$boatLength = $value[2];
 
-					$output.="<td>Typ: $boatType Längd: $boatLength</td>";
+					$output.="<td>Typ: $boatType Längd: $boatLength cm</td>";
 				}
 
 				$output .= "</tr>";

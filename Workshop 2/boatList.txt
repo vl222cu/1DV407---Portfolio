@@ -1,3 +1,4 @@
 2:Segelbåt:1111
 1:Kajak/Kanot:444
 1:Motorseglare:555
+4:Kajak/Kanot:3333
