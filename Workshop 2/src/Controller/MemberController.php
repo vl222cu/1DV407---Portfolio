@@ -205,8 +205,11 @@ class MemberController {
 
 	public function showDetailedMembersList() {
 
+		$maxBoatAmount = $this->memberModel->getMaxBoatAmount();
+		$boatListHTML = $this->memberModel->getBoatListHTML($maxBoatAmount);
+
 		$memberListing = $this->memberModel->getDetailedMembersList();
-		$this->memberView->setBody($this->memberView->DetailedMembersListHTML($memberListing));
+		$this->memberView->setBody($this->memberView->DetailedMembersListHTML($memberListing, $boatListHTML));
 		return $this->memberView->renderHTML();
 	}
 }

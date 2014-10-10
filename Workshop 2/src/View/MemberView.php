@@ -389,6 +389,7 @@ class MemberView {
             			<th>Medlemsnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
+            			<th>Antal båtar</th>
                 		<p>$memberlisting</p>
                 	</tr>
                 </table>
@@ -398,7 +399,7 @@ class MemberView {
 		return $ret;
 	}
 
-	public function DetailedMembersListHTML($memberlisting) {
+	public function DetailedMembersListHTML($memberlisting, $boatListHTML) {
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
@@ -411,6 +412,7 @@ class MemberView {
             			<th>Personnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
+            			$boatListHTML
                 		<p>$memberlisting</p>
                 	</tr>
                 </table>
