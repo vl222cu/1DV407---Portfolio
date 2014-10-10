@@ -80,6 +80,10 @@ class MemberView {
 
 			$userAction = "showMemberChosen";
 
+		} elseif(key($_GET) =="showSimpleList") {
+
+			$userAction = "showSimpleList";
+
 		} else {
 
 			$userAction = "";
@@ -364,6 +368,27 @@ class MemberView {
                 <p>Personnummer $personalnumber </p>
                 
             </fieldset>
+            </fieldset>
+		";
+
+		return $ret;
+	}
+
+	public function showSimpleMembersList($memberlisting) {
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Lista på samtliga medlemmar</h2>
+            <fieldset>
+            <legend>Medlemsuppgifter</legend>
+            	<table>
+            		<tr>
+            			<th>Medlemsnummer</th>
+            			<th>Förnamn</th>
+            			<th>Efternamn</th>
+                		<p>$memberlisting</p>
+                	</tr>
+                </table>
             </fieldset>
 		";
 

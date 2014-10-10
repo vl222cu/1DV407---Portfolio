@@ -101,13 +101,16 @@ class MemberController {
 
 		} elseif($userAction === "showSpecificMember") {
 
-
 			return $this->showSpecificMemberPage();
 
 		} elseif($userAction ==="showMemberChosen") {
 
 			$memberArray = $this->memberModel->getSpecificMemberMemberId($this->memberView->getPostedMemberId());
 			return $this->showSpecificMemberPageChosen($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
+
+		} elseif($userAction === "showSimpleList") {
+
+			return $this->showSimpleMembersList();
 
 		} else {
 
@@ -188,6 +191,13 @@ class MemberController {
 	private function showSpecificMemberPageChosen($firstname, $lastname, $personalnumber, $memberId) {
 		$memberList = $this->memberModel->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList));
+		return $this->memberView->renderHTML();
+	}
+
+	public function showSimpleMembersList() {
+
+		$memberListing = $this->memberModel->getSimpleMembersList();
+		$this->memberView->setBody($this->memberView->showSimpleMembersList($memberListing));
 		return $this->memberView->renderHTML();
 	}
 }
