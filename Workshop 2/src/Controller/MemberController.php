@@ -100,7 +100,7 @@ class MemberController {
 			return $this->mainMenuPage();
 
 		} elseif($userAction === "showSpecificMember") {
-
+			
 			return $this->showSpecificMemberPage();
 
 		} elseif($userAction ==="showMemberChosen") {
@@ -184,14 +184,17 @@ class MemberController {
 	}
 
 	private function showSpecificMemberPage() {
+
 		$memberList = $this->memberModel->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->showSpecificMemberPageHTML($memberList));
 		return $this->memberView->renderHTML();
 	}
 
 	private function showSpecificMemberPageChosen($firstname, $lastname, $personalnumber, $memberId) {
+
+		$memberBoatsListHTML = $this->memberModel->getMemberBoatsListHTML($memberId);
 		$memberList = $this->memberModel->getMemberListHTML();
-		$this->memberView->setBody($this->memberView->showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList));
+		$this->memberView->setBody($this->memberView->showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList, $memberBoatsListHTML));
 		return $this->memberView->renderHTML();
 	}
 

@@ -200,7 +200,7 @@ class MemberModel {
 
 		$memberListArray = array();
 
-		//Iterera igenom boatList.
+		//Iterera igenom boatList och får tillbaka array innehållandes array med alla båtar
 		$boatListArray = $this->getBoatListArray();
 		
 		$output = "<tr>";
@@ -253,7 +253,7 @@ class MemberModel {
 
 					$boatType = $value[1];
 					$boatLength = $value[2];
-					
+
 					$output.="<td>Typ: $boatType Längd: $boatLength</td>";
 				}
 
@@ -521,11 +521,6 @@ class MemberModel {
 
 				$lineParts = explode(":", $line);
 
-				$lineParts[0];
-				$lineParts[1];
-				$lineParts[2];
-				$lineParts[3];
-
 				if($lineParts[3] != $memberId){
 					array_push($newArray, $line);
 				}
@@ -552,5 +547,37 @@ class MemberModel {
 
 		return $ret;
 
+	}
+
+	public function getMemberBoatsListHTML($memberId) {
+		$ret = "";
+
+		$memberBoats = array();
+		$lines = @file("boatList.txt");
+				
+		if($lines !== false) {
+
+			foreach ($lines as $line) {
+
+				$memberIdFound = false;
+
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				if($lineParts[0] == $memberId) {
+					array_push($memberBoats, $lineParts);
+				}
+			}
+		}
+
+		foreach ($memberBoats as $key => $value) {
+
+			$boatNumber = $key + 1;
+
+			$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $value[1] - Längd: $value[2] cm</p>";
+		}
+
+		return $ret;
 	}
 }

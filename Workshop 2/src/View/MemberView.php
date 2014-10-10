@@ -334,10 +334,9 @@ class MemberView {
             <br>
             <fieldset>
             <legend>Medlemsuppgifter</legend>
-                <p>Förnamn: </p>
-                <p>Efternamn: </p>
-                <p>Personnummer: </p>
-                
+                <p><strong>Förnamn:</strong></p>
+                <p><strong>Efternamn:</strong></p>
+                <p><strong>Personnummer:</strong></p>
             </fieldset>
             </fieldset>
 		";
@@ -345,7 +344,7 @@ class MemberView {
 		return $ret;
 	}
 
-	public function showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList) {
+	public function showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList, $memberBoatsListHTML) {
 
 		//Ska även visa upp båtar kopplade till medlem
 
@@ -366,10 +365,10 @@ class MemberView {
             <br>
             <fieldset>
             <legend>Medlemsuppgifter</legend>
-                <p>Förnamn: $firstname </p>
-                <p>Efternamn: $lastname </p>
-                <p>Personnummer $personalnumber </p>
-                
+                <p><strong>Förnamn:</strong> $firstname </p>
+                <p><strong>Efternamn:</strong> $lastname </p>
+                <p><strong>Personnummer:</strong> $personalnumber </p>
+                $memberBoatsListHTML
             </fieldset>
             </fieldset>
 		";
@@ -464,7 +463,9 @@ class MemberView {
 	}
 
 	public function getPostedMemberId() {
-		return $_POST['memberId'];
+		if(isset($_POST['memberId'])) {
+			return $_POST['memberId'];
+		}
 	}
 
 	public function getPostedBoatType() {
