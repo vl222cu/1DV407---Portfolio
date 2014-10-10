@@ -72,9 +72,13 @@ class MemberView {
 
 			$userAction = "saveBoat";
 
-		}
+		} elseif (key($_GET) == "showSpecificMember") {
 
-		else {
+			$userAction = "showSpecificMember";
+
+		} elseif(key($_GET) =="showMemberChosen") {
+			$userAction = "showMemberChosen";
+		} else {
 
 			$userAction = "";
 
@@ -288,6 +292,70 @@ class MemberView {
 	                <p><input type='submit' value='Ta bort båt'/>
 	            </fieldset>
             </form>
+		";
+
+		return $ret;
+	}
+
+	public function showSpecificMemberPageHTML($memberList) {
+
+		//Ska även visa upp båtar kopplade till medlem
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Visa medlemsuppgifter</h2>
+            <form enctype='multipart/form-data' method='post' action='?showMemberChosen'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	                <p><label>Välj medlem: </label></p>
+		            <select name='memberId'>
+		            	$memberList;
+		            </select>
+		            <p><input type='submit' value='Visa medlem'/>
+
+	            </fieldset>
+            </form>
+            <br>
+            <fieldset>
+            <legend>Medlemsuppgifter</legend>
+                <p>Förnamn: </p>
+                <p>Efternamn: </p>
+                <p>Personnummer: </p>
+                
+            </fieldset>
+            </fieldset>
+		";
+
+		return $ret;
+	}
+
+	public function showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList) {
+
+		//Ska även visa upp båtar kopplade till medlem
+
+		$ret = "
+			<p><a href='?return'>Tillbaka</a></p>
+			<h2>Visa medlemsuppgifter</h2>
+            <form enctype='multipart/form-data' method='post' action='?showMemberChosen'>
+	            <fieldset>
+	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	                <p><label>Välj medlem: </label></p>
+		            <select name='memberId'>
+		            	$memberList;
+		            </select>
+		            <p><input type='submit' value='Visa medlem'/>
+
+	            </fieldset>
+            </form>
+            <br>
+            <fieldset>
+            <legend>Medlemsuppgifter</legend>
+                <p>Förnamn: $firstname </p>
+                <p>Efternamn: $lastname </p>
+                <p>Personnummer $personalnumber </p>
+                
+            </fieldset>
+            </fieldset>
 		";
 
 		return $ret;

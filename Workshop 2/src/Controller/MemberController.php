@@ -99,6 +99,16 @@ class MemberController {
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
 			return $this->mainMenuPage();
 
+		} elseif($userAction === "showSpecificMember") {
+
+
+			return $this->showSpecificMemberPage();
+
+		} elseif($userAction ==="showMemberChosen") {
+
+			$memberArray = $this->memberModel->getSpecificMemberMemberId($this->memberView->getPostedMemberId());
+			return $this->showSpecificMemberPageChosen($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
+
 		} else {
 
 			return $this->mainMenuPage();
@@ -166,6 +176,18 @@ class MemberController {
 
 		$boatList = $this->boatModel->getBoatList();
 		$this->memberView->setBody($this->memberView->deleteBoatHTML($boatList));
+		return $this->memberView->renderHTML();
+	}
+
+	private function showSpecificMemberPage() {
+		$memberList = $this->memberModel->getMemberListHTML();
+		$this->memberView->setBody($this->memberView->showSpecificMemberPageHTML($memberList));
+		return $this->memberView->renderHTML();
+	}
+
+	private function showSpecificMemberPageChosen($firstname, $lastname, $personalnumber, $memberId) {
+		$memberList = $this->memberModel->getMemberListHTML();
+		$this->memberView->setBody($this->memberView->showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList));
 		return $this->memberView->renderHTML();
 	}
 }

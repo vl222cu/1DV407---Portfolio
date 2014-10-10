@@ -182,6 +182,32 @@ class MemberModel {
 		}
 	}
 
+	public function getSpecificMemberMemberId($memberId) {
+
+		$lineParts;
+
+		$lines = @file("members.txt");
+			
+		if($lines === false) {
+			//Do nothing
+		} else {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[3] == $memberId){
+					return $lineParts;
+				}
+			}
+		}
+	}
+
 
 	public function changeMemberData($firstName, $lastName, $personalNumber) {
 
