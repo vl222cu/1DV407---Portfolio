@@ -3,7 +3,7 @@
 class MemberView {
 
 	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades';
-	const MESSAGE_ERROR_REGISTRATION = 'Felaktigt personnummer/Personnummer finns redan registrerat';
+	const MESSAGE_ERROR_REGISTRATION = 'Personnummer finns redan registrerat';
 	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Ändring av medlemsuppgifter lyckades';
 	const MESSAGE_USER_NOT_EXIST = 'Medlemmen finns inte i databasen';
 	const MESSAGE_USER_DELETED = 'Medlemmen är borttagen';

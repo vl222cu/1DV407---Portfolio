@@ -263,13 +263,7 @@ class MemberModel {
 					return false;
 				}					
 			}
-		}
-
-		if (empty($personalId) || !is_numeric($personalId) || $personalId == 10) {
-			
-			return false;
-
-		}
+		} 
 			
 		return true;
 	}
