@@ -486,10 +486,10 @@ class MemberModel {
 
 				if($lineParts[2] == $personalNumber) {
 					return false;
-				}					
+				}
 			}
-		} 
-			
+		}
+
 		return true;
 	}
 
