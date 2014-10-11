@@ -210,6 +210,8 @@ class MemberModel {
 			while (($data = fgetcsv($handle)) !== false) {
 
 				$output .= "<tr>";
+
+				//Lägger till alla beståndsdelar av en medlem i ett array, som i sin tyr adderas till ett medlemsarray
 				foreach ($data as $value) {
 
 					$value = trim($value);
@@ -233,10 +235,13 @@ class MemberModel {
 					$personalId = $value[2];
 					$memberId = $value[3];
 
+					//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
 					foreach ($boatListArray as $key2 => $value2) {
 
 						$boat = $boatListArray[$key2];
 
+						//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
+						//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
 						if($boat[0] == $memberId) {
 							array_push($membersBoats, $boat);
 						}
@@ -248,12 +253,10 @@ class MemberModel {
 				$output .= "<td>$firstName</td>";
 				$output .= "<td>$lastName</td>";
 
-				//foreach loop som loopar ut så många båtar som det finns på medlemmen
+				//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
 				foreach ($membersBoats as $key => $value) {
-
 					$boatType = $value[1];
 					$boatLength = $value[2];
-
 					$output.="<td>Typ: $boatType Längd: $boatLength cm</td>";
 				}
 
@@ -281,13 +284,6 @@ class MemberModel {
 				$lineParts[2];
 
 				array_push($boatListArray, $lineParts);
-
-
-/*
-				if($lineParts[0] == $memberId) {
-					$boatCount++;
-				} */
-
 			}
 		}
 
@@ -320,17 +316,12 @@ class MemberModel {
 		return $boatCount;	
 	}
 
+
+	//Letar fram det antal båtar som den användare med flest båtar har
 	public function getMaxBoatAmount() {
-		//Leta igenom boatList
-		//Om momentant medlemsid inte finns i countArray - pusha ny item med medlemsId som key och 1 som value
-		//om momantan medlemsId finns med i countArray - lägg till +1 på value på given key.
 
 		$countArray = array();
-/*
-		$memberArray = array();
-		$countArray = array();
-		$boatCount = 0;
-*/
+
 		$lines = @file("boatList.txt");
 				
 		if($lines !== false) {
@@ -360,18 +351,16 @@ class MemberModel {
 					}
 
 					if($memberIdFound == false) {
-						//array_push($countArray, $lineParts[0] => 1);
 
 						$countArray[$lineParts[0]] = 1;
 					}
 				} else {
-					//array_push($countArray, $lineParts[0] => 1);
+
 					$countArray[$lineParts[0]] = 1;
+				
 				}
 
 			}
-
-			//var_dump($countArray);
 
 			$lastKey = 0;
 			$lastValue = 0;
@@ -445,8 +434,6 @@ class MemberModel {
 
 	public function changeMemberData($firstName, $lastName, $personalNumber) {
 
-
-
 		$lineParts;
 
 		$newArray = array();
@@ -464,7 +451,9 @@ class MemberModel {
 				$lineParts[2];
 				$lineParts[3];
 
-				if($lineParts[2] == $personalNumber){
+				$oldpersonalnumber = $_SESSION['oldpersonalnumber']; 
+
+				if($lineParts[2] == $oldpersonalnumber){
 					$line = $firstName . ":" . $lastName . ":" . $personalNumber . ":" . $lineParts[3];
 				}
 				

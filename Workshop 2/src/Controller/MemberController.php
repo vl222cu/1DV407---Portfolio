@@ -100,7 +100,7 @@ class MemberController {
 			return $this->mainMenuPage();
 
 		} elseif($userAction === "showSpecificMember") {
-			
+
 			return $this->showSpecificMemberPage();
 
 		} elseif($userAction ==="showMemberChosen") {
@@ -136,15 +136,14 @@ class MemberController {
 
 	}
 
-	private function changeMemberDataPage($firstname, $lastname, $personalnumber, $memberId) {
-
-		$this->memberView->setBody($this->memberView->changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId));
-		return $this->memberView->renderHTML();
-
-	}
-
 	private function choseMemberDataPage() {
 		$this->memberView->setBody($this->memberView->choseMemberDataHTML());
+		return $this->memberView->renderHTML();
+	}
+
+	private function changeMemberDataPage($firstname, $lastname, $personalnumber, $memberId) {
+		$_SESSION['oldpersonalnumber'] = $personalnumber;
+		$this->memberView->setBody($this->memberView->changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId));
 		return $this->memberView->renderHTML();
 	}
 
