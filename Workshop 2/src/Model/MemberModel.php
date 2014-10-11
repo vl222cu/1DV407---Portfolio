@@ -102,7 +102,7 @@ class MemberModel {
 
 						$lineParts = explode(":", $line);
 
-						$memberId = $lineParts[3] + 1;
+						$memberId++;
 					}
 				}
 
@@ -265,6 +265,47 @@ class MemberModel {
 			fclose($handle);
 		}
 		return $output;
+	}
+
+	public function getBoatList() {
+		
+		//Ska returnera array med båtar - Format: "Medlem", "Typ", "Längd"
+		$boatListArray = array();
+
+		$lineParts;
+
+		$lines = @file("boatList.txt");
+			
+		if($lines === false) {
+			//Do nothing
+		} else {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+				
+				array_push($boatListArray, $lineParts);
+			}
+		}
+
+		$boatListHTML = "<option selected>Välj båt</option>\n";
+
+		foreach($boatListArray as $key => $value) {
+
+			$boatOwner = $value[0];
+			$boatType = $value[1];
+			$boatLength = $value[2];
+			$boatId = $value[3];
+
+			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
+		}
+
+		return $boatListHTML;
 	}
 
 	public function getBoatListArray() {
@@ -515,6 +556,33 @@ class MemberModel {
 		}
 
 		$file2 = fopen('members.txt', 'w');
+
+		foreach ($newArray as $key => $value) {
+			fwrite($file2, $value . "\n");
+		}
+	}
+
+	public function deleteBoat($boatId) {
+
+		$lineParts;
+
+		$newArray = array();
+
+		$lines = @file("boatList.txt");
+			
+		if($lines !== false) {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				if($lineParts[3] != $boatId){
+					array_push($newArray, $line);
+				}
+			}
+		}
+
+		$file2 = fopen('boatList.txt', 'w');
 
 		foreach ($newArray as $key => $value) {
 			fwrite($file2, $value . "\n");

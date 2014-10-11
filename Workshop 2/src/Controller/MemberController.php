@@ -62,7 +62,7 @@ class MemberController {
 			//Någon form av validering här?
 
 			$this->memberModel->changeMemberData($this->memberView->getMemberRegisteredFirstName(), 
-				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber(), $this->getMemberRegisteredPersonalNumber());
+				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber(), $this->memberView->getOldPersonalNumber());
 
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_MEMBER);
 			return $this->mainMenuPage();
@@ -97,6 +97,12 @@ class MemberController {
 
 			$this->boatModel->saveBoatToFile($this->memberView->getPostedMemberId(), $this->memberView->getPostedBoatType(), $this->memberView->getPostedLength());
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
+			return $this->mainMenuPage();
+
+		}  elseif ($userAction === "boatConfirmedDelete") {
+
+			$this->memberModel->deleteBoat($this->memberView->getPostedBoatId());
+			$this->memberView->setMessage(MemberView::MESSAGE_BOAT_DELETED);
 			return $this->mainMenuPage();
 
 		} elseif($userAction === "showSpecificMember") {
@@ -177,7 +183,7 @@ class MemberController {
 
 	private function deleteBoatPage() {
 
-		$boatList = $this->boatModel->getBoatList();
+		$boatList = $this->memberModel->getBoatList();
 		$this->memberView->setBody($this->memberView->deleteBoatHTML($boatList));
 		return $this->memberView->renderHTML();
 	}

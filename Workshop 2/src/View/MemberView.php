@@ -7,6 +7,7 @@ class MemberView {
 	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Ändring av medlemsuppgifter lyckades';
 	const MESSAGE_USER_NOT_EXIST = 'Medlemmen finns inte i databasen';
 	const MESSAGE_USER_DELETED = 'Medlemmen är borttagen';
+	const MESSAGE_BOAT_DELETED = 'Båten är borttagen';
 	private $memberModel;
 	private $body = "";
 	private $message = "";
@@ -63,6 +64,10 @@ class MemberView {
 		} elseif (key($_GET) == "deleteBoat") {
 			
 			$userAction = "deleteBoat";
+
+		} elseif (key($_GET) == "boatConfirmedDelete") {
+			
+			$userAction = "boatConfirmedDelete";
 
 		} elseif (key($_GET) == "boatChosen") {
 			
@@ -295,16 +300,13 @@ class MemberView {
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ta bort båt</h2>
-            <form enctype='multipart/form-data' method='post' action='?boatConfirmDelete'>
+            <form enctype='multipart/form-data' method='post' action='?boatConfirmedDelete'>
 	            <fieldset>
 	            <legend>Välj båt att ta bort</legend>
 		            <p><label>Välj båt: </label></p>
-		            <select name='allBoats'>
+		            <select name='boatId'>
 		            	$boatList;
 		            </select>
-	                <p><label>Tillhör medlem: </label><input type='text' name='memberId'/></p>
-	                <p><label>Båttyp: </label><input type='text' name='boatType'/></p>
-	                <p><label>Längd (cm): </label><input type='text' name='boatLength'/></p>
 	                <p><input type='submit' value='Ta bort båt'/>
 	            </fieldset>
             </form>
@@ -465,6 +467,12 @@ class MemberView {
 	public function getPostedMemberId() {
 		if(isset($_POST['memberId'])) {
 			return $_POST['memberId'];
+		}
+	}
+
+	public function getPostedBoatId() {
+		if(isset($_POST['boatId'])) {
+			return $_POST['boatId'];
 		}
 	}
 

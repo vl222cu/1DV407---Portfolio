@@ -41,7 +41,7 @@ class BoatModel {
 	}
 
 	public function saveBoatToFile($memberId, $boatType, $boatLength) {
-/*
+
 		$boatId = 1;
 
 		$lines = @file("boatList.txt");
@@ -54,14 +54,12 @@ class BoatModel {
 
 					$lineParts = explode(":", $line);
 
-					$memberId = $lineParts[3] + 1;
+					$boatId++;
 				}
 			}
-*/
-
 
 		$file = fopen('boatList.txt', 'a');
-		fwrite($file, ($memberId . ":" . $boatType . ":" . $boatLength . "\n"));
+		fwrite($file, ($memberId . ":" . $boatType . ":" . $boatLength . ":" . $boatId . "\n"));
 	}
 
 }
