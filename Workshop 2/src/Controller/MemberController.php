@@ -99,7 +99,17 @@ class MemberController {
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
 			return $this->mainMenuPage();
 
-		}  elseif ($userAction === "boatConfirmedDelete") {
+		} elseif($userAction === 'saveBoatChanges') {
+
+			$boatId = $this->memberView->getSessionPostedBoatListId();
+			$boatType = $this->memberView->getPostedBoatType();
+			$boatLength = $this->memberView->getPostedLength();
+
+			$this->memberModel->editBoat($boatId, $boatType, $boatLength);
+
+			return $this->mainMenuPage();
+
+		} elseif ($userAction === "boatConfirmedDelete") {
 
 			$this->memberModel->deleteBoat($this->memberView->getPostedBoatId());
 			$this->memberView->setMessage(MemberView::MESSAGE_BOAT_DELETED);
@@ -176,8 +186,14 @@ class MemberController {
 
 	private function editBoatPage() {
 
-		$boatList = $this->boatModel->getBoatListHTML();
-		$this->memberView->setBody($this->memberView->editBoatHTML($boatList));
+		$boatListId = $this->memberView->getPostedBoatId();
+
+		$this->memberView->setSessionPostedBoatListId($boatListId);
+
+		$boatDataArray = $this->memberModel->getSpecificBoatData($boatListId);
+
+		$boatList = $this->memberModel->getBoatList();
+		$this->memberView->setBody($this->memberView->editBoatHTML($boatList, $boatDataArray));
 		return $this->memberView->renderHTML();
 	}
 

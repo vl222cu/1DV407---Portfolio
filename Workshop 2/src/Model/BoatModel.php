@@ -54,6 +54,8 @@ class BoatModel {
 
 					$lineParts = explode(":", $line);
 
+					$boatId = $lineParts[3];
+
 					$boatId++;
 				}
 			}

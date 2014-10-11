@@ -93,6 +93,10 @@ class MemberView {
 
 			$userAction = "showDetailedList";
 
+		} elseif(key($_GET) =="saveBoatChanges") {
+
+			$userAction = "saveBoatChanges";
+
 		} else {
 
 			$userAction = "";
@@ -268,7 +272,15 @@ class MemberView {
 		return $ret;
 	}
 
-	public function editBoatHTML($boatList) {
+	public function editBoatHTML($boatList, $boatDataArray) {
+
+		if($boatDataArray == null) {
+			$boatType = "";
+			$boatLength = "";
+		} else {
+			$boatType = $boatDataArray[1];
+			$boatLength = $boatDataArray[2];
+		}
 
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
@@ -278,15 +290,14 @@ class MemberView {
 				<form enctype='multipart/form-data' method='post' action='?boatChosen'>
 	            	<legend>Välj båt för att sen ändra uppgifter</legend>
 		           	<p><label>Välj båt: </label></p>
-		            <select name='allBoats'>
+		            <select name='boatId'>
 		            	$boatList;
 		            </select>
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
 	            <form enctype='multipart/form-data' method='post' action='?saveBoatChanges'>	            
-	                <p><label>Tillhör medlem: </label><input type='text' name='memberId' value='$boatOwner'/></p>
 	                <p><label>Båttyp: </label><input type='text' name='boatType' value='$boatType'/></p>
-	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength/></p>
+	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength'/></p>
 	                <p><input type='submit' value='Spara ändringar'/></p>
 	            </form>
 	        </fieldset>
@@ -490,5 +501,15 @@ class MemberView {
 
 	public function getOldPersonalNumber() {
 		return $_SESSION['oldpersonalnumber'];
+	}
+
+	public function setSessionPostedBoatListId($boatListId) {
+		$_SESSION['postedboatlistid'] = $boatListId;
+	}
+
+	public function getSessionPostedBoatListId() {
+		if(isset($_SESSION['postedboatlistid'])) {
+			return $_SESSION['postedboatlistid'];
+		}
 	}
 }

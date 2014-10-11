@@ -102,6 +102,7 @@ class MemberModel {
 
 						$lineParts = explode(":", $line);
 
+						$memberId = $lineParts[3];
 						$memberId++;
 					}
 				}
@@ -507,6 +508,42 @@ class MemberModel {
 		}
 	}
 
+
+		public function editBoat($boatId, $boatType, $boatLength) {
+
+		$lineParts;
+
+		$newArray = array();
+
+		$lines = @file("boatList.txt");
+			
+		if($lines !== false) {
+			foreach ($lines as $line) {
+				$line = trim($line);
+
+				$lineParts = explode(":", $line);
+
+				$lineParts[0];
+				$lineParts[1];
+				$lineParts[2];
+				$lineParts[3];
+
+				if($lineParts[3] == $boatId){
+					$line = $lineParts[0] . ":" . $boatType . ":" . $boatLength . ":" . $lineParts[3];
+				}
+				
+				array_push($newArray, $line);
+			}
+		}
+
+		$file2 = fopen('boatList.txt', 'w');
+
+		foreach ($newArray as $key => $value) {
+			fwrite($file2, $value . "\n");
+		}
+	}
+
+
 	public function validateNewMember($personalNumber) {
 		$lineParts;
 
@@ -634,5 +671,24 @@ class MemberModel {
 		}
 
 		return $ret;
+	}
+
+	public function getSpecificBoatData($boatListId) {
+
+		//Iterera igenom btlistan
+		$lines = @file("boatList.txt");
+				
+		if($lines !== false) {
+
+			foreach ($lines as $line) {
+
+				$line = trim($line);
+				$lineParts = explode(":", $line);
+
+				if($lineParts[3] == $boatListId) {
+					return $lineParts;
+				}
+			}
+		}
 	}
 }
