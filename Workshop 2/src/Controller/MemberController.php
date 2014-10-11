@@ -62,7 +62,7 @@ class MemberController {
 			//Någon form av validering här?
 
 			$this->memberModel->changeMemberData($this->memberView->getMemberRegisteredFirstName(), 
-				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber(), $this->memberView->getOldPersonalNumber());
+				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber());
 
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_MEMBER);
 			return $this->mainMenuPage();
