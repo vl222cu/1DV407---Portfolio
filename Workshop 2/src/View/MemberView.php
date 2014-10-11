@@ -411,14 +411,8 @@ class MemberView {
             			<th>Personnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
-
-            			<th>Antal båtar</th>
-            			<th>Båttyp</th>
-            			<th>Båtlängd</th>
-
-            			$boatListHTML
-
-                		<p>$memberlisting</p>
+            			<p>$boatListHTML
+                		$memberlisting</p>
                 	</tr>
                 </table>
             </fieldset>
