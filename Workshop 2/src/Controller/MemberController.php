@@ -142,7 +142,7 @@ class MemberController {
 	}
 
 	private function changeMemberDataPage($firstname, $lastname, $personalnumber, $memberId) {
-		$_SESSION['oldpersonalnumber'] = $personalnumber;
+		$this->memberView->setOldPersonalNumber($personalnumber);
 		$this->memberView->setBody($this->memberView->changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId));
 		return $this->memberView->renderHTML();
 	}

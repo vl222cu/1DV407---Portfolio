@@ -475,4 +475,12 @@ class MemberView {
 	public function getPostedLength(){
 		return $_POST['boatLength'];
 	}
+
+	public function setOldPersonalNumber($oldPersonalNumber) {
+		$_SESSION['oldpersonalnumber'] = $oldPersonalNumber;	
+	}
+
+	public function getOldPersonalNumber() {
+		return $_SESSION['oldpersonalnumber'];
+	}
 }

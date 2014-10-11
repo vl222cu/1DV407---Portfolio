@@ -432,7 +432,7 @@ class MemberModel {
 	}
 
 
-	public function changeMemberData($firstName, $lastName, $personalNumber) {
+	public function changeMemberData($firstName, $lastName, $personalNumber, $oldPersonalNumber) {
 
 		$lineParts;
 
@@ -451,9 +451,7 @@ class MemberModel {
 				$lineParts[2];
 				$lineParts[3];
 
-				$oldpersonalnumber = $_SESSION['oldpersonalnumber']; 
-
-				if($lineParts[2] == $oldpersonalnumber){
+				if($lineParts[2] == $oldPersonalNumber){
 					$line = $firstName . ":" . $lastName . ":" . $personalNumber . ":" . $lineParts[3];
 				}
 				
