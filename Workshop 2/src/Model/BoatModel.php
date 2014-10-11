@@ -8,10 +8,11 @@ class BoatModel {
 
 	public function __construct() {
 
-		$this->dbQuery = new BoatDAL();
+		//$this->dbQuery = new BoatDAL();
 	}
 
 	public function getBoatListHTML() {
+		/*
 		//Ska returnera array med båtar - Format: "Ägare", "Typ", "Längd"
 		$boatListArray = $this->dbQuery->getListOfBoats();
 
@@ -28,14 +29,15 @@ class BoatModel {
 		}
 
 		return $boatListHTML;
+		*/
 	}
 
 	public function getBoatArray() {
-		return $this->dbQuery->getSpecificBoatData();
+		//return $this->dbQuery->getSpecificBoatData();
 	}
 
 	public function addBoat($boatOwner, $boatType, $boatLength) {
-		$this->dbQuery->addBoatToDB($boatOwner, $boatType, $boatLength);
+		//$this->dbQuery->addBoatToDB($boatOwner, $boatType, $boatLength);
 	}
 
 	public function saveBoatToFile($memberId, $boatType, $boatLength) {

@@ -1,9 +1,4 @@
-123:segelbåt:555
-321:offj:9393
-1:seeegelbåt:8383838
-2::
-6:Stoooor båt:10000000
-::
-::
-5:Stoooor båt:10000000
-2:Motorbåt:1000
+2:Segelbåt:1111
+1:Kajak/Kanot:444
+1:Motorseglare:555
+4:Kajak/Kanot:3333
