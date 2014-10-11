@@ -389,6 +389,7 @@ class MemberView {
             			<th>Medlemsnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
+            			<th>Antal båtar</th>
                 		<p>$memberlisting</p>
                 	</tr>
                 </table>
@@ -411,6 +412,9 @@ class MemberView {
             			<th>Personnummer</th>
             			<th>Förnamn</th>
             			<th>Efternamn</th>
+            			<th>Antal båtar</th>
+            			<th>Båttyp</th>
+            			<th>Båtlängd</th>
                 		<p>$memberlisting</p>
                 	</tr>
                 </table>

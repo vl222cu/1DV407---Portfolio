@@ -153,7 +153,7 @@ class MemberModel {
 	}
 
 	public function getSimpleMembersList() {
-
+		
 		$memberListArray = array();
 		$output = "<tr>";
 		
@@ -196,7 +196,7 @@ class MemberModel {
 
 		$memberListArray = array();
 		$output = "<tr>";
-		
+
 		if (($handle = fopen("members.txt", "r")) !== false) {
 
 			while (($data = fgetcsv($handle)) !== false) {
