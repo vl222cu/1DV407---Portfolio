@@ -1,4 +1,4 @@
-2:Segelbåtzzzz:11111:1
+2:Segelbåt:11111:1
 3:Motorseglare:6666:3
 1:Kajak/Kanot:12424:4
 2:Segelbåten:234234:5

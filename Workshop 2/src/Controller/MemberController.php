@@ -106,6 +106,7 @@ class MemberController {
 			$boatLength = $this->memberView->getPostedLength();
 
 			$this->memberModel->editBoat($boatId, $boatType, $boatLength);
+			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_BOAT);
 
 			return $this->mainMenuPage();
 
