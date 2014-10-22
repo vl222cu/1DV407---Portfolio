@@ -1,0 +1,5 @@
+C:\Users\vivi\Downloads\BlackJack\bin\Debug\BlackJack.exe
+C:\Users\vivi\Downloads\BlackJack\bin\Debug\BlackJack.pdb
+C:\Users\vivi\Downloads\BlackJack\obj\Debug\BlackJack.csprojResolveAssemblyReference.cache
+C:\Users\vivi\Downloads\BlackJack\obj\Debug\BlackJack.exe
+C:\Users\vivi\Downloads\BlackJack\obj\Debug\BlackJack.pdb
