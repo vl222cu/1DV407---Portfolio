@@ -6,13 +6,17 @@ using System.Text;
 namespace BlackJack.view
 {
     class SimpleView : IView
-    {
+    {   
+        public const char Play = 'p';
+        public const char Hit = 'h';
+        public const char Stand = 's';
+        public const char Quit = 'q';
 
         public void DisplayWelcomeMessage()
         {
             System.Console.Clear();
             System.Console.WriteLine("Hello Black Jack World");
-            System.Console.WriteLine("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
+            System.Console.WriteLine("Type {0} to Play, {1} to Hit, {2} to Stand or {3} to Quit\n", Play, Hit, Stand, Quit);
         }
 
         public int GetInput()
