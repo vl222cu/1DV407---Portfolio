@@ -13,6 +13,13 @@ namespace BlackJack.model
         private rules.INewGameStrategy m_newGameRule;
         private rules.IHitStrategy m_hitRule;
 
+        public void Deal(Player a_player, bool result)
+        {
+            Card c;
+            c = m_deck.GetCard();
+            c.Show(result);
+            a_player.DealCard(c);
+        }
 
         public Dealer(rules.RulesFactory a_rulesFactory)
         {
@@ -36,10 +43,7 @@ namespace BlackJack.model
         {
             if (m_deck != null && a_player.CalcScore() < g_maxScore && !IsGameOver())
             {
-                Card c;
-                c = m_deck.GetCard();
-                c.Show(true);
-                a_player.DealCard(c);
+                Deal(a_player, true);
 
                 return true;
             }
