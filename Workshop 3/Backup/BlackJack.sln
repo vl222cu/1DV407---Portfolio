@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack", "BlackJack.csproj", "{F0BCE1F9-0B4B-407C-BC53-6AEEC8A22615}"
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "BlackJackModel", "BlackJackModel\BlackJackModel.modelproj", "{48404E97-A90F-456C-936B-4D2AB06B5102}"

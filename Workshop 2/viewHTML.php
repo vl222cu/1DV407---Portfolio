@@ -6,7 +6,7 @@ class viewHTML {
 
         if($body === NULL) {
 
-            throw new \Exception("HTMLView::echoHTLM does not allow body to be null");
+            throw new Exception("HTMLView::echoHTLM does not allow body to be null");
         }
 
         echo "
