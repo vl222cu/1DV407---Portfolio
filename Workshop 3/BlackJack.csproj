@@ -79,7 +79,11 @@
     <Compile Include="model\rules\IHitStrategy.cs" />
     <Compile Include="model\rules\InternationalNewGameStrategy.cs" />
     <Compile Include="model\rules\INewGameStrategy.cs" />
+    <Compile Include="model\rules\IRuleset.cs" />
+    <Compile Include="model\rules\UniqueRuleset.cs" />
     <Compile Include="model\rules\RulesFactory.cs" />
+    <Compile Include="model\rules\StandardRuleset.cs" />
+    <Compile Include="model\rules\SwedishNewGameStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\IView.cs" />
