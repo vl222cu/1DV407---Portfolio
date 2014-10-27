@@ -18,6 +18,10 @@ namespace BlackJack.model
         public void DealCard(Card a_card)
         {
             m_hand.Add(a_card);
+
+            foreach (GameObserver go in m_listeners) {
+                go.CardDealt();
+            }
         }
 
         public IEnumerable<Card> GetHand()

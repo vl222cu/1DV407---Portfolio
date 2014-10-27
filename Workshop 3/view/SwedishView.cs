@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace BlackJack.view
 {
@@ -68,6 +69,11 @@ namespace BlackJack.view
             }
             System.Console.WriteLine("Poäng: {0}", a_score);
             System.Console.WriteLine("");
+        }
+
+        public void ThreadSleep2000()
+        {
+            Thread.Sleep(2000);
         }
     }
 }

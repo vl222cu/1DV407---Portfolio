@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace BlackJack.view
 {
@@ -62,6 +63,11 @@ namespace BlackJack.view
                 System.Console.WriteLine("You Won!");
             }
             
+        }
+
+        public void ThreadSleep2000()
+        {
+            Thread.Sleep(2000);
         }
     }
 }
