@@ -15,7 +15,7 @@ namespace BlackJack
 
             g.setPlayerListener(ctrl);
 
-            while (ctrl.Play(g, v));
+            while (ctrl.Play(g, v)) ;
         }
     }
 }

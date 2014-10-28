@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace BlackJack.view
 {
-    class SwedishView : IView 
+    class SwedishView : IView
     {
         public const char Play = 'p';
         public const char Hit = 'h';
