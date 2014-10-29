@@ -42,7 +42,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BlackJack.model.Game" Collapsed="true">
-    <Position X="14.75" Y="2.25" Width="1.5" />
+    <Position X="14.75" Y="1.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -137,7 +137,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="BlackJack.view.SimpleView" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="8.5" Y="1.5" Width="1.5" />
+    <Position X="8.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQJAAEAABAAAAAQAAAIAAAgAAAACAABAgAAAAAAAAQA=</HashCode>
       <FileName>view\SimpleView.cs</FileName>
@@ -145,7 +145,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BlackJack.view.SwedishView" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="11.25" Y="1.5" Width="1.5" />
+    <Position X="11.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQJAAEAABAAAAAQAAAIAAAgAAAACAABAgAAAAAAAAQA=</HashCode>
       <FileName>view\SwedishView.cs</FileName>

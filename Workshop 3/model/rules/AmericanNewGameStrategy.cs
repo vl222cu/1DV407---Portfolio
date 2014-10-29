@@ -13,7 +13,7 @@ namespace BlackJack.model.rules
             a_dealer.Deal(a_player, true);
             a_dealer.Deal(a_dealer, true);
             a_dealer.Deal(a_player, true);
-            a_dealer.Deal(a_dealer, true);
+            a_dealer.Deal(a_dealer, false);
 
             return true;
         }
