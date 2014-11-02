@@ -1,4 +1,4 @@
-Peer Review Workshop 2
+Peer Review workshop 2
 ======================
 
 > Tilldelade grupper för peer review:
