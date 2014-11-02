@@ -3,7 +3,7 @@ Peer Review Workshop 2
 
 > Tilldelade grupper för peer review:
 
-### David SöderBerg
+### David Söderberg
 
 > https://docs.google.com/document/d/1qzVnaxbk5R7gDXdfaHgMFEbh9MXlY5wjXyGk17JZPh8/edit?usp=sharing
 
