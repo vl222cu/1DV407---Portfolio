@@ -48,7 +48,7 @@ class MemberController {
 
 		} elseif ($userAction === "change") {
 			
-			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false) {
+			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false && ($this->memberView->getMemberRegisteredPersonalNumber() != "null")) {
 				$memberArray = $this->memberModel->getSpecificMember($this->memberView->getMemberRegisteredPersonalNumber());
 				return $this->changeMemberDataPage($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
 			} else {

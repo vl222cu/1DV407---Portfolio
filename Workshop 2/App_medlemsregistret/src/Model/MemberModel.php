@@ -58,14 +58,6 @@ class MemberModel {
 
 		}
 	}
-
-
-
-
-	
-
-	
-
 	
 
 	public function getBoatListArray() {
@@ -80,7 +72,9 @@ class MemberModel {
 
 				$lineParts = explode(":", $line);
 
-				array_push($boatListArray, $lineParts);
+				if($lineParts[2] != "null") {
+					array_push($boatListArray, $lineParts);
+				}
 			}
 		}
 
@@ -182,7 +176,7 @@ class MemberModel {
 
 				$lineParts = explode(":", $line);
 
-				if($lineParts[2] == $personalId){
+				if($lineParts[2] == $personalId && $lineParts[2] != "null"){
 					return $lineParts;
 				}
 			}
@@ -203,7 +197,7 @@ class MemberModel {
 
 				$lineParts = explode(":", $line);
 
-				if($lineParts[3] == $memberId){
+				if($lineParts[3] == $memberId && $lineParts[2] != "null"){
 					return $lineParts;
 				}
 			}
@@ -310,6 +304,8 @@ class MemberModel {
 
 				if($lineParts[3] != $memberId){
 					array_push($newArray, $line);
+				} else {
+					array_push($newArray, "null:null:null:" . $memberId);
 				}
 			}
 		}
@@ -337,6 +333,8 @@ class MemberModel {
 
 				if($lineParts[3] != $boatId){
 					array_push($newArray, $line);
+				} else {
+					array_push($newArray, "null:null:null:" . $boatId);
 				}
 			}
 		}
@@ -390,7 +388,9 @@ class MemberModel {
 
 				$lineParts = explode(":", $line);
 
-				array_push($memberListArray, $lineParts);
+				if($lineParts[2] != "null") {
+					array_push($memberListArray, $lineParts);
+				}
 			}
 		}
 

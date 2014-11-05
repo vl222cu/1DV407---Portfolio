@@ -474,9 +474,6 @@ class MemberView {
 		}
 	}
 
-
-
-
 	public function getMemberListHTML() {
 		//Ska returnera array med medlemmat - Format: "Förnamn", "Efternamn", "Personnummer", "Medlemmsnumemr"
 		$memberListArray = $this->memberModel->getMemberListArray();		
