@@ -118,18 +118,6 @@ class MemberView {
 	                <p><input type='submit' value='Ändra'/>
 	            </fieldset>
             </form>
-
-            <form enctype='multipart/form-data' method='post' action='?saveMemberChange'>
-	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
-	                <p><label>Förnamn: </label><input type='text' name='firstname' value='' disabled/></p>
-	                <p><label>Efternamn: </label><input type='text' name='lastname' value='' disabled/></p>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='' disabled/></p>
-	                <p><input type='submit' value='Registrera' disabled/>
-	            </fieldset>
-	            </fieldset>
-            </form>
-
 		";
 
 		return $ret;
@@ -142,7 +130,7 @@ class MemberView {
 			<h2>Ändra medlemsuppgifter</h2>
             <form enctype='multipart/form-data' method='post' action='?change'>
 	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	            <legend>Välj ny medlem att ändra uppgifter på - Fyll i personnummer</legend>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
 	                <p><input type='submit' value='Ändra'/>
 	            </fieldset>
@@ -150,7 +138,7 @@ class MemberView {
 
             <form enctype='multipart/form-data' method='post' action='?saveMemberChange'>
 	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	            <legend>Fyll i de fält som du vill ändra uppgifter på</legend>
 	                <p><label>Förnamn: </label><input type='text' name='firstname' value='$firstname' required/></p>
 	                <p><label>Efternamn: </label><input type='text' name='lastname' value='$lastname' required/></p>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='$personalnumber' required/></p>
@@ -202,25 +190,6 @@ class MemberView {
         return $ret;    
 	}
 
-	public function MemberDataToBeChangedHTML() {
-
-		$ret = "
-			<p><a href='?return'>Tillbaka</a></p>
-			<h2>Ändra medlemsuppgifter</h2>
-            <form enctype='multipart/form-data' method='post' action='?changesaved'>
-	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i de fält som du vill ändra</legend>
-	                <p><label>Förnamn: </label><input type='text' name='firstname'/></p>
-	                <p><label>Efternamn: </label><input type='text' name='lastname'/></p>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber'/></p>
-	                <p><input type='submit' value='Spara'/>
-	            </fieldset>
-            </form>
-         ";
-
-        return $ret;    
-	}
-
 	public function deleteMemberHTML($memberList) {
 
 		$ret = "
@@ -229,7 +198,7 @@ class MemberView {
             <form enctype='multipart/form-data' method='post' action='?memberConfirmedDelete'>
 	            <fieldset>
 	            <legend>Välj medlem och bekräfta borttagning</legend>
-	                <p><label>Tillhör medlem: </label></p>
+	                <p><label>Välj medlem: </label></p>
 	                <select name='memberId'>
 		            	$memberList;
 		            </select>
@@ -336,23 +305,14 @@ class MemberView {
 			<h2>Visa medlemsuppgifter</h2>
             <form enctype='multipart/form-data' method='post' action='?showMemberChosen'>
 	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	            <legend>Välj medlem för mer detaljerade uppgifter</legend>
 	                <p><label>Välj medlem: </label></p>
 		            <select name='memberId'>
 		            	$memberList;
 		            </select>
 		            <p><input type='submit' value='Visa medlem'/>
-
 	            </fieldset>
             </form>
-            <br>
-            <fieldset>
-            <legend>Medlemsuppgifter</legend>
-                <p><strong>Förnamn:</strong></p>
-                <p><strong>Efternamn:</strong></p>
-                <p><strong>Personnummer:</strong></p>
-            </fieldset>
-            </fieldset>
 		";
 
 		return $ret;
@@ -367,7 +327,7 @@ class MemberView {
 			<h2>Visa medlemsuppgifter</h2>
             <form enctype='multipart/form-data' method='post' action='?showMemberChosen'>
 	            <fieldset>
-	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
+	            <legend>Välj ny medlem för mer detaljerade uppgifter</legend>
 	                <p><label>Välj medlem: </label></p>
 		            <select name='memberId'>
 		            	$memberList;
@@ -468,13 +428,13 @@ class MemberView {
 		return $_POST["personalnumber"];
 	}
 
-	public function getChosenBoatToEdit() {
+/*	public function getChosenBoatToEdit() {
 
 		$boatId = $_POST['allBoats'];
 
 		//Returnerar array med uppgifter
 		return $this->boatModel->getBoatArray();
-	}
+	} */
 
 	public function getPostedMemberId() {
 		if(isset($_POST['memberId'])) {

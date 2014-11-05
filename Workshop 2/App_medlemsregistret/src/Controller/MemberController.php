@@ -164,13 +164,6 @@ class MemberController {
 		return $this->memberView->renderHTML();
 	}
 
-	private function MemberDataToBeChangedPage() {
-
-		$this->memberView->setBody($this->memberView->MemberDataToBeChangedHTML());
-		return $this->memberView->renderHTML();
-
-	}
-
 	private function deleteMemberPage() {
 		$memberList = $this->memberModel->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->deleteMemberHTML($memberList));
