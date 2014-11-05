@@ -586,7 +586,9 @@ class MemberView {
 			$boatLength = $value[2];
 			$boatId = $value[3];
 
-			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
+			
+				$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
+			
 		}
 
 		return $boatListHTML;

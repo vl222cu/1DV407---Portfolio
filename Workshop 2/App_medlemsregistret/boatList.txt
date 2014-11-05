@@ -1,4 +1,7 @@
-1:Segelbåt:22222:2
-2:Segelbåt:242525:3
+1:Segelbåt:101010101:1
+1:Motorseglare:8383838:2
+2:Segelbåt:8383883:3
 null:null:null:4
-1:Segelbåt:22222:5
+2:Övrigt:822882:5
+3:Segelbåt:8282882:6
+2:Segelbåt:999191:7

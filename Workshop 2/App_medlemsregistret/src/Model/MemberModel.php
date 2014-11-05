@@ -62,6 +62,26 @@ class MemberModel {
 
 	public function getBoatListArray() {
 
+		$memberIds = array();
+		$memberExists = false;
+
+		//get existing member ids
+		$lines = @file("members.txt");
+				
+		if($lines !== false) {
+
+			foreach ($lines as $line) {
+				$line = trim($line);
+				$lineParts = explode(":", $line);
+
+				if($lineParts[2] != "null") {
+					array_push($memberIds, $lineParts[3]);
+				}
+			}
+		}
+
+		$file = fopen('members.txt', 'a');
+
 		$boatListArray = array();
 		$lines = @file("boatList.txt");
 				
@@ -73,7 +93,18 @@ class MemberModel {
 				$lineParts = explode(":", $line);
 
 				if($lineParts[2] != "null") {
-					array_push($boatListArray, $lineParts);
+
+					foreach ($memberIds as $key => $value) {
+						if($value == $lineParts[0]) {
+							$memberExists = true;
+						}
+					}
+
+					if($memberExists == true) {
+						array_push($boatListArray, $lineParts);
+					}
+
+					$memberExists = false;
 				}
 			}
 		}
