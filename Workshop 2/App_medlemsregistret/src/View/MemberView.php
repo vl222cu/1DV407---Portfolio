@@ -363,8 +363,8 @@ class MemberView {
             			<th>Förnamn</th>
             			<th>Efternamn</th>
             			<th>Antal båtar</th>
-                		<p>$memberlisting</p>
                 	</tr>
+                	<p>$memberlisting</p>
                 </table>
             </fieldset>
 		";
@@ -379,7 +379,7 @@ class MemberView {
 			<h2>Fullständig lista på samtliga medlemmar</h2>
             <fieldset>
             <legend>Medlemsuppgifter</legend>
-            	<table>
+            	<table border='1'>
             		<tr>
             			<th>Medlemsnummer</th>
             			<th>Personnummer</th>
@@ -472,5 +472,155 @@ class MemberView {
 		if(isset($_SESSION['postedboatlistid'])) {
 			return $_SESSION['postedboatlistid'];
 		}
+	}
+
+
+
+
+	public function getMemberListHTML() {
+		//Ska returnera array med medlemmat - Format: "Förnamn", "Efternamn", "Personnummer", "Medlemmsnumemr"
+		$memberListArray = $this->memberModel->getMemberListArray();		
+
+		$memberListHTML = "<option selected>Välj medlem</option>\n";
+
+		foreach($memberListArray as $key => $value) {
+
+			$firstName = $value[0];
+			$lastName = $value[1];
+			$memberId = $value[3];
+			$personalId = $value[2];
+
+			$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
+		}
+
+		return $memberListHTML;
+	}
+
+	public function getSimpleMembersList() {
+		$memberListArray = $this->memberModel->getMemberListArray();		
+
+		$memberListHTML = "";
+
+		foreach($memberListArray as $key => $value) {
+
+			$firstName = $value[0];
+			$lastName = $value[1];
+			$memberId = $value[3];
+			$personalId = $value[2];
+
+			$boatAmount = $this->memberModel->getMemberAmountBoats($memberId);
+
+			$memberListHTML .= "
+<tr>
+	<td>$memberId</td>;
+	<td>$firstName</td>
+	<td>$lastName</td>
+	<td>$boatAmount
+</tr>
+			";
+		}
+
+		return $memberListHTML;
+	}
+
+
+	public function getDetailedMembersList() {
+		$memberListArray = $this->memberModel->getMemberListArray();		
+
+		//Iterera igenom boatList och får tillbaka array innehållandes array med alla båtar
+		$boatListArray = $this->memberModel->getBoatListArray();
+
+		$memberListHTML = "";
+
+		foreach($memberListArray as $key => $value) {
+
+			$membersBoats = array();
+
+			$firstName = $value[0];
+			$lastName = $value[1];
+			$personalId = $value[2];
+			$memberId = $value[3];
+
+			//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
+			foreach ($boatListArray as $key2 => $value2) {
+
+				$boat = $boatListArray[$key2];
+
+				//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
+				//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
+				if($boat[0] == $memberId) {
+					array_push($membersBoats, $boat);
+				}
+			}
+		
+			$memberListHTML .= "<tr>
+<td>$memberId</td>
+<td>$personalId</td>
+<td>$firstName</td>
+<td>$lastName</td>
+			";
+
+		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
+			foreach ($membersBoats as $key => $value) {
+				$boatType = $value[1];
+				$boatLength = $value[2];
+				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
+			}
+
+			$memberListHTML .= "</tr>";
+
+		}
+
+		return $memberListHTML;
+	}
+
+
+	public function getBoatList() {
+		
+		//Ska returnera array med båtar - Format: "Medlem", "Typ", "Längd"
+		$boatListArray = $this->memberModel->getBoatListArray();
+
+		$boatListHTML = "<option selected>Välj båt</option>\n";
+
+		foreach($boatListArray as $key => $value) {
+
+			$boatOwner = $value[0];
+			$boatType = $value[1];
+			$boatLength = $value[2];
+			$boatId = $value[3];
+
+			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
+		}
+
+		return $boatListHTML;
+	}
+
+	public function getBoatListHTML($maxBoatAmount) {
+
+		$ret = "";
+
+		for ($i=0; $i<$maxBoatAmount; $i++) {
+
+			$boatNumber = $i + 1;
+
+			$ret .="<th>Båt $boatNumber</th>\n";
+		}
+
+		return $ret;
+	}
+
+	public function getMemberBoatsListHTML($memberId) {
+		$ret = "";
+
+		$memberBoats = $this->memberModel->getMemberBoatsListArray($memberId);
+		
+		foreach ($memberBoats as $key => $value) {
+
+			$boatNumber = $key + 1;
+
+			$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $value[1] - Längd: $value[2] cm</p>";
+		}
+
+		return $ret;
 	}
 }

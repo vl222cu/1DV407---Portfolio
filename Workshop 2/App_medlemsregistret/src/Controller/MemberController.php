@@ -165,14 +165,14 @@ class MemberController {
 	}
 
 	private function deleteMemberPage() {
-		$memberList = $this->memberModel->getMemberListHTML();
+		$memberList = $this->memberView->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->deleteMemberHTML($memberList));
 		return $this->memberView->renderHTML();
 	}
 
 	private function addBoatPage() {
 
-		$memberList = $this->memberModel->getMemberListHTML();
+		$memberList = $this->memberView->getMemberListHTML();
 
 		$this->memberView->setBody($this->memberView->addBoatHTML($memberList));
 		return $this->memberView->renderHTML();
@@ -186,36 +186,36 @@ class MemberController {
 
 		$boatDataArray = $this->memberModel->getSpecificBoatData($boatListId);
 
-		$boatList = $this->memberModel->getBoatList();
+		$boatList = $this->memberView->getBoatList();
 		$this->memberView->setBody($this->memberView->editBoatHTML($boatList, $boatDataArray));
 		return $this->memberView->renderHTML();
 	}
 
 	private function deleteBoatPage() {
 
-		$boatList = $this->memberModel->getBoatList();
+		$boatList = $this->memberView->getBoatList();
 		$this->memberView->setBody($this->memberView->deleteBoatHTML($boatList));
 		return $this->memberView->renderHTML();
 	}
 
 	private function showSpecificMemberPage() {
 
-		$memberList = $this->memberModel->getMemberListHTML();
+		$memberList = $this->memberView->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->showSpecificMemberPageHTML($memberList));
 		return $this->memberView->renderHTML();
 	}
 
 	private function showSpecificMemberPageChosen($firstname, $lastname, $personalnumber, $memberId) {
 
-		$memberBoatsListHTML = $this->memberModel->getMemberBoatsListHTML($memberId);
-		$memberList = $this->memberModel->getMemberListHTML();
+		$memberBoatsListHTML = $this->memberView->getMemberBoatsListHTML($memberId);
+		$memberList = $this->memberView->getMemberListHTML();
 		$this->memberView->setBody($this->memberView->showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList, $memberBoatsListHTML));
 		return $this->memberView->renderHTML();
 	}
 
 	public function showSimpleMembersList() {
 
-		$memberListing = $this->memberModel->getSimpleMembersList();
+		$memberListing = $this->memberView->getSimpleMembersList();
 		$this->memberView->setBody($this->memberView->SimpleMembersListHTML($memberListing));
 		return $this->memberView->renderHTML();
 	}
@@ -224,10 +224,11 @@ class MemberController {
 	public function showDetailedMembersList() {
 
 		$maxBoatAmount = $this->memberModel->getMaxBoatAmount();
-		$boatListHTML = $this->memberModel->getBoatListHTML($maxBoatAmount);
+		$boatListHTML = $this->memberView->getBoatListHTML($maxBoatAmount);
 
-		$memberListing = $this->memberModel->getDetailedMembersList();
+		$memberListing = $this->memberView->getDetailedMembersList();
 		$this->memberView->setBody($this->memberView->DetailedMembersListHTML($memberListing, $boatListHTML));
 		return $this->memberView->renderHTML();
 	}
+
 }
