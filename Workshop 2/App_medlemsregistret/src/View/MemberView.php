@@ -428,14 +428,6 @@ class MemberView {
 		return $_POST["personalnumber"];
 	}
 
-/*	public function getChosenBoatToEdit() {
-
-		$boatId = $_POST['allBoats'];
-
-		//Returnerar array med uppgifter
-		return $this->boatModel->getBoatArray();
-	} */
-
 	public function getPostedMemberId() {
 		if(isset($_POST['memberId'])) {
 			return $_POST['memberId'];
@@ -505,16 +497,15 @@ class MemberView {
 			$memberId = $value[3];
 			$personalId = $value[2];
 
-			$boatAmount = $this->memberModel->getMemberAmountBoats($memberId);
+			$boatAmount = $this->boatModel->getMemberAmountBoats($memberId);
 
 			$memberListHTML .= "
-<tr>
-	<td>$memberId</td>;
-	<td>$firstName</td>
-	<td>$lastName</td>
-	<td>$boatAmount
-</tr>
-			";
+								<tr>
+									<td>$memberId</td>;
+									<td>$firstName</td>
+									<td>$lastName</td>
+									<td>$boatAmount</td>
+								</tr>";
 		}
 
 		return $memberListHTML;
@@ -525,7 +516,7 @@ class MemberView {
 		$memberListArray = $this->memberModel->getMemberListArray();		
 
 		//Iterera igenom boatList och får tillbaka array innehållandes array med alla båtar
-		$boatListArray = $this->memberModel->getBoatListArray();
+		$boatListArray = $this->boatModel->getBoatListArray();
 
 		$memberListHTML = "";
 
@@ -550,12 +541,13 @@ class MemberView {
 				}
 			}
 		
-			$memberListHTML .= "<tr>
-<td>$memberId</td>
-<td>$personalId</td>
-<td>$firstName</td>
-<td>$lastName</td>
-			";
+			$memberListHTML .= "
+							<tr>
+								<td>$memberId</td>
+								<td>$personalId</td>
+								<td>$firstName</td>
+								<td>$lastName</td>
+							";
 
 		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
 			foreach ($membersBoats as $key => $value) {
@@ -575,7 +567,7 @@ class MemberView {
 	public function getBoatList() {
 		
 		//Ska returnera array med båtar - Format: "Medlem", "Typ", "Längd"
-		$boatListArray = $this->memberModel->getBoatListArray();
+		$boatListArray = $this->boatModel->getBoatListArray();
 
 		$boatListHTML = "<option selected>Välj båt</option>\n";
 
@@ -611,7 +603,7 @@ class MemberView {
 	public function getMemberBoatsListHTML($memberId) {
 		$ret = "";
 
-		$memberBoats = $this->memberModel->getMemberBoatsListArray($memberId);
+		$memberBoats = $this->boatModel->getMemberBoatsListArray($memberId);
 		
 		foreach ($memberBoats as $key => $value) {
 

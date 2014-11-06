@@ -1,3 +1,6 @@
 hej1:hej2:1919191919:1
 lala:lal:1010101010:2
 null:null:null:3
+null:null:null:4
+Vivi:Lammet:123456789:5
+null:null:null:6

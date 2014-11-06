@@ -105,14 +105,14 @@ class MemberController {
 			$boatType = $this->memberView->getPostedBoatType();
 			$boatLength = $this->memberView->getPostedLength();
 
-			$this->memberModel->editBoat($boatId, $boatType, $boatLength);
+			$this->boatModel->editBoat($boatId, $boatType, $boatLength);
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_BOAT);
 
 			return $this->mainMenuPage();
 
 		} elseif ($userAction === "boatConfirmedDelete") {
 
-			$this->memberModel->deleteBoat($this->memberView->getPostedBoatId());
+			$this->boatModel->deleteBoat($this->memberView->getPostedBoatId());
 			$this->memberView->setMessage(MemberView::MESSAGE_BOAT_DELETED);
 			return $this->mainMenuPage();
 
@@ -184,7 +184,7 @@ class MemberController {
 
 		$this->memberView->setSessionPostedBoatListId($boatListId);
 
-		$boatDataArray = $this->memberModel->getSpecificBoatData($boatListId);
+		$boatDataArray = $this->boatModel->getSpecificBoatData($boatListId);
 
 		$boatList = $this->memberView->getBoatList();
 		$this->memberView->setBody($this->memberView->editBoatHTML($boatList, $boatDataArray));
@@ -223,7 +223,7 @@ class MemberController {
 
 	public function showDetailedMembersList() {
 
-		$maxBoatAmount = $this->memberModel->getMaxBoatAmount();
+		$maxBoatAmount = $this->boatModel->getMaxBoatAmount();
 		$boatListHTML = $this->memberView->getBoatListHTML($maxBoatAmount);
 
 		$memberListing = $this->memberView->getDetailedMembersList();
