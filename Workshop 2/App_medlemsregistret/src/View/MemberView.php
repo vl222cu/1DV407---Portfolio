@@ -266,7 +266,15 @@ class MemberView {
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
 	            <form enctype='multipart/form-data' method='post' action='?saveBoatChanges'>	            
-	                <p><label>Båttyp: </label><input type='text' name='boatType' value='$boatType'/></p>
+	                <p><label>Nuvarande båttyp: </label><input type='text' name='boatType' value='$boatType' disabled/></p>
+	                <p><label>Välj ny båttyp: </label>
+	                <select name='boatType'>
+		            	<option value='Segelbåt'>Segelbåt</option>
+						<option value='Motorseglare'>Motorseglare</option>
+						<option value='Motorbåt'>Motorbåt</option>
+						<option value='Kajak/Kanot'>Kajak/Kanot</option>
+						<option value='Övrigt'>Övrigt</option>
+		            </select></p>
 	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength'/></p>
 	                <p><input type='submit' value='Spara ändringar'/></p>
 	            </form>

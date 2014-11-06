@@ -2,7 +2,6 @@
 
 class MemberModel {
 
-	private $member;
 	private $firstName;
 	private $lastName;
 	private $personalNumber;
@@ -11,7 +10,6 @@ class MemberModel {
 
 	public function __construct() {
 
-		$this->member = null;
 		$this->firstName = null;
 		$this->lastName = null;
 		$this->personalNumber = null;
