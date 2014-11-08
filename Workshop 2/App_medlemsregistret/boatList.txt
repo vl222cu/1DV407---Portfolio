@@ -11,4 +11,7 @@ null:null:null:9
 1:Segelbåt:22222:11
 1:Motorbåt:3333:12
 null:null:null:13
-5:Motorseglare:800000:14
+5:Segelbåt:80000:14
+5:Segelbåt:2222222:15
+5:Motorbåt:999999:16
+5:Kajak/Kanot:5000:17
