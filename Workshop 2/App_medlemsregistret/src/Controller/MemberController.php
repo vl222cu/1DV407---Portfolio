@@ -22,11 +22,11 @@ class MemberController {
 
 		$userAction = $this->memberView->getUserAction();
 
-		if($userAction === "registerpage") {
+		if($userAction === MemberView::$actionRegisterPage) {
 
 			return $this->registerMemberPage();
 
-		} elseif ($userAction === "register") {
+		} elseif ($userAction === MemberView::$actionRegister) {
 
 			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber())) {
 				$this->memberModel->saveMemberToFile($this->memberView->getMemberRegisteredFirstName(), 
@@ -38,15 +38,15 @@ class MemberController {
 				return $this->registerMemberPage();
 			}
 
-		} elseif ($userAction === "return") {
+		} elseif ($userAction === MemberView::$actionReturn) {
 			
 			return $this->mainMenuPage();
 
-		} elseif ($userAction === "changedatapage") {
+		} elseif ($userAction === MemberView::$actionChangeDataPage) {
 			
 			return $this->choseMemberDataPage();
 
-		} elseif ($userAction === "change") {
+		} elseif ($userAction === MemberView::$actionEdit) {
 			
 			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false && ($this->memberView->getMemberRegisteredPersonalNumber() != "null")) {
 				$memberArray = $this->memberModel->getSpecificMember($this->memberView->getMemberRegisteredPersonalNumber());
@@ -57,7 +57,7 @@ class MemberController {
 				return $this->choseMemberDataPage();
 			}
 
-		} elseif($userAction === "saveMemberChange") {
+		} elseif($userAction === MemberView::$actionSaveEditMember) {
 
 			//Någon form av validering här?
 
@@ -67,39 +67,39 @@ class MemberController {
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_MEMBER);
 			return $this->mainMenuPage();
 
-		} elseif ($userAction === "deleteMember") {
+		} elseif ($userAction === MemberView::$actionDeleteMember) {
 
 			return $this->deleteMemberPage();
 
-		} elseif ($userAction === "memberConfirmedDelete") {
+		} elseif ($userAction === MemberView::$actionMemberComfirmedDelete) {
 
 			$this->memberModel->deleteMember($this->memberView->getPostedMemberId());
 			$this->memberView->setMessage(MemberView::MESSAGE_USER_DELETED);
 			return $this->mainMenuPage();
 
-		} elseif ($userAction === "addBoat") {
+		} elseif ($userAction === MemberView::$actionAddBoat) {
 
 			return $this->addBoatPage();
 
-		} elseif ($userAction === "editBoat") {
+		} elseif ($userAction === MemberView::$actionEditBoat) {
 
 			return $this->editBoatPage();
 
-		} elseif ($userAction === "deleteBoat") {
+		} elseif ($userAction === MemberView::$actionDeleteBoat) {
 
 			return $this->deleteBoatPage();
 
-		} elseif($userAction === "editChosenBoat") {
+		} elseif($userAction === MemberView::$actionEditChosenBoat) {
 
 			return $this->editBoatPage();
 
-		} elseif ($userAction === "saveBoat") {
+		} elseif ($userAction === MemberView::$actionSaveBoat) {
 
 			$this->boatModel->saveBoatToFile($this->memberView->getPostedMemberId(), $this->memberView->getPostedBoatType(), $this->memberView->getPostedLength());
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCCESS_REGISTRATION);
 			return $this->mainMenuPage();
 
-		} elseif($userAction === 'saveBoatChanges') {
+		} elseif($userAction === MemberView::$actionSaveEditedBoat) {
 
 			$boatId = $this->memberView->getSessionPostedBoatListId();
 			$boatType = $this->memberView->getPostedBoatType();
@@ -110,26 +110,26 @@ class MemberController {
 
 			return $this->mainMenuPage();
 
-		} elseif ($userAction === "boatConfirmedDelete") {
+		} elseif ($userAction === MemberView::$actionBoatComfirmedDelete) {
 
 			$this->boatModel->deleteBoat($this->memberView->getPostedBoatId());
 			$this->memberView->setMessage(MemberView::MESSAGE_BOAT_DELETED);
 			return $this->mainMenuPage();
 
-		} elseif($userAction === "showSpecificMember") {
+		} elseif($userAction === MemberView::$actionShowSpecificMember) {
 
 			return $this->showSpecificMemberPage();
 
-		} elseif($userAction ==="showMemberChosen") {
+		} elseif($userAction === MemberView::$actionShowChosenMember) {
 
 			$memberArray = $this->memberModel->getSpecificMemberMemberId($this->memberView->getPostedMemberId());
 			return $this->showSpecificMemberPageChosen($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
 
-		} elseif($userAction === "showSimpleList") {
+		} elseif($userAction === MemberView::$actionShowSimpleList) {
 
 			return $this->showSimpleMembersList();
 
-		} elseif($userAction === "showDetailedList") {
+		} elseif($userAction === MemberView::$actionShowDetailedList) {
 
 			return $this->showDetailedMembersList();
 

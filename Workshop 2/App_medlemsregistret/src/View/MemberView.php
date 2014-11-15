@@ -13,6 +13,32 @@ class MemberView {
 	private $body = "";
 	private $message = "";
 	private $boatModel;
+	private static $firstName = "firstname";
+	private static $lastName = "lastname";
+	private static $personalNumber = "personalnumber";
+	private static $boatType = "boatType";
+	private static $boatLength = "boatLength";
+	private static $oldSocialSecurityNumber = "oldpersonalnumber";
+	private static $postedBoatlistId = "postedboatlistid";
+	public static $actionRegisterPage = "registerpage";
+	public static $actionRegister = "register";
+	public static $actionChangeDataPage = "changedatapage";
+	public static $actionSaveEditMember = "saveEditMember";
+	public static $actionEdit = "edit";
+	public static $actionDeleteMember = "deleteMember";
+	public static $actionMemberComfirmedDelete = "memberConfirmedDelete";
+	public static $actionReturn = "return";
+	public static $actionAddBoat = "addBoat";
+	public static $actionEditBoat = "editBoat";
+	public static $actionDeleteBoat = "deleteBoat";
+	public static $actionBoatComfirmedDelete = "boatConfirmedDelete";
+	public static $actionEditChosenBoat = "editChosenBoat";
+	public static $actionSaveBoat = "saveBoat";
+	public static $actionShowSpecificMember = "showSpecificMember";
+	public static $actionShowChosenMember = "showMemberChosen";
+	public static $actionShowSimpleList = "showSimpleList";
+	public static $actionShowDetailedList = "showDetailedList";
+	public static $actionSaveEditedBoat = "saveEditedBoat";
 
 	public function __construct(MemberModel $memberModel, BoatModel $boatModel) {
 
@@ -22,81 +48,81 @@ class MemberView {
 
 	public function getUserAction() {
 
-		if (key($_GET) == "registerpage") {
+		if (key($_GET) == self::$actionRegisterPage) {
 
-			$userAction = "registerpage";
+			$userAction = self::$actionRegisterPage;
 
-		} elseif (key($_GET) == "register") {
+		} elseif (key($_GET) == self::$actionRegister) {
 			
-			$userAction = "register";
+			$userAction = self::$actionRegister;
 
-		} elseif (key($_GET) == "changedatapage") {
+		} elseif (key($_GET) == self::$actionChangeDataPage) {
 			
-			$userAction = "changedatapage";
+			$userAction = self::$actionChangeDataPage;
 
-		} elseif(key($_GET) == "saveMemberChange") {
+		} elseif(key($_GET) == self::$actionSaveEditMember) {
 
-			$userAction = "saveMemberChange";
+			$userAction = self::$actionSaveEditMember;
 
-		} elseif (key($_GET) == "change") {
+		} elseif (key($_GET) == self::$actionEdit) {
 			
-			$userAction = "change";
+			$userAction = self::$actionEdit;
 
-		} elseif (key($_GET) == "deleteMember") {
+		} elseif (key($_GET) == self::$actionDeleteMember) {
 			
-			$userAction = "deleteMember";
+			$userAction = self::$actionDeleteMember;
 
-		} elseif(key($_GET) == "memberConfirmedDelete") {
+		} elseif(key($_GET) == self::$actionMemberComfirmedDelete) {
 
-			$userAction = "memberConfirmedDelete";
+			$userAction = self::$actionMemberComfirmedDelete;
 
-		} elseif (key($_GET) == "return") {
+		} elseif (key($_GET) == self::$actionReturn) {
 			
-			$userAction = "return";
+			$userAction = self::$actionReturn;
 
-		} elseif (key($_GET) == "addBoat") {
+		} elseif (key($_GET) == self::$actionAddBoat) {
 			
-			$userAction = "addBoat";
+			$userAction = self::$actionAddBoat;
 
-		} elseif (key($_GET) == "editBoat") {
+		} elseif (key($_GET) == self::$actionEditBoat) {
 			
-			$userAction = "editBoat";
+			$userAction = self::$actionEditBoat;
 
-		} elseif (key($_GET) == "deleteBoat") {
+		} elseif (key($_GET) == self::$actionDeleteBoat) {
 			
-			$userAction = "deleteBoat";
+			$userAction = self::$actionDeleteBoat;
 
-		} elseif (key($_GET) == "boatConfirmedDelete") {
+		} elseif (key($_GET) == self::$actionBoatComfirmedDelete) {
 			
-			$userAction = "boatConfirmedDelete";
+			$userAction = self::$actionBoatComfirmedDelete;
 
-		} elseif (key($_GET) == "boatChosen") {
+		} elseif (key($_GET) == self::$actionEditChosenBoat) {
 			
-			$userAction = "editChosenBoat";
+			$userAction = self::$actionEditChosenBoat;
 		
-		} elseif (key($_GET) == "saveBoat") {
+		} elseif (key($_GET) == self::$actionSaveBoat) {
 
-			$userAction = "saveBoat";
+			$userAction = self::$actionSaveBoat;
 
-		} elseif (key($_GET) == "showSpecificMember") {
+		} elseif (key($_GET) == self::$actionShowSpecificMember) {
 
-			$userAction = "showSpecificMember";
+			$userAction = self::$actionShowSpecificMember;
 
-		} elseif(key($_GET) =="showMemberChosen") {
+		} elseif(key($_GET) == self::$actionShowChosenMember) {
 
-			$userAction = "showMemberChosen";
+			$userAction = self::$actionShowChosenMember;
 
-		} elseif(key($_GET) =="showSimpleList") {
+		} elseif(key($_GET) == self::$actionShowSimpleList) {
 
-			$userAction = "showSimpleList";
+			$userAction = self::$actionShowSimpleList;
 
-		} elseif(key($_GET) =="showDetailedList") {
+		} elseif(key($_GET) == self::$actionShowDetailedList) {
 
-			$userAction = "showDetailedList";
+			$userAction = self::$actionShowDetailedList;
 
-		} elseif(key($_GET) =="saveBoatChanges") {
+		} elseif(key($_GET) == self::$actionSaveEditedBoat) {
 
-			$userAction = "saveBoatChanges";
+			$userAction = self::$actionSaveEditedBoat;
 
 		} else {
 
@@ -111,7 +137,7 @@ class MemberView {
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra medlemsuppgifter</h2>
-            <form enctype='multipart/form-data' method='post' action='?change'>
+            <form enctype='multipart/form-data' method='post' action='?edit'>
 	            <fieldset>
 	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
@@ -128,7 +154,7 @@ class MemberView {
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra medlemsuppgifter</h2>
-            <form enctype='multipart/form-data' method='post' action='?change'>
+            <form enctype='multipart/form-data' method='post' action='?edit'>
 	            <fieldset>
 	            <legend>Välj ny medlem att ändra uppgifter på - Fyll i personnummer</legend>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
@@ -136,7 +162,7 @@ class MemberView {
 	            </fieldset>
             </form>
 
-            <form enctype='multipart/form-data' method='post' action='?saveMemberChange'>
+            <form enctype='multipart/form-data' method='post' action='?saveEditMember'>
 	            <fieldset>
 	            <legend>Fyll i de fält som du vill ändra uppgifter på</legend>
 	                <p><label>Förnamn: </label><input type='text' name='firstname' value='$firstname' required/></p>
@@ -257,7 +283,7 @@ class MemberView {
 			<h2>Ändra båt</h2>
 
 			<fieldset>
-				<form enctype='multipart/form-data' method='post' action='?boatChosen'>
+				<form enctype='multipart/form-data' method='post' action='?editChosenBoat'>
 	            	<legend>Välj båt för att sen ändra uppgifter</legend>
 		           	<p><label>Välj båt: </label></p>
 		            <select name='boatId'>
@@ -265,7 +291,7 @@ class MemberView {
 		            </select>
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
-	            <form enctype='multipart/form-data' method='post' action='?saveBoatChanges'>	            
+	            <form enctype='multipart/form-data' method='post' action='?saveEditedBoat'>	            
 	                <p><label>Nuvarande båttyp: </label><input type='text' name='boatType' value='$boatType' disabled/></p>
 	                <p><label>Välj ny båttyp: </label>
 	                <select name='boatType'>
@@ -421,19 +447,19 @@ class MemberView {
 
 	public function getMemberRegisteredFirstName() {
 
-		return $_POST["firstname"];
+		return $_POST[self::$firstName];
 
 	}
 
 	public function getMemberRegisteredLastName() {
 
-		return $_POST["lastname"];
+		return $_POST[self::$lastName];
 
 	}
 
 	public function getMemberRegisteredPersonalNumber() {
 
-		return $_POST["personalnumber"];
+		return $_POST[self::$personalNumber];
 	}
 
 	public function getPostedMemberId() {
@@ -449,28 +475,28 @@ class MemberView {
 	}
 
 	public function getPostedBoatType() {
-		return $_POST['boatType'];
+		return $_POST[self::$boatType];
 	}
 
 	public function getPostedLength(){
-		return $_POST['boatLength'];
+		return $_POST[self::$boatLength];
 	}
 
 	public function setOldPersonalNumber($oldPersonalNumber) {
-		$_SESSION['oldpersonalnumber'] = $oldPersonalNumber;	
+		$_SESSION[self::$oldSocialSecurityNumber] = $oldPersonalNumber;	
 	}
 
 	public function getOldPersonalNumber() {
-		return $_SESSION['oldpersonalnumber'];
+		return $_SESSION[self::$oldSocialSecurityNumber];
 	}
 
 	public function setSessionPostedBoatListId($boatListId) {
-		$_SESSION['postedboatlistid'] = $boatListId;
+		$_SESSION[self::$postedBoatlistId] = $boatListId;
 	}
 
 	public function getSessionPostedBoatListId() {
-		if(isset($_SESSION['postedboatlistid'])) {
-			return $_SESSION['postedboatlistid'];
+		if(isset($_SESSION[self::$postedBoatlistId])) {
+			return $_SESSION[self::$postedBoatlistId];
 		}
 	}
 
