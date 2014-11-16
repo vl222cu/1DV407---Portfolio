@@ -9,10 +9,10 @@ class MemberView {
 	const MESSAGE_USER_NOT_EXIST = 'Medlemmen finns inte i databasen';
 	const MESSAGE_USER_DELETED = 'Medlemmen är borttagen';
 	const MESSAGE_BOAT_DELETED = 'Båten är borttagen';
-	private $memberModel;
 	private $body = "";
 	private $message = "";
 	private $boatModel;
+	private $memberModel;
 	private static $firstName = "firstname";
 	private static $lastName = "lastname";
 	private static $personalNumber = "personalnumber";
@@ -40,10 +40,9 @@ class MemberView {
 	public static $actionShowDetailedList = "showDetailedList";
 	public static $actionSaveEditedBoat = "saveEditedBoat";
 
-	public function __construct(MemberModel $memberModel, BoatModel $boatModel) {
-
-		$this->memberModel = $memberModel;
+	public function __construct(BoatModel $boatModel, MemberModel $memberModel) {
 		$this->boatModel = $boatModel;
+		$this->memberModel = $memberModel;
 	}
 
 	public function getUserAction() {
@@ -168,6 +167,7 @@ class MemberView {
 	                <p><label>Förnamn: </label><input type='text' name='firstname' value='$firstname' required/></p>
 	                <p><label>Efternamn: </label><input type='text' name='lastname' value='$lastname' required/></p>
 	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='$personalnumber' required/></p>
+	                <input type='text' name='memberId' value='$memberId' hidden>
 	                <p><input type='submit' value='Registrera'/>
 	            </fieldset>
 	            </fieldset>
@@ -274,8 +274,8 @@ class MemberView {
 			$boatType = "";
 			$boatLength = "";
 		} else {
-			$boatType = $boatDataArray[1];
-			$boatLength = $boatDataArray[2];
+			$boatType = $boatDataArray['BoatType'];
+			$boatLength = $boatDataArray['BoatLength'];
 		}
 
 		$ret = "
@@ -508,13 +508,17 @@ class MemberView {
 
 		foreach($memberListArray as $key => $value) {
 
-			$firstName = $value[0];
-			$lastName = $value[1];
-			$memberId = $value[3];
-			$personalId = $value[2];
+			if($value != null) {
+				$firstName = $value['First_name'];
+				$lastName = $value['Last_name'];
+				$memberId = $value['Member_Id'];
+				$personalId = $value['Personal_Id'];
 
-			$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
+				$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
+			}
 		}
+
+		//var_dump($memberListHTML);
 
 		return $memberListHTML;
 	}
@@ -526,10 +530,10 @@ class MemberView {
 
 		foreach($memberListArray as $key => $value) {
 
-			$firstName = $value[0];
-			$lastName = $value[1];
-			$memberId = $value[3];
-			$personalId = $value[2];
+			$firstName = $value['First_name'];
+			$lastName = $value['Last_name'];
+			$memberId = $value['Member_Id'];
+			$personalId = $value['Personal_Id'];
 
 			$boatAmount = $this->boatModel->getMemberAmountBoats($memberId);
 
@@ -554,14 +558,16 @@ class MemberView {
 
 		$memberListHTML = "";
 
+		$lastMemberKey = sizeof($memberListArray) - 1;
+
 		foreach($memberListArray as $key => $value) {
 
 			$membersBoats = array();
 
-			$firstName = $value[0];
-			$lastName = $value[1];
-			$personalId = $value[2];
-			$memberId = $value[3];
+			$firstName = $value['First_name'];
+			$lastName = $value['Last_name'];
+			$memberId = $value['Member_Id'];
+			$personalId = $value['Personal_Id'];
 
 			//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
 			foreach ($boatListArray as $key2 => $value2) {
@@ -570,7 +576,7 @@ class MemberView {
 
 				//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
 				//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
-				if($boat[0] == $memberId) {
+				if($boat['Member_Id'] == $memberId) {
 					array_push($membersBoats, $boat);
 				}
 			}
@@ -585,13 +591,12 @@ class MemberView {
 
 		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
 			foreach ($membersBoats as $key => $value) {
-				$boatType = $value[1];
-				$boatLength = $value[2];
+				$boatType = $value['Boat_Type'];
+				$boatLength = $value['Boat_Length'];
 				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
 			}
 
 			$memberListHTML .= "</tr>";
-
 		}
 
 		return $memberListHTML;
@@ -607,13 +612,13 @@ class MemberView {
 
 		foreach($boatListArray as $key => $value) {
 
-			$boatOwner = $value[0];
-			$boatType = $value[1];
-			$boatLength = $value[2];
-			$boatId = $value[3];
+			$boatOwner = $value['Owners_name'];
+			$boatType = $value['Boat_Type'];
+			$boatLength = $value['Boat_Length'];
+			$boatId = $value['Boat_Id'];
+			$memberId = $value['Member_Id'];
 
-			
-				$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
+			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
 			
 		}
 
@@ -638,12 +643,22 @@ class MemberView {
 		$ret = "";
 
 		$memberBoats = $this->boatModel->getMemberBoatsListArray($memberId);
-		
-		foreach ($memberBoats as $key => $value) {
 
-			$boatNumber = $key + 1;
+		$count = 0;
 
-			$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $value[1] - Längd: $value[2] cm</p>";
+		if($memberBoats != null) {
+			foreach ($memberBoats as $key => $value) {
+				if($value != null) {
+					$count++;
+
+					$boatNumber = $count;
+
+					$boatType = $value['BoatType'];
+					$boatLength = $value['BoatLength'];
+
+					$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $boatType - Längd: $boatLength cm</p>";
+				}
+			}
 		}
 
 		return $ret;

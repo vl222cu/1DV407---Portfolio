@@ -2,24 +2,11 @@
 
 class MemberModel {
 
-	private $firstName;
-	private $lastName;
-	private $personalNumber;
-	private $memberIsRegistered;
-	private $memberIsAuthenticated;
+	public $fileName = "membersRegister.json";
 
-	public function __construct() {
+	function saveMemberToFile($firstName, $lastName, $personalId) {
 
-		$this->firstName = null;
-		$this->lastName = null;
-		$this->personalNumber = null;
-		$this->memberIsRegistered = false;
-		$this->memberIsAuthenticated = false;
-	}
-
-	public function saveMemberToFile($firstName, $lastName, $personalId) {
-
-		//Fixa räknare för medlemsId också
+		$personalId = (string) $personalId;
 
 		if(empty($firstName)) {
 
@@ -31,117 +18,132 @@ class MemberModel {
 
 		} elseif ($firstName && $lastName && $personalId !== null) {
 
+			//Hämta jsonfilen
+			$json_data = $this->getRegisterJson();
 
-			//Räknare för memberId
-			$memberId = 1;
+			if($json_data != null) {
 
-			$lines = @file("members.txt");
-				
-				if($lines === false) {
-					//Do nothing
-				} else {
-					foreach ($lines as $line) {
-						$line = trim($line);
+				$decodedJson = json_decode($json_data, true);
 
-						$lineParts = explode(":", $line);
+				$newMemberId = $this->newIdGenerator($json_data);
 
-						$memberId = $lineParts[3];
-						$memberId++;
-					}
-				}
+				$newMemberIdStr = "memberId" . $newMemberId;;
 
-			$file = fopen('members.txt', 'a');
-			fwrite($file, ($firstName . ":" . $lastName . ":" . $personalId . ":" . $memberId . "\n"));
+				//Skapa ny medelem och lägg till
+				$newMemberArray = array("Member_Id" => $newMemberId, "First_name" => $firstName, "Last_name" => $lastName, "Personal_Id" => $personalId, "MemberBoats" => null);
+				$decodedJson[$newMemberIdStr] = $newMemberArray;
+				//$decodedJson['highestBoatId'] = 0;
+				$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
 
-		}
-	}
-	
-	public function getSpecificMember($personalId) {
+				//Skriv till fil
+				$myfile = fopen($this->fileName, "w");
+				fwrite($myfile, $newMemberJsonStr);
 
-		$lineParts;
+			} else {
 
-		$lines = @file("members.txt");
-			
-		if($lines === false) {
-			//Do nothing
-		} else {
-			foreach ($lines as $line) {
-				$line = trim($line);
+				//Skapa array för medlemm
+				$memeberProperties = array("Member_Id" => 1, "First_name" => $firstName, "Last_name" => $lastName, "Personal_Id" => $personalId, "MemberBoats" => null);
 
-				$lineParts = explode(":", $line);
+				$member = array("highestBoatId" => 0, "memberId1" => $memeberProperties);
 
-				if($lineParts[2] == $personalId && $lineParts[2] != "null"){
-					return $lineParts;
-				}
+				$memberJsonStr = (string) json_encode($member, JSON_PRETTY_PRINT);
+
+				$myfile = fopen($this->fileName, "w");
+				fwrite($myfile, $memberJsonStr);
 			}
 		}
 	}
 
-	public function getSpecificMemberMemberId($memberId) {
+	function newIdGenerator($json_data) {
 
-		$lineParts;
+		$decodedJson = json_decode($json_data);
 
-		$lines = @file("members.txt");
-			
-		if($lines === false) {
-			//Do nothing
-		} else {
-			foreach ($lines as $line) {
-				$line = trim($line);
+		$lastNumber = 0;
+		$highestNumber = 0;
 
-				$lineParts = explode(":", $line);
+		foreach ($decodedJson as $key => $value) {
 
-				if($lineParts[3] == $memberId && $lineParts[2] != "null"){
-					return $lineParts;
-				}
+			if($key != "highestBoatId" && $value != null && $value->Member_Id > $lastNumber) {
+				$highestNumber = $value->Member_Id;
+			} elseif ($value == null) {
+				$highestNumber++;
 			}
 		}
+		
+		$highestNumber++;
+		return $highestNumber;
+	}	
+
+
+		function deleteMember($memberId) {
+
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
+		$decodedJson = json_decode($json_data, true);
+
+		$decodedJson["memberId" . $memberId] = null;
+
+		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
+
+		//Skriv till fil
+		$myfile = fopen($this->fileName, "w");
+		fwrite($myfile, $newMemberJsonStr);		
+	}
+
+	function editMemberData($newFirstName, $newLastName, $newPrsonalId, $memberId) {
+
+		$newPrsonalId = (string) $newPrsonalId;
+		$memberId = (int) $memberId;
+
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
+		$decodedJson = json_decode($json_data);
+
+		$memberIdStr = "memberId" . $memberId;
+
+		$decodedJson->$memberIdStr->Member_Id = $memberId;
+		$decodedJson->$memberIdStr->First_name = $newFirstName;
+		$decodedJson->$memberIdStr->Last_name = $newLastName;
+		$decodedJson->$memberIdStr->Personal_Id = $newPrsonalId;
+
+
+		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
+
+		//Skriv till fil
+		$myfile = fopen($this->fileName, "w");
+		fwrite($myfile, $newMemberJsonStr);	
+
 	}
 
 
-	public function changeMemberData($firstName, $lastName, $personalNumber, $oldPersonalNumber) {
+	function getMemberListArray() {
 
-		$lineParts;
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
+		$decodedJson = json_decode($json_data, true);
 
-		$newArray = array();
-
-		$lines = @file("members.txt");
-			
-		if($lines !== false) {
-			foreach ($lines as $line) {
-				$line = trim($line);
-
-				$lineParts = explode(":", $line);
-
-				if($lineParts[2] == $oldPersonalNumber){
-					$line = $firstName . ":" . $lastName . ":" . $personalNumber . ":" . $lineParts[3];
-				}
-				
-				array_push($newArray, $line);
+		$memberArray = array();
+		foreach ($decodedJson as $key => $member) {
+			if($member != null && $key != "highestBoatId") {
+				array_push($memberArray, $member);
 			}
 		}
 
-		$file2 = fopen('members.txt', 'w');
-
-		foreach ($newArray as $key => $value) {
-			fwrite($file2, $value . "\n");
-		}
+		return $memberArray;
 	}
 
-	public function validateNewMember($personalNumber) {
-		$lineParts;
 
-		$lines = @file("members.txt");
-				
-		if($lines !== false) {
-			
-			foreach ($lines as $line) {
-				
-				$line = trim($line);
+	function validateNewMember($personalId) {
 
-				$lineParts = explode(":", $line);
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
 
-				if($lineParts[2] == $personalNumber) {
+		if($json_data != null) {
+
+			$decodedJson = json_decode($json_data);
+
+			foreach ($decodedJson as $key => $object) {
+				if($key != "highestBoatId" && $object != null && $object->Personal_Id == $personalId) {
 					return false;
 				}
 			}
@@ -151,57 +153,71 @@ class MemberModel {
 	}
 
 
-	public function deleteMember($memberId) {
+	function getMemberFromFile($memberId) {
 
-		$lineParts;
+		if($memberId != null) {
 
-		$newArray = array();
+			$json_data = $this->getRegisterJson();
 
-		$lines = @file("members.txt");
-			
-		if($lines !== false) {
-			foreach ($lines as $line) {
-				$line = trim($line);
+			$memberArray = array();
 
-				$lineParts = explode(":", $line);
+			if($json_data != null) {
 
-				if($lineParts[3] != $memberId){
-					array_push($newArray, $line);
-				} else {
-					array_push($newArray, "null:null:null:" . $memberId);
+				$decodedJson = json_decode($json_data, true);
+
+				foreach ($decodedJson as $key => $member) {
+
+					$memberIdStr = "memberId" . $memberId;
+
+					if($key == $memberIdStr){
+						$memberArray['First_name'] = $member['First_name'];
+						$memberArray['Last_name'] = $member['Last_name'];
+						$memberArray['Personal_Id'] = $member['Personal_Id'];
+						$memberArray['Member_Id'] = $member['Member_Id'];
+					}
 				}
+
+				return $memberArray;
 			}
-		}
-
-		$file2 = fopen('members.txt', 'w');
-
-		foreach ($newArray as $key => $value) {
-			fwrite($file2, $value . "\n");
 		}
 	}
 
-	public function getMemberListArray() {
 
-		$memberListArray = array();
 
-		$lineParts;
+	function getSpecificMember($personal_Id) {
 
-		$lines = @file("members.txt");
-			
-		if($lines === false) {
-			//Do nothing
-		} else {
-			foreach ($lines as $line) {
-				$line = trim($line);
+		if($personal_Id != null) {
 
-				$lineParts = explode(":", $line);
+			$json_data = $this->getRegisterJson();
 
-				if($lineParts[2] != "null") {
-					array_push($memberListArray, $lineParts);
+			$memberArray = array();
+
+			if($json_data != null) {
+
+				$decodedJson = json_decode($json_data, true);
+
+				foreach ($decodedJson as $key => $member) {
+
+					if($member['Personal_Id'] == $personal_Id) {
+						$memberArray['First_name'] = $member['First_name'];
+						$memberArray['Last_name'] = $member['Last_name'];
+						$memberArray['Personal_Id'] = $member['Personal_Id'];
+						$memberArray['Member_Id'] = $member['Member_Id'];
+					}
 				}
+
+				return $memberArray;
+
 			}
 		}
 
-		return $memberListArray;
+	}	
+
+
+	function getRegisterJson() {
+		if(file_exists($this->fileName)){
+			return file_get_contents($this->fileName);
+		}
 	}
+
 }

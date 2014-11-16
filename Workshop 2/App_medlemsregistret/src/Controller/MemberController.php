@@ -1,21 +1,22 @@
 <?php
 
-require_once("src/Model/MemberModel.php");
 require_once("src/View/MemberView.php");
 require_once("src/Model/BoatModel.php");
+require_once("src/Model/MemberModel.php");
+
 
 class MemberController {
 
-	private $memberModel;
 	private $memberView;
+	private $memberModel;
 	private $boatModel;
 
 	public function __construct() {
 
-		$this->memberModel = new MemberModel();
 		$this->boatModel = new BoatModel();
-		$this->memberView = new MemberView($this->memberModel, $this->boatModel);
-
+		$this->memberModel = new MemberModel();
+		$this->memberView = new MemberView($this->boatModel, $this->memberModel);
+		
 	}
 
 	public function doCheckRegistration() {
@@ -50,7 +51,7 @@ class MemberController {
 			
 			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false && ($this->memberView->getMemberRegisteredPersonalNumber() != "null")) {
 				$memberArray = $this->memberModel->getSpecificMember($this->memberView->getMemberRegisteredPersonalNumber());
-				return $this->changeMemberDataPage($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
+				return $this->changeMemberDataPage($memberArray['First_name'], $memberArray['Last_name'], $memberArray['Personal_Id'], $memberArray['Member_Id']);
 			} else {
 				//Användaren fanns inte med i listan
 				$this->memberView->setMessage(MemberView::MESSAGE_USER_NOT_EXIST);
@@ -61,8 +62,8 @@ class MemberController {
 
 			//Någon form av validering här?
 
-			$this->memberModel->changeMemberData($this->memberView->getMemberRegisteredFirstName(), 
-				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber(), $this->memberView->getOldPersonalNumber());
+			$this->memberModel->editMemberData($this->memberView->getMemberRegisteredFirstName(), 
+				$this->memberView->getMemberRegisteredLastName(), $this->memberView->getMemberRegisteredPersonalNumber(), $this->memberView->getPostedMemberId());
 
 			$this->memberView->setMessage(MemberView::MESSAGE_SUCESS_CHANGE_MEMBER);
 			return $this->mainMenuPage();
@@ -122,8 +123,8 @@ class MemberController {
 
 		} elseif($userAction === MemberView::$actionShowChosenMember) {
 
-			$memberArray = $this->memberModel->getSpecificMemberMemberId($this->memberView->getPostedMemberId());
-			return $this->showSpecificMemberPageChosen($memberArray[0], $memberArray[1], $memberArray[2], $memberArray[3]);
+			$memberArray = $this->memberModel->getMemberFromFile($this->memberView->getPostedMemberId());
+			return $this->showSpecificMemberPageChosen($memberArray['First_name'], $memberArray['Last_name'], $memberArray['Personal_Id'], $memberArray['Member_Id']);
 
 		} elseif($userAction === MemberView::$actionShowSimpleList) {
 
@@ -138,6 +139,8 @@ class MemberController {
 			return $this->mainMenuPage();
 		}
 	}
+
+
 
 	private function mainMenuPage() {
 
@@ -182,9 +185,12 @@ class MemberController {
 
 		$boatListId = $this->memberView->getPostedBoatId();
 
-		$this->memberView->setSessionPostedBoatListId($boatListId);
-
-		$boatDataArray = $this->boatModel->getSpecificBoatData($boatListId);
+		if($boatListId != null) {
+			$this->memberView->setSessionPostedBoatListId($boatListId);
+			$boatDataArray = $this->boatModel->getSpecificBoatData($boatListId);
+		} else {
+			$boatDataArray = null;
+		}
 
 		$boatList = $this->memberView->getBoatList();
 		$this->memberView->setBody($this->memberView->editBoatHTML($boatList, $boatDataArray));

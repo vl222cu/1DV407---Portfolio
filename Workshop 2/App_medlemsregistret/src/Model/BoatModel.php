@@ -2,263 +2,290 @@
 
 class BoatModel {
 
-	public function saveBoatToFile($memberId, $boatType, $boatLength) {
 
-		$boatId = 1;
+	public $fileName = "membersRegister.json";
 
-		$lines = @file("boatList.txt");
-			
-			if($lines === false) {
-				//Do nothing
+	
+
+	function saveBoatToFile($memberId, $boatType, $boatLength) {
+
+		$memberId = (int) $memberId;
+
+		$memberIdStr = "memberId" . $memberId;
+		$boatArray = array("BoatType" => $boatType, "BoatLength" => $boatLength);
+
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
+
+		if($json_data != null) {
+
+			$decodedJson = json_decode($json_data);
+
+			$decodedJsonAssoc = json_decode($json_data, true);
+
+
+			//gör check på max antal båtar.
+			$highestBoatId = $decodedJson->highestBoatId;
+
+			if($highestBoatId == null) {
+				$decodedJson->highestBoatId = 0;			
+			}
+
+			$highestBoatId++;
+
+			$thisBoatId = $highestBoatId;
+
+			$decodedJson->highestBoatId = $thisBoatId;
+
+
+			if($decodedJson->$memberIdStr->MemberBoats == null) {
+
+				$decodedJson->$memberIdStr->MemberBoats = array($thisBoatId => $boatArray);
+
 			} else {
-				foreach ($lines as $line) {
-					$line = trim($line);
 
-					$lineParts = explode(":", $line);
-
-					$boatId = $lineParts[3];
-
-					$boatId++;
+				$array = array();
+				foreach ($decodedJson->$memberIdStr->MemberBoats as $key => $value) {
+					$array[$key] = $value;
 				}
+
+				$array[$thisBoatId] = $boatArray;
+				$decodedJson->$memberIdStr->MemberBoats = $array;
 			}
 
-		$file = fopen('boatList.txt', 'a');
-		fwrite($file, ($memberId . ":" . $boatType . ":" . $boatLength . ":" . $boatId . "\n"));
+			$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
+
+			//Skriv till fil
+			$myfile = fopen($this->fileName, "w");
+			fwrite($myfile, $newMemberJsonStr);
+		}
 	}
 
-	public function getBoatListArray() {
 
-		$memberIds = array();
-		$memberExists = false;
+	function getBoatListArray() {
 
-		//get existing member ids
-		$lines = @file("members.txt");
-				
-		if($lines !== false) {
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
 
-			foreach ($lines as $line) {
-				$line = trim($line);
-				$lineParts = explode(":", $line);
+		if($json_data != null) {
 
-				if($lineParts[2] != "null") {
-					array_push($memberIds, $lineParts[3]);
+			$decodedJson = json_decode($json_data, true);
+
+			$boatArray = array();
+
+			foreach ($decodedJson as $value) {
+				if($value['MemberBoats'] != NULL) {
+
+					foreach ($value['MemberBoats'] as $key => $boat) {
+
+						if($boat != null) {
+							$arrayToReturn = array(); 
+
+							$arrayToReturn['Member_Id'] = $value['Member_Id'];
+							$arrayToReturn['Owners_name'] = $value['First_name'] . " " . $value['Last_name'];
+							$arrayToReturn['Boat_Type'] = $boat['BoatType'];
+							$arrayToReturn['Boat_Length'] = $boat['BoatLength'];
+							$arrayToReturn['Boat_Id'] = $key;
+
+							array_push($boatArray, $arrayToReturn);
+						}
+					}
 				}
 			}
+
+			return $boatArray;
 		}
 
-		$file = fopen('members.txt', 'a');
+		return false;
+	}
 
-		$boatListArray = array();
-		$lines = @file("boatList.txt");
-				
-		if($lines !== false) {
 
-			foreach ($lines as $line) {
-				$line = trim($line);
+	function getMemberAmountBoats($memberId) {
 
-				$lineParts = explode(":", $line);
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
 
-				if($lineParts[2] != "null") {
+		if($json_data != null) {
 
-					foreach ($memberIds as $key => $value) {
-						if($value == $lineParts[0]) {
-							$memberExists = true;
+			$decodedJson = json_decode($json_data, true);
+
+			foreach ($decodedJson as $key => $value) {
+				if($value['Member_Id'] == $memberId) {
+					if($value['MemberBoats'] != null) {
+						return sizeof($value['MemberBoats']);
+					} else {
+						if($key != "highestBoatId") {
+							return 0;
+						} else {
+							return null;
+						}
+					}
+				}
+			}
+		} 
+	}
+
+	function getMaxBoatAmount() {
+
+		//Hämta jsonfilen
+		$json_data = $this->getRegisterJson();
+
+		$highestAmount = 0;
+
+
+		if($json_data != null) {
+
+			$decodedJson = json_decode($json_data, true);
+
+			$boatCount = 0;
+
+			foreach ($decodedJson as $value) {
+				if($value['MemberBoats'] != null) {
+
+					foreach ($value['MemberBoats'] as $key => $boat) {
+						if($boat != null) {
+							$boatCount++;
 						}
 					}
 
-					if($memberExists == true) {
-						array_push($boatListArray, $lineParts);
+					if($boatCount > $highestAmount) {
+						$highestAmount = $boatCount;
 					}
-
-					$memberExists = false;
-				}
-			}
-		}
-
-		return $boatListArray;
-	}
-
-	public function getMemberAmountBoats($memberId) {
-
-		$boatCount = 0;
-		$lines = @file("boatList.txt");
-				
-		if($lines !== false) {
-
-			foreach ($lines as $line) {
-				$line = trim($line);
-
-				$lineParts = explode(":", $line);
-
-				if($lineParts[0] == $memberId) {
-					$boatCount++;
 				}
 
+				$boatCount = 0;
 			}
-		}
 
-		return $boatCount;	
+			return $highestAmount;
+		}
 	}
 
 
-	//Letar fram det antal båtar som den användare med flest båtar har
-	public function getMaxBoatAmount() {
+	function editBoat($boatId, $boatType, $boatLength) {
 
-		$countArray = array();
+		$json_data = $this->getRegisterJson();
 
-		$lines = @file("boatList.txt");
-				
-		if($lines !== false) {
+		if($json_data != null) {
+	
+			$decodedJson = json_decode($json_data, true);
 
-			foreach ($lines as $line) {
+			foreach ($decodedJson as $key => $member) {
 
-				$memberIdFound = false;
+				$newMember = array();
 
-				$line = trim($line);
+				if($member['MemberBoats'] != null) {
+					foreach ($member['MemberBoats'] as $key2 => $property) {
+						if($key2 == $boatId) {
 
-				$lineParts = explode(":", $line);
-
-				if(sizeof($countArray)>0) {
-					foreach ($countArray as $key => $value) {
-
-						if($lineParts[0] == $key) {
-							$value++;
-							$memberIdFound = true;
-							$countArray[$key] = $value;
-							break;
+							$property['BoatType'] = $boatType;
+							$property['BoatLength'] = $boatLength;
 						}
 
+						$member['MemberBoats'][$key2] = $property;
 					}
+				}
 
-					if($memberIdFound == false) {
+				$decodedJson[$key] = $member;
+			}
+		}
 
-						$countArray[$lineParts[0]] = 1;
+		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
+
+		$myfile = fopen($this->fileName, "w");
+		fwrite($myfile, $newMemberJsonStr);
+
+	}
+
+
+	function deleteBoat($boatId) {
+
+		$json_data = $this->getRegisterJson();
+
+		if($json_data != null) {
+	
+			$decodedJson = json_decode($json_data, true);
+
+			foreach ($decodedJson as $key => $member) {
+
+				$newMember = array();
+
+				if($member['MemberBoats'] != null) {
+					foreach ($member['MemberBoats'] as $key2 => $property) {
+						if($key2 == $boatId) {
+							$property = null;
+						}
+
+						$member['MemberBoats'][$key2] = $property;
 					}
-				} else {
-
-					$countArray[$lineParts[0]] = 1;
-				
 				}
 
-			}
-
-			$lastKey = 0;
-			$lastValue = 0;
-
-			foreach ($countArray as $key => $value) {
-				if($lastKey != 0 && $lastValue < $value) {
-					$lastKey = $key;
-					$lastValue = $value;
-				} elseif ($lastKey == 0) {
-					$lastKey = $key;
-					$lastValue = $value;
-				}
+				$decodedJson[$key] = $member;
 			}
 		}
 
-		return $lastValue;	
+		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
+
+		$myfile = fopen($this->fileName, "w");
+		fwrite($myfile, $newMemberJsonStr);
 	}
 
-	public function editBoat($boatId, $boatType, $boatLength) {
+	function getSpecificBoatData($boatId) {
 
-		$lineParts;
+		$json_data = $this->getRegisterJson();
 
-		$newArray = array();
+		$boatIdStr = "$boatId";
 
-		$lines = @file("boatList.txt");
-			
-		if($lines !== false) {
-			foreach ($lines as $line) {
-				$line = trim($line);
+		$boatArray = array();
 
-				$lineParts = explode(":", $line);
+		if($json_data != null) {
+			$decodedJson = json_decode($json_data, true);
 
-				if($lineParts[3] == $boatId){
-					$line = $lineParts[0] . ":" . $boatType . ":" . $boatLength . ":" . $lineParts[3];
-				}
-				
-				array_push($newArray, $line);
-			}
-		}
-
-		$file2 = fopen('boatList.txt', 'w');
-
-		foreach ($newArray as $key => $value) {
-			fwrite($file2, $value . "\n");
-		}
-	}
-
-	public function deleteBoat($boatId) {
-
-		$lineParts;
-
-		$newArray = array();
-
-		$lines = @file("boatList.txt");
-			
-		if($lines !== false) {
-			foreach ($lines as $line) {
-				$line = trim($line);
-
-				$lineParts = explode(":", $line);
-
-				if($lineParts[3] != $boatId){
-					array_push($newArray, $line);
-				} else {
-					array_push($newArray, "null:null:null:" . $boatId);
-				}
-			}
-		}
-
-		$file2 = fopen('boatList.txt', 'w');
-
-		foreach ($newArray as $key => $value) {
-			fwrite($file2, $value . "\n");
-		}
-	}
-
-	public function getSpecificBoatData($boatListId) {
-
-		//Iterera igenom btlistan
-		$lines = @file("boatList.txt");
-				
-		if($lines !== false) {
-
-			//var_dump($lines);
-			foreach ($lines as $line) {
-				$line = trim($line);
-				$lineParts = explode(":", $line);
-
-				if($lineParts[3] == $boatListId) {
-					$lineParts;
-					return $lineParts;
+			foreach ($decodedJson as $key => $member) {
+				if($member['MemberBoats'] != null) {
+					foreach ($member['MemberBoats'] as $key2 => $property) {
+						if($key2 == $boatId) {
+							$boatArray["BoatType"] = $property['BoatType'];
+							$boatArray["BoatLength"] = $property['BoatLength'];
+							return $boatArray;
+						}
+					}
 				}
 			}
 		}
 	}
 
-	public function getMemberBoatsListArray($memberId) {
 
-		$memberBoats = array();
+	function getMemberBoatsListArray($memberId) {
 
-		$lines = @file("boatList.txt");
-					
-		if($lines !== false) {
+		$json_data = $this->getRegisterJson();
 
-			foreach ($lines as $line) {
+		$memberIdStr = "memberId" . $memberId;
 
-				$memberIdFound = false;
+		if($json_data != null) {
+			$decodedJson = json_decode($json_data, true);
 
-				$line = trim($line);
+			$boatsArray = array();
 
-				$lineParts = explode(":", $line);
-
-				if($lineParts[0] == $memberId) {
-					array_push($memberBoats, $lineParts);
+			if($decodedJson[$memberIdStr]['MemberBoats'] != null) {
+				foreach ($decodedJson[$memberIdStr]['MemberBoats'] as $key => $value) {
+					//var_dump($value);
+					if($value != null) {
+						$boatsArray[$key] = $value;
+					}
 				}
 			}
+			if($boatsArray != null) {
+				return $boatsArray;	
+			}
 		}
+	}	
 
-		return $memberBoats;
+
+	function getRegisterJson() {
+		if(file_exists($this->fileName)){
+			return file_get_contents($this->fileName);
+		}
 	}
+
+
 }
