@@ -11,6 +11,8 @@ class MemberView {
 	private $message = "";
 	private $boatModel;
 	private $memberModel;
+	private static $selectedMemberId = "memberId";
+	private static $selectedBoatId = "boatId";
 	private static $firstName = "firstname";
 	private static $lastName = "lastname";
 	private static $personalNumber = "personalnumber";
@@ -45,57 +47,85 @@ class MemberView {
 
 	public function getUserAction() {
 		if (key($_GET) == self::$actionRegisterPage) {
+
 			$userAction = self::$actionRegisterPage;
+
 		} elseif (key($_GET) == self::$actionRegister) {
 			
 			$userAction = self::$actionRegister;
+
 		} elseif (key($_GET) == self::$actionChangeDataPage) {
 			
 			$userAction = self::$actionChangeDataPage;
+
 		} elseif(key($_GET) == self::$actionSaveEditMember) {
+
 			$userAction = self::$actionSaveEditMember;
+
 		} elseif (key($_GET) == self::$actionEdit) {
 			
 			$userAction = self::$actionEdit;
+
 		} elseif (key($_GET) == self::$actionDeleteMember) {
 			
 			$userAction = self::$actionDeleteMember;
+
 		} elseif(key($_GET) == self::$actionMemberComfirmedDelete) {
+
 			$userAction = self::$actionMemberComfirmedDelete;
+
 		} elseif (key($_GET) == self::$actionReturn) {
 			
 			$userAction = self::$actionReturn;
 		} elseif (key($_GET) == self::$actionAddBoat) {
 			
 			$userAction = self::$actionAddBoat;
+
 		} elseif (key($_GET) == self::$actionEditBoat) {
 			
 			$userAction = self::$actionEditBoat;
+
 		} elseif (key($_GET) == self::$actionDeleteBoat) {
 			
 			$userAction = self::$actionDeleteBoat;
+
 		} elseif (key($_GET) == self::$actionBoatComfirmedDelete) {
 			
 			$userAction = self::$actionBoatComfirmedDelete;
+
 		} elseif (key($_GET) == self::$actionEditChosenBoat) {
 			
 			$userAction = self::$actionEditChosenBoat;
 		
 		} elseif (key($_GET) == self::$actionSaveBoat) {
+
 			$userAction = self::$actionSaveBoat;
+
 		} elseif (key($_GET) == self::$actionShowSpecificMember) {
+
 			$userAction = self::$actionShowSpecificMember;
+
 		} elseif(key($_GET) == self::$actionShowChosenMember) {
+
 			$userAction = self::$actionShowChosenMember;
+
 		} elseif(key($_GET) == self::$actionShowSimpleList) {
+
 			$userAction = self::$actionShowSimpleList;
+
 		} elseif(key($_GET) == self::$actionShowDetailedList) {
+
 			$userAction = self::$actionShowDetailedList;
+
 		} elseif(key($_GET) == self::$actionSaveEditedBoat) {
+
 			$userAction = self::$actionSaveEditedBoat;
+
 		} else {
+
 			$userAction = "";
 		}
+
 		return $userAction;
 	}
 
@@ -224,8 +254,8 @@ class MemberView {
 			$boatType = "";
 			$boatLength = "";
 		} else {
-			$boatType = $boatDataArray['BoatType'];
-			$boatLength = $boatDataArray['BoatLength'];
+			$boatType = $boatDataArray[BoatModel::$jsonBoatType];
+			$boatLength = $boatDataArray[BoatModel::$jsonBoatLength];
 		}
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
@@ -388,14 +418,14 @@ class MemberView {
 	}
 
 	public function getPostedMemberId() {
-		if(isset($_POST['memberId'])) {
-			return $_POST['memberId'];
+		if(isset($_POST[self::$selectedMemberId])) {
+			return $_POST[self::$selectedMemberId];
 		}
 	}
 
 	public function getPostedBoatId() {
-		if(isset($_POST['boatId'])) {
-			return $_POST['boatId'];
+		if(isset($_POST[self::$selectedBoatId])) {
+			return $_POST[self::$selectedBoatId];
 		}
 	}
 
@@ -431,10 +461,10 @@ class MemberView {
 		$memberListHTML = "<option selected>Välj medlem</option>\n";
 		foreach($memberListArray as $key => $value) {
 			if($value != null) {
-				$firstName = $value['First_name'];
-				$lastName = $value['Last_name'];
-				$memberId = $value['Member_Id'];
-				$personalId = $value['Personal_Id'];
+				$firstName = $value[MemberModel::$jsonFirstName];
+				$lastName = $value[MemberModel::$jsonLastName];
+				$memberId = $value[MemberModel::$jsonMemberId];
+				$personalId = $value[MemberModel::$jsonPersonalId];
 				$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
 			}
 		}
@@ -446,10 +476,10 @@ class MemberView {
 		$memberListArray = $this->memberModel->getMemberListArray();		
 		$memberListHTML = "";
 		foreach($memberListArray as $key => $value) {
-			$firstName = $value['First_name'];
-			$lastName = $value['Last_name'];
-			$memberId = $value['Member_Id'];
-			$personalId = $value['Personal_Id'];
+			$firstName = $value[MemberModel::$jsonFirstName];
+			$lastName = $value[MemberModel::$jsonLastName];
+			$memberId = $value[MemberModel::$jsonMemberId];
+			$personalId = $value[MemberModel::$jsonPersonalId];
 			$boatAmount = $this->boatModel->getMemberAmountBoats($memberId);
 			$memberListHTML .= "
 								<tr>
@@ -470,16 +500,16 @@ class MemberView {
 		$lastMemberKey = sizeof($memberListArray) - 1;
 		foreach($memberListArray as $key => $value) {
 			$membersBoats = array();
-			$firstName = $value['First_name'];
-			$lastName = $value['Last_name'];
-			$memberId = $value['Member_Id'];
-			$personalId = $value['Personal_Id'];
+			$firstName = $value[MemberModel::$jsonFirstName];
+			$lastName = $value[MemberModel::$jsonLastName];
+			$memberId = $value[MemberModel::$jsonMemberId];
+			$personalId = $value[MemberModel::$jsonPersonalId];
 			//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
 			foreach ($boatListArray as $key2 => $value2) {
 				$boat = $boatListArray[$key2];
 				//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
 				//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
-				if($boat['Member_Id'] == $memberId) {
+				if($boat[MemberModel::$jsonMemberId] == $memberId) {
 					array_push($membersBoats, $boat);
 				}
 			}
@@ -493,8 +523,8 @@ class MemberView {
 							";
 		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
 			foreach ($membersBoats as $key => $value) {
-				$boatType = $value['Boat_Type'];
-				$boatLength = $value['Boat_Length'];
+				$boatType = $value[BoatModel::$ownersBoatType];
+				$boatLength = $value[BoatModel::$ownersBoatLength];
 				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
 			}
 			$memberListHTML .= "</tr>";
@@ -508,11 +538,11 @@ class MemberView {
 		$boatListArray = $this->boatModel->getBoatListArray();
 		$boatListHTML = "<option selected>Välj båt</option>\n";
 		foreach($boatListArray as $key => $value) {
-			$boatOwner = $value['Owners_name'];
-			$boatType = $value['Boat_Type'];
-			$boatLength = $value['Boat_Length'];
-			$boatId = $value['Boat_Id'];
-			$memberId = $value['Member_Id'];
+			$boatOwner = $value[BoatModel::$ownersName];
+			$boatType = $value[BoatModel::$ownersBoatType];
+			$boatLength = $value[BoatModel::$ownersBoatLength];
+			$boatId = $value[BoatModel::$ownersBoatId];
+			$memberId = $value[MemberModel::$jsonMemberId];
 			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
 			
 		}
@@ -527,7 +557,7 @@ class MemberView {
 		}
 		return $ret;
 	}
-	
+
 	public function getMemberBoatsListHTML($memberId) {
 		$ret = "";
 		$memberBoats = $this->boatModel->getMemberBoatsListArray($memberId);
@@ -537,8 +567,8 @@ class MemberView {
 				if($value != null) {
 					$count++;
 					$boatNumber = $count;
-					$boatType = $value['BoatType'];
-					$boatLength = $value['BoatLength'];
+					$boatType = $value[BoatModel::$jsonBoatType];
+					$boatLength = $value[BoatModel::$jsonBoatLength];
 					$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $boatType - Längd: $boatLength cm</p>";
 				}
 			}

@@ -1,5 +1,5 @@
 {
-    "highestBoatId": 7,
+    "highestBoatId": 10,
     "memberId1": null,
     "memberId3": {
         "Member_Id": 3,
@@ -11,6 +11,10 @@
             "2": {
                 "BoatType": "Motorb\u00e5t",
                 "BoatLength": "1000000"
+            },
+            "10": {
+                "BoatType": "\u00d6vrigt",
+                "BoatLength": "100000000000000"
             }
         }
     },
@@ -50,13 +54,19 @@
             }
         }
     },
-    "memberId9": {
-        "Member_Id": 9,
-        "First_name": "Petter",
-        "Last_name": "Pan",
-        "Personal_Id": "998877",
+    "memberId9": null,
+    "memberId10": {
+        "Member_Id": 10,
+        "First_name": "Curlie",
+        "Last_name": "Sue",
+        "Personal_Id": "88888888",
         "MemberBoats": {
-            "6": null
+            "8": {
+                "BoatType": "Segelb\u00e5t",
+                "BoatLength": "46320"
+            },
+            "9": null
         }
-    }
+    },
+    "memberId11": null
 }

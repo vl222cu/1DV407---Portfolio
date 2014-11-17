@@ -6,10 +6,14 @@ class BoatModel {
 	public static $jsonBoatType = "BoatType";
 	public static $jsonBoatLength = "BoatLength";
 	public static $jsonMemberBoats = "MemberBoats";
-	
+	public static $ownersName = "Owners_name";
+	public static $ownersBoatType = "Boat_Type";
+	public static $ownersBoatLength = "Boat_Length";
+	public static $ownersBoatId = "Boat_Id";
+
 	function saveBoatToFile($memberId, $boatType, $boatLength) {
 		$memberId = (int) $memberId;
-		$memberIdStr = "memberId" . $memberId;
+		$memberIdStr = MemberModel::$jsonMemberIdTracker . $memberId;
 		$boatArray = array(self::$jsonBoatType => $boatType, self::$jsonBoatLength => $boatLength);
 		//Hämta jsonfilen
 		$json_data = $this->getRegisterJson();
@@ -53,10 +57,10 @@ class BoatModel {
 						if($boat != null) {
 							$arrayToReturn = array(); 
 							$arrayToReturn[MemberModel::$jsonMemberId] = $value[MemberModel::$jsonMemberId];
-							$arrayToReturn['Owners_name'] = $value[MemberModel::$jsonFirstName] . " " . $value[MemberModel::$jsonLastName];
-							$arrayToReturn['Boat_Type'] = $boat[self::$jsonBoatType];
-							$arrayToReturn['Boat_Length'] = $boat[self::$jsonBoatLength];
-							$arrayToReturn['Boat_Id'] = $key;
+							$arrayToReturn[self::$ownersName] = $value[MemberModel::$jsonFirstName] . " " . $value[MemberModel::$jsonLastName];
+							$arrayToReturn[self::$ownersBoatType] = $boat[self::$jsonBoatType];
+							$arrayToReturn[self::$ownersBoatLength] = $boat[self::$jsonBoatLength];
+							$arrayToReturn[self::$ownersBoatId] = $key;
 							array_push($boatArray, $arrayToReturn);
 						}
 					}
@@ -77,7 +81,7 @@ class BoatModel {
 					if($value[self::$jsonMemberBoats] != null) {
 						return sizeof($value[self::$jsonMemberBoats]);
 					} else {
-						if($key != "highestBoatId") {
+						if($key != MemberModel::$jsonHighestBoatId) {
 							return 0;
 						} else {
 							return null;
@@ -181,7 +185,7 @@ class BoatModel {
 
 	function getMemberBoatsListArray($memberId) {
 		$json_data = $this->getRegisterJson();
-		$memberIdStr = "memberId" . $memberId;
+		$memberIdStr = MemberModel::$jsonMemberIdTracker . $memberId;
 		if($json_data != null) {
 			$decodedJson = json_decode($json_data, true);
 			$boatsArray = array();

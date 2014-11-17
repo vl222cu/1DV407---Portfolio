@@ -7,6 +7,8 @@ class MemberModel {
 	public static $jsonLastName = "Last_name";
 	public static $jsonPersonalId = "Personal_Id";
 	public static $jsonMemberId = "Member_Id";
+	public static $jsonHighestBoatId = "highestBoatId";
+	public static $jsonMemberIdTracker = "memberId";
 
 	function saveMemberToFile($firstName, $lastName, $personalId) {
 		$personalId = (string) $personalId;
@@ -21,7 +23,7 @@ class MemberModel {
 			if($json_data != null) {
 				$decodedJson = json_decode($json_data, true);
 				$newMemberId = $this->newIdGenerator($json_data);
-				$newMemberIdStr = "memberId" . $newMemberId;
+				$newMemberIdStr = self::$jsonMemberIdTracker . $newMemberId;
 				//Skapa ny medlem och lägg till
 				$newMemberArray = array(self::$jsonMemberId => $newMemberId, self::$jsonFirstName => $firstName, self::$jsonLastName => $lastName, self::$jsonPersonalId => $personalId, "MemberBoats" => null);
 				$decodedJson[$newMemberIdStr] = $newMemberArray;
@@ -33,7 +35,7 @@ class MemberModel {
 			} else {
 				//Skapa array för medlem
 				$memeberProperties = array(self::$jsonMemberId => 1, self::$jsonFirstName => $firstName, self::$jsonLastName => $lastName, self::$jsonPersonalId => $personalId, "MemberBoats" => null);
-				$member = array("highestBoatId" => 0, "memberId1" => $memeberProperties);
+				$member = array(self::$jsonHighestBoatId => 0, "memberId1" => $memeberProperties);
 				$memberJsonStr = (string) json_encode($member, JSON_PRETTY_PRINT);
 				$myfile = fopen($this->fileName, "w");
 				fwrite($myfile, $memberJsonStr);
@@ -46,7 +48,7 @@ class MemberModel {
 		$lastNumber = 0;
 		$highestNumber = 0;
 		foreach ($decodedJson as $key => $value) {
-			if($key != "highestBoatId" && $value != null && $value->Member_Id > $lastNumber) {
+			if($key != self::$jsonHighestBoatId && $value != null && $value->Member_Id > $lastNumber) {
 				$highestNumber = $value->Member_Id;
 			} elseif ($value == null) {
 				$highestNumber++;
@@ -61,7 +63,7 @@ class MemberModel {
 		//Hämta jsonfilen
 		$json_data = $this->getRegisterJson();
 		$decodedJson = json_decode($json_data, true);
-		$decodedJson["memberId" . $memberId] = null;
+		$decodedJson[self::$jsonMemberIdTracker . $memberId] = null;
 		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
 		//Skriv till fil
 		$myfile = fopen($this->fileName, "w");
@@ -74,7 +76,7 @@ class MemberModel {
 		//Hämta jsonfilen
 		$json_data = $this->getRegisterJson();
 		$decodedJson = json_decode($json_data);
-		$memberIdStr = "memberId" . $memberId;
+		$memberIdStr = self::$jsonMemberIdTracker . $memberId;
 		$decodedJson->$memberIdStr->Member_Id = $memberId;
 		$decodedJson->$memberIdStr->First_name = $newFirstName;
 		$decodedJson->$memberIdStr->Last_name = $newLastName;
@@ -91,7 +93,7 @@ class MemberModel {
 		$decodedJson = json_decode($json_data, true);
 		$memberArray = array();
 		foreach ($decodedJson as $key => $member) {
-			if($member != null && $key != "highestBoatId") {
+			if($member != null && $key != self::$jsonHighestBoatId) {
 				array_push($memberArray, $member);
 			}
 		}
@@ -104,7 +106,7 @@ class MemberModel {
 		if($json_data != null) {
 			$decodedJson = json_decode($json_data);
 			foreach ($decodedJson as $key => $object) {
-				if($key != "highestBoatId" && $object != null && $object->Personal_Id == $personalId) {
+				if($key != self::$jsonHighestBoatId && $object != null && $object->Personal_Id == $personalId) {
 					return false;
 				}
 			}
@@ -119,7 +121,7 @@ class MemberModel {
 			if($json_data != null) {
 				$decodedJson = json_decode($json_data, true);
 				foreach ($decodedJson as $key => $member) {
-					$memberIdStr = "memberId" . $memberId;
+					$memberIdStr = self::$jsonMemberIdTracker . $memberId;
 					if($key == $memberIdStr){
 						$memberArray[self::$jsonFirstName] = $member[self::$jsonFirstName];
 						$memberArray[self::$jsonLastName] = $member[self::$jsonLastName];
