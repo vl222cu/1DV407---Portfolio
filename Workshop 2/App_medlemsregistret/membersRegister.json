@@ -1,5 +1,5 @@
 {
-    "highestBoatId": 2,
+    "highestBoatId": 7,
     "memberId1": null,
     "memberId3": {
         "Member_Id": 3,
@@ -12,6 +12,51 @@
                 "BoatType": "Motorb\u00e5t",
                 "BoatLength": "1000000"
             }
+        }
+    },
+    "memberId4": {
+        "Member_Id": 4,
+        "First_name": "Kick",
+        "Last_name": "Ass",
+        "Personal_Id": "11223344",
+        "MemberBoats": {
+            "3": {
+                "BoatType": "Motorseglare",
+                "BoatLength": "88888"
+            },
+            "4": null
+        }
+    },
+    "memberId5": null,
+    "memberId6": {
+        "Member_Id": 6,
+        "First_name": "Ola",
+        "Last_name": "Lala",
+        "Personal_Id": "2233445566",
+        "MemberBoats": {
+            "5": null
+        }
+    },
+    "memberId7": null,
+    "memberId8": {
+        "Member_Id": 8,
+        "First_name": "Kalle",
+        "Last_name": "Kaviar",
+        "Personal_Id": "9999999999",
+        "MemberBoats": {
+            "7": {
+                "BoatType": "Kajak\/Kanot",
+                "BoatLength": "74560"
+            }
+        }
+    },
+    "memberId9": {
+        "Member_Id": 9,
+        "First_name": "Petter",
+        "Last_name": "Pan",
+        "Personal_Id": "998877",
+        "MemberBoats": {
+            "6": null
         }
     }
 }

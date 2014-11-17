@@ -51,7 +51,7 @@ class MemberController {
 			
 			if($this->memberModel->validateNewMember($this->memberView->getMemberRegisteredPersonalNumber()) === false && ($this->memberView->getMemberRegisteredPersonalNumber() != "null")) {
 				$memberArray = $this->memberModel->getSpecificMember($this->memberView->getMemberRegisteredPersonalNumber());
-				return $this->changeMemberDataPage($memberArray['First_name'], $memberArray['Last_name'], $memberArray['Personal_Id'], $memberArray['Member_Id']);
+				return $this->changeMemberDataPage($memberArray[MemberModel::$jsonFirstName], $memberArray[MemberModel::$jsonLastName], $memberArray[MemberModel::$jsonPersonalId], $memberArray[MemberModel::$jsonMemberId]);
 			} else {
 				//Användaren fanns inte med i listan
 				$this->memberView->setMessage(MemberView::MESSAGE_USER_NOT_EXIST);
@@ -124,7 +124,7 @@ class MemberController {
 		} elseif($userAction === MemberView::$actionShowChosenMember) {
 
 			$memberArray = $this->memberModel->getMemberFromFile($this->memberView->getPostedMemberId());
-			return $this->showSpecificMemberPageChosen($memberArray['First_name'], $memberArray['Last_name'], $memberArray['Personal_Id'], $memberArray['Member_Id']);
+			return $this->showSpecificMemberPageChosen($memberArray[MemberModel::$jsonFirstName], $memberArray[MemberModel::$jsonLastName], $memberArray[MemberModel::$jsonPersonalId], $memberArray[MemberModel::$jsonMemberId]);
 
 		} elseif($userAction === MemberView::$actionShowSimpleList) {
 

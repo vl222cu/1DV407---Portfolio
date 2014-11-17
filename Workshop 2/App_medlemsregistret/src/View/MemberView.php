@@ -1,7 +1,5 @@
 <?php
-
 class MemberView {
-
 	const MESSAGE_SUCCESS_REGISTRATION = 'Registreringen lyckades';
 	const MESSAGE_ERROR_REGISTRATION = 'Personnummer finns redan registrerat';
 	const MESSAGE_SUCESS_CHANGE_MEMBER = 'Ändring av medlemsuppgifter lyckades';
@@ -46,93 +44,62 @@ class MemberView {
 	}
 
 	public function getUserAction() {
-
 		if (key($_GET) == self::$actionRegisterPage) {
-
 			$userAction = self::$actionRegisterPage;
-
 		} elseif (key($_GET) == self::$actionRegister) {
 			
 			$userAction = self::$actionRegister;
-
 		} elseif (key($_GET) == self::$actionChangeDataPage) {
 			
 			$userAction = self::$actionChangeDataPage;
-
 		} elseif(key($_GET) == self::$actionSaveEditMember) {
-
 			$userAction = self::$actionSaveEditMember;
-
 		} elseif (key($_GET) == self::$actionEdit) {
 			
 			$userAction = self::$actionEdit;
-
 		} elseif (key($_GET) == self::$actionDeleteMember) {
 			
 			$userAction = self::$actionDeleteMember;
-
 		} elseif(key($_GET) == self::$actionMemberComfirmedDelete) {
-
 			$userAction = self::$actionMemberComfirmedDelete;
-
 		} elseif (key($_GET) == self::$actionReturn) {
 			
 			$userAction = self::$actionReturn;
-
 		} elseif (key($_GET) == self::$actionAddBoat) {
 			
 			$userAction = self::$actionAddBoat;
-
 		} elseif (key($_GET) == self::$actionEditBoat) {
 			
 			$userAction = self::$actionEditBoat;
-
 		} elseif (key($_GET) == self::$actionDeleteBoat) {
 			
 			$userAction = self::$actionDeleteBoat;
-
 		} elseif (key($_GET) == self::$actionBoatComfirmedDelete) {
 			
 			$userAction = self::$actionBoatComfirmedDelete;
-
 		} elseif (key($_GET) == self::$actionEditChosenBoat) {
 			
 			$userAction = self::$actionEditChosenBoat;
 		
 		} elseif (key($_GET) == self::$actionSaveBoat) {
-
 			$userAction = self::$actionSaveBoat;
-
 		} elseif (key($_GET) == self::$actionShowSpecificMember) {
-
 			$userAction = self::$actionShowSpecificMember;
-
 		} elseif(key($_GET) == self::$actionShowChosenMember) {
-
 			$userAction = self::$actionShowChosenMember;
-
 		} elseif(key($_GET) == self::$actionShowSimpleList) {
-
 			$userAction = self::$actionShowSimpleList;
-
 		} elseif(key($_GET) == self::$actionShowDetailedList) {
-
 			$userAction = self::$actionShowDetailedList;
-
 		} elseif(key($_GET) == self::$actionSaveEditedBoat) {
-
 			$userAction = self::$actionSaveEditedBoat;
-
 		} else {
-
 			$userAction = "";
-
 		}
 		return $userAction;
 	}
 
 	public function choseMemberDataHTML() {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra medlemsuppgifter</h2>
@@ -144,12 +111,10 @@ class MemberView {
 	            </fieldset>
             </form>
 		";
-
 		return $ret;
 	}
 
 	public function changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId) {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra medlemsuppgifter</h2>
@@ -160,7 +125,6 @@ class MemberView {
 	                <p><input type='submit' value='Ändra'/>
 	            </fieldset>
             </form>
-
             <form enctype='multipart/form-data' method='post' action='?saveEditMember'>
 	            <fieldset>
 	            <legend>Fyll i de fält som du vill ändra uppgifter på</legend>
@@ -172,14 +136,11 @@ class MemberView {
 	            </fieldset>
 	            </fieldset>
             </form>
-
 		";
-
 		return $ret;
 	}
 
 	public function mainMenuHTML() {
-
 		$ret = "
 			<h2>Huvudmeny</h2>
             <p>1. <a href='?registerpage'>Registrera ny medlem</a></p>
@@ -192,13 +153,10 @@ class MemberView {
             <p>8. <a href='?showSimpleList'>Visa medlemslista</a></p>
             <p>9. <a href='?showDetailedList'>Visa detaljerad medlemslista</a></p>
         ";
-
         return $ret;
 	}
 
-
 	public function registerHTML() {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Registrera medlem</h2>
@@ -212,12 +170,10 @@ class MemberView {
 	            </fieldset>
             </form>
          ";
-
         return $ret;    
 	}
 
 	public function deleteMemberHTML($memberList) {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ta bort medlem</h2>
@@ -232,15 +188,11 @@ class MemberView {
 	            </fieldset>
             </form>
 		";
-
 		return $ret;
 	}
 
-
 	public function addBoatHTML($memberList) {
-
 //		<input type='text' name='memberId'/>
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Lägg till båt</h2>
@@ -264,12 +216,10 @@ class MemberView {
 	            </fieldset>
             </form>
 		";
-
 		return $ret;
 	}
 
 	public function editBoatHTML($boatList, $boatDataArray) {
-
 		if($boatDataArray == null) {
 			$boatType = "";
 			$boatLength = "";
@@ -277,11 +227,9 @@ class MemberView {
 			$boatType = $boatDataArray['BoatType'];
 			$boatLength = $boatDataArray['BoatLength'];
 		}
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra båt</h2>
-
 			<fieldset>
 				<form enctype='multipart/form-data' method='post' action='?editChosenBoat'>
 	            	<legend>Välj båt för att sen ändra uppgifter</legend>
@@ -306,12 +254,10 @@ class MemberView {
 	            </form>
 	        </fieldset>
 		";
-
 		return $ret;
 	}
 
 	public function deleteBoatHTML($boatList) {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ta bort båt</h2>
@@ -326,14 +272,11 @@ class MemberView {
 	            </fieldset>
             </form>
 		";
-
 		return $ret;
 	}
 
 	public function showSpecificMemberPageHTML($memberList) {
-
 		//Ska även visa upp båtar kopplade till medlem
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Visa medlemsuppgifter</h2>
@@ -348,14 +291,11 @@ class MemberView {
 	            </fieldset>
             </form>
 		";
-
 		return $ret;
 	}
 
 	public function showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList, $memberBoatsListHTML) {
-
 		//Ska även visa upp båtar kopplade till medlem
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Visa medlemsuppgifter</h2>
@@ -367,7 +307,6 @@ class MemberView {
 		            	$memberList;
 		            </select>
 		            <p><input type='submit' value='Visa medlem'/>
-
 	            </fieldset>
             </form>
             <br>
@@ -380,12 +319,10 @@ class MemberView {
             </fieldset>
             </fieldset>
 		";
-
 		return $ret;
 	}
 
 	public function SimpleMembersListHTML($memberlisting) {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Kompakt lista på samtliga medlemmar</h2>
@@ -402,12 +339,10 @@ class MemberView {
                 </table>
             </fieldset>
 		";
-
 		return $ret;
 	}
 
 	public function DetailedMembersListHTML($memberlisting, $boatListHTML) {
-
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Fullständig lista på samtliga medlemmar</h2>
@@ -425,40 +360,30 @@ class MemberView {
                 </table>
             </fieldset>
 		";
-
 		return $ret;
 	}
 
 	public function setMessage($msg) {
-
 		$this->message = '<p>' . $msg . '</p>';
-
 	}
 
 	public function setBody($body) {
-
 		$this->body = $body;
 	}
 
 	public function renderHTML() {
-
 		return $this->message . $this->body;
 	}
 
 	public function getMemberRegisteredFirstName() {
-
 		return $_POST[self::$firstName];
-
 	}
 
 	public function getMemberRegisteredLastName() {
-
 		return $_POST[self::$lastName];
-
 	}
 
 	public function getMemberRegisteredPersonalNumber() {
-
 		return $_POST[self::$personalNumber];
 	}
 
@@ -503,40 +428,29 @@ class MemberView {
 	public function getMemberListHTML() {
 		//Ska returnera array med medlemmat - Format: "Förnamn", "Efternamn", "Personnummer", "Medlemmsnumemr"
 		$memberListArray = $this->memberModel->getMemberListArray();		
-
 		$memberListHTML = "<option selected>Välj medlem</option>\n";
-
 		foreach($memberListArray as $key => $value) {
-
 			if($value != null) {
 				$firstName = $value['First_name'];
 				$lastName = $value['Last_name'];
 				$memberId = $value['Member_Id'];
 				$personalId = $value['Personal_Id'];
-
 				$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
 			}
 		}
-
 		//var_dump($memberListHTML);
-
 		return $memberListHTML;
 	}
 
 	public function getSimpleMembersList() {
 		$memberListArray = $this->memberModel->getMemberListArray();		
-
 		$memberListHTML = "";
-
 		foreach($memberListArray as $key => $value) {
-
 			$firstName = $value['First_name'];
 			$lastName = $value['Last_name'];
 			$memberId = $value['Member_Id'];
 			$personalId = $value['Personal_Id'];
-
 			$boatAmount = $this->boatModel->getMemberAmountBoats($memberId);
-
 			$memberListHTML .= "
 								<tr>
 									<td>$memberId</td>;
@@ -545,35 +459,24 @@ class MemberView {
 									<td>$boatAmount</td>
 								</tr>";
 		}
-
 		return $memberListHTML;
 	}
 
-
 	public function getDetailedMembersList() {
 		$memberListArray = $this->memberModel->getMemberListArray();		
-
 		//Iterera igenom boatList och får tillbaka array innehållandes array med alla båtar
 		$boatListArray = $this->boatModel->getBoatListArray();
-
 		$memberListHTML = "";
-
 		$lastMemberKey = sizeof($memberListArray) - 1;
-
 		foreach($memberListArray as $key => $value) {
-
 			$membersBoats = array();
-
 			$firstName = $value['First_name'];
 			$lastName = $value['Last_name'];
 			$memberId = $value['Member_Id'];
 			$personalId = $value['Personal_Id'];
-
 			//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
 			foreach ($boatListArray as $key2 => $value2) {
-
 				$boat = $boatListArray[$key2];
-
 				//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
 				//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
 				if($boat['Member_Id'] == $memberId) {
@@ -588,79 +491,58 @@ class MemberView {
 								<td>$firstName</td>
 								<td>$lastName</td>
 							";
-
 		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
 			foreach ($membersBoats as $key => $value) {
 				$boatType = $value['Boat_Type'];
 				$boatLength = $value['Boat_Length'];
 				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
 			}
-
 			$memberListHTML .= "</tr>";
 		}
-
 		return $memberListHTML;
 	}
-
 
 	public function getBoatList() {
 		
 		//Ska returnera array med båtar - Format: "Medlem", "Typ", "Längd"
 		$boatListArray = $this->boatModel->getBoatListArray();
-
 		$boatListHTML = "<option selected>Välj båt</option>\n";
-
 		foreach($boatListArray as $key => $value) {
-
 			$boatOwner = $value['Owners_name'];
 			$boatType = $value['Boat_Type'];
 			$boatLength = $value['Boat_Length'];
 			$boatId = $value['Boat_Id'];
 			$memberId = $value['Member_Id'];
-
 			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
 			
 		}
-
 		return $boatListHTML;
 	}
 
 	public function getBoatListHTML($maxBoatAmount) {
-
 		$ret = "";
-
 		for ($i=0; $i<$maxBoatAmount; $i++) {
-
 			$boatNumber = $i + 1;
-
 			$ret .="<th>Båt $boatNumber</th>\n";
 		}
-
 		return $ret;
 	}
-
+	
 	public function getMemberBoatsListHTML($memberId) {
 		$ret = "";
-
 		$memberBoats = $this->boatModel->getMemberBoatsListArray($memberId);
-
 		$count = 0;
-
 		if($memberBoats != null) {
 			foreach ($memberBoats as $key => $value) {
 				if($value != null) {
 					$count++;
-
 					$boatNumber = $count;
-
 					$boatType = $value['BoatType'];
 					$boatLength = $value['BoatLength'];
-
 					$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $boatType - Längd: $boatLength cm</p>";
 				}
 			}
 		}
-
 		return $ret;
 	}
 }
