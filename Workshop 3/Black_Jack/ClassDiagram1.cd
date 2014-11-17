@@ -62,8 +62,8 @@
       <FileName>model\Player.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Field Name="m_hand" />
       <Field Name="m_listeners" />
+      <Field Name="m_hand" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BlackJack.model.rules.AmericanNewGameStrategy" Collapsed="true">

@@ -7,6 +7,13 @@ namespace BlackJack.model.rules
 {
     class RulesFactory
     {
+        public int _gameStrategyChoise;
+
+        public RulesFactory(int _gameStrategyChoise)
+        {
+            this._gameStrategyChoise = _gameStrategyChoise;
+        }
+
         public IHitStrategy GetHitRule()
         {
             return new Soft17HitStrategy();
@@ -14,7 +21,19 @@ namespace BlackJack.model.rules
 
         public INewGameStrategy GetNewGameRule()
         {
-            return new SwedishNewGameStrategy();
+            if (_gameStrategyChoise == 1)
+            {
+                return new SwedishNewGameStrategy();
+            } 
+            else if (_gameStrategyChoise == 2) 
+            {
+                return new AmericanNewGameStrategy();
+            }
+            else 
+            {
+                return new InternationalNewGameStrategy();
+            }
+            
         }
     }
 }
