@@ -10,13 +10,9 @@ namespace BlackJack.model
         private model.Dealer m_dealer;
         private model.Player m_player;
 
-        private const int SWEDISH_NEW_GAME_STRATEGY = 1;
-        private const int AMERICAN_NEW_GAME_STRATEGY = 2;
-        private const int INTERNATIONAL_NEW_GAME_STRATEGY = 3;
-
         public Game()
         {
-            m_dealer = new Dealer(new rules.RulesFactory(SWEDISH_NEW_GAME_STRATEGY));
+            m_dealer = new Dealer(new rules.RulesFactory());
             m_player = new Player();
         }
 

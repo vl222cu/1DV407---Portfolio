@@ -28,7 +28,6 @@
       <Field Name="m_deck" />
       <Field Name="m_newGameRule" />
       <Field Name="m_hitRule" />
-      <Field Name="m_ruleset" />
     </ShowAsAssociation>
   </Class>
   <Class Name="BlackJack.model.Deck" Collapsed="true">
@@ -47,7 +46,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAgAAAAAAAAoEAAAIBAAKAgAAAAAAAACAAAA=</HashCode>
+      <HashCode>QAgAAAAAAgAAAAAAAAoEAAAIBAAKAgCAAAAAAACACAA=</HashCode>
       <FileName>model\Game.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -93,7 +92,7 @@
   <Class Name="BlackJack.model.rules.RulesFactory" Collapsed="true">
     <Position X="2.75" Y="10.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAgAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAIAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>model\rules\RulesFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
