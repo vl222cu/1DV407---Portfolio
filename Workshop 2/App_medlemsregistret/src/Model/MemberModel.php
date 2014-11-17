@@ -27,9 +27,9 @@ class MemberModel {
 
 				$newMemberId = $this->newIdGenerator($json_data);
 
-				$newMemberIdStr = "memberId" . $newMemberId;;
+				$newMemberIdStr = "memberId" . $newMemberId;
 
-				//Skapa ny medelem och lägg till
+				//Skapa ny medlem och lägg till
 				$newMemberArray = array("Member_Id" => $newMemberId, "First_name" => $firstName, "Last_name" => $lastName, "Personal_Id" => $personalId, "MemberBoats" => null);
 				$decodedJson[$newMemberIdStr] = $newMemberArray;
 				//$decodedJson['highestBoatId'] = 0;
@@ -41,7 +41,7 @@ class MemberModel {
 
 			} else {
 
-				//Skapa array för medlemm
+				//Skapa array för medlem
 				$memeberProperties = array("Member_Id" => 1, "First_name" => $firstName, "Last_name" => $lastName, "Personal_Id" => $personalId, "MemberBoats" => null);
 
 				$member = array("highestBoatId" => 0, "memberId1" => $memeberProperties);

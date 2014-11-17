@@ -1,0 +1,17 @@
+{
+    "highestBoatId": 2,
+    "memberId1": null,
+    "memberId3": {
+        "Member_Id": 3,
+        "First_name": "Vivi",
+        "Last_name": "Lam",
+        "Personal_Id": "1234567891",
+        "MemberBoats": {
+            "1": null,
+            "2": {
+                "BoatType": "Motorb\u00e5t",
+                "BoatLength": "1000000"
+            }
+        }
+    }
+}
