@@ -79,7 +79,15 @@ class BoatModel {
 			foreach ($decodedJson as $key => $value) {
 				if($value[MemberModel::$jsonMemberId] == $memberId) {
 					if($value[self::$jsonMemberBoats] != null) {
-						return sizeof($value[self::$jsonMemberBoats]);
+						$boatCount = 0;
+						foreach ($value[self::$jsonMemberBoats] as $key => $value) {
+							if($value != null) {
+								$boatCount++;
+							}
+						}
+						return $boatCount;
+
+						//return sizeof($value[self::$jsonMemberBoats]);
 					} else {
 						if($key != MemberModel::$jsonHighestBoatId) {
 							return 0;
