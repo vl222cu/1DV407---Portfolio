@@ -16,3 +16,7 @@ C:\1DV407_Portfolio\Workshop 3\Black_Jack\obj\Debug\BlackJack.pdb
 \\psf\Host\Applications\MAMP\htdocs\1DV407---Portfolio\Workshop 3\Black_Jack\bin\Debug\BlackJack.exe
 \\psf\Host\Applications\MAMP\htdocs\1DV407---Portfolio\Workshop 3\Black_Jack\bin\Debug\BlackJack.pdb
 \\psf\Host\Applications\MAMP\htdocs\1DV407---Portfolio\Workshop 3\Black_Jack\obj\Debug\BlackJack.csprojResolveAssemblyReference.cache
+C:\1DV407_Portfolio\Workshop 3\Black_Jack\bin\Debug\BlackJack.exe.config
+C:\1DV407_Portfolio\Workshop 3\Black_Jack\bin\Debug\BlackJack.exe
+C:\1DV407_Portfolio\Workshop 3\Black_Jack\bin\Debug\BlackJack.pdb
+C:\1DV407_Portfolio\Workshop 3\Black_Jack\obj\Debug\BlackJack.csprojResolveAssemblyReference.cache

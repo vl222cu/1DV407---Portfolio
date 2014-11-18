@@ -82,6 +82,7 @@
     <Compile Include="model\rules\IHitStrategy.cs" />
     <Compile Include="model\rules\InternationalNewGameStrategy.cs" />
     <Compile Include="model\rules\INewGameStrategy.cs" />
+    <Compile Include="model\rules\IWinGameRule.cs" />
     <Compile Include="model\rules\Soft17HitStrategy.cs" />
     <Compile Include="model\rules\UniqueRuleset.cs" />
     <Compile Include="model\rules\RulesFactory.cs" />
