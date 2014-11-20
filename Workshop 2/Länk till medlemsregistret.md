@@ -1,1 +1,0 @@
-> http://medlemsregister.vivilam.com/

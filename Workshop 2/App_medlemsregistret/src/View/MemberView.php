@@ -11,15 +11,16 @@ class MemberView {
 	private $message = "";
 	private $boatModel;
 	private $memberModel;
-	private static $selectedMemberId = "memberId";
+	private static $selectedMemberId = "member_id";
 	private static $selectedBoatId = "boatId";
-	private static $firstName = "firstname";
-	private static $lastName = "lastname";
-	private static $personalNumber = "personalnumber";
+	private static $firstName = "first_name";
+	private static $lastName = "last_name";
+	private static $personalNumber = "personal_number";
 	private static $boatType = "boatType";
 	private static $boatLength = "boatLength";
 	private static $oldSocialSecurityNumber = "oldpersonalnumber";
 	private static $postedBoatlistId = "postedboatlistid";
+	private static $memberId = "memberId";
 	public static $actionRegisterPage = "registerpage";
 	public static $actionRegister = "register";
 	public static $actionChangeDataPage = "changedatapage";
@@ -39,6 +40,7 @@ class MemberView {
 	public static $actionShowSimpleList = "showSimpleList";
 	public static $actionShowDetailedList = "showDetailedList";
 	public static $actionSaveEditedBoat = "saveEditedBoat";
+	public static $actionChoseMemberToEdit = "choseMemberToEdit";
 
 	public function __construct(BoatModel $boatModel, MemberModel $memberModel) {
 		$this->boatModel = $boatModel;
@@ -136,7 +138,7 @@ class MemberView {
             <form enctype='multipart/form-data' method='post' action='?edit'>
 	            <fieldset>
 	            <legend>Ändra medlemsuppgifter - Fyll i personnummer</legend>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personal_number' required/></p>
 	                <p><input type='submit' value='Ändra'/>
 	            </fieldset>
             </form>
@@ -144,23 +146,30 @@ class MemberView {
 		return $ret;
 	}
 
-	public function changeMemberDataHTML($firstname, $lastname, $personalnumber, $memberId) {
+
+	public function changeMemberDataHTML($member) {
+
+		$firstname = $member->first_name;
+		$lastname = $member->last_name;
+		$personalnumber = $member->personal_number;
+		$memberId = $member->member_id;
+
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra medlemsuppgifter</h2>
             <form enctype='multipart/form-data' method='post' action='?edit'>
 	            <fieldset>
 	            <legend>Välj ny medlem att ändra uppgifter på - Fyll i personnummer</legend>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personal_number' required/></p>
 	                <p><input type='submit' value='Ändra'/>
 	            </fieldset>
             </form>
             <form enctype='multipart/form-data' method='post' action='?saveEditMember'>
 	            <fieldset>
 	            <legend>Fyll i de fält som du vill ändra uppgifter på</legend>
-	                <p><label>Förnamn: </label><input type='text' name='firstname' value='$firstname' required/></p>
-	                <p><label>Efternamn: </label><input type='text' name='lastname' value='$lastname' required/></p>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber' value='$personalnumber' required/></p>
+	                <p><label>Förnamn: </label><input type='text' name='first_name' value='$firstname' required/></p>
+	                <p><label>Efternamn: </label><input type='text' name='last_name' value='$lastname' required/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personal_number' value='$personalnumber' required/></p>
 	                <input type='text' name='memberId' value='$memberId' hidden>
 	                <p><input type='submit' value='Registrera'/>
 	            </fieldset>
@@ -193,9 +202,9 @@ class MemberView {
             <form enctype='multipart/form-data' method='post' action='?register'>
 	            <fieldset>
 	            <legend>Registrera ny medlem - Fyll i samtliga fält</legend>
-	                <p><label>Förnamn: </label><input type='text' name='firstname' required/></p>
-	                <p><label>Efternamn: </label><input type='text' name='lastname' required/></p>
-	                <p><label>Personnummer: </label><input type='text' name='personalnumber' required/></p>
+	                <p><label>Förnamn: </label><input type='text' name='first_name' required/></p>
+	                <p><label>Efternamn: </label><input type='text' name='last_name' required/></p>
+	                <p><label>Personnummer: </label><input type='text' name='personal_number' required/></p>
 	                <p><input type='submit' value='Registrera'/>
 	            </fieldset>
             </form>
@@ -211,7 +220,7 @@ class MemberView {
 	            <fieldset>
 	            <legend>Välj medlem och bekräfta borttagning</legend>
 	                <p><label>Välj medlem: </label></p>
-	                <select name='memberId'>
+	                <select name='member_id'>
 		            	$memberList;
 		            </select>
 	                <p><input type='submit' value='Ja, jag vill ta bort denna medlem!'/>
@@ -249,14 +258,27 @@ class MemberView {
 		return $ret;
 	}
 
-	public function editBoatHTML($boatList, $boatDataArray) {
-		if($boatDataArray == null) {
+	public function editBoatHTML($boatList, $boatId, $boatListHTML) {
+
+		if($boatList == null) {
 			$boatType = "";
 			$boatLength = "";
+			$memberId = null;
+
 		} else {
-			$boatType = $boatDataArray[BoatModel::$jsonBoatType];
-			$boatLength = $boatDataArray[BoatModel::$jsonBoatLength];
+			$boatObj;
+			
+			foreach ($boatList as $id => $boat) {
+				if($id == $boatId) {
+					$boatObj = $boat; 
+				}
+			}
+
+			$boatType = (string) $boatObj->boatType;
+			$boatLength = (string) $boatObj->boatLength;
+			$memberId = $boatObj->member_id;
 		}
+
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Ändra båt</h2>
@@ -265,7 +287,7 @@ class MemberView {
 	            	<legend>Välj båt för att sen ändra uppgifter</legend>
 		           	<p><label>Välj båt: </label></p>
 		            <select name='boatId'>
-		            	$boatList;
+		            	$boatListHTML;
 		            </select>
 		            <p><input type='submit' value='Välj båt att ändra'/></p>
 		        </form>
@@ -280,6 +302,8 @@ class MemberView {
 						<option value='Övrigt'>Övrigt</option>
 		            </select></p>
 	                <p><label>Längd (cm): </label><input type='text' name='boatLength' value='$boatLength'/></p>
+	                <input type='text' name='member_id' value='$memberId' hidden>
+	                <input type='text' name='boatId' value='$boatId' hidden>
 	                <p><input type='submit' value='Spara ändringar'/></p>
 	            </form>
 	        </fieldset>
@@ -324,8 +348,13 @@ class MemberView {
 		return $ret;
 	}
 
-	public function showSpecificMemberPageChosenHTML($firstname, $lastname, $personalnumber, $memberId, $memberList, $memberBoatsListHTML) {
+	public function showSpecificMemberPageChosenHTML($member, $memberList, $memberBoatsListHTML) {
 		//Ska även visa upp båtar kopplade till medlem
+
+		$first_name = $member->first_name;
+		$last_name = $member->last_name;
+		$personal_number = $member->personal_number;
+
 		$ret = "
 			<p><a href='?return'>Tillbaka</a></p>
 			<h2>Visa medlemsuppgifter</h2>
@@ -342,9 +371,9 @@ class MemberView {
             <br>
             <fieldset>
             <legend>Medlemsuppgifter</legend>
-                <p><strong>Förnamn:</strong> $firstname </p>
-                <p><strong>Efternamn:</strong> $lastname </p>
-                <p><strong>Personnummer:</strong> $personalnumber </p>
+                <p><strong>Förnamn:</strong> $first_name </p>
+                <p><strong>Efternamn:</strong> $last_name </p>
+                <p><strong>Personnummer:</strong> $personal_number </p>
                 $memberBoatsListHTML
             </fieldset>
             </fieldset>
@@ -417,6 +446,15 @@ class MemberView {
 		return $_POST[self::$personalNumber];
 	}
 
+	public function getMemberRegisteredMemberId() {
+		return $_POST[self::$memberId];	
+	}
+
+	public function getRegisteredMember() {
+
+
+	}
+
 	public function getPostedMemberId() {
 		if(isset($_POST[self::$selectedMemberId])) {
 			return $_POST[self::$selectedMemberId];
@@ -445,6 +483,10 @@ class MemberView {
 		return $_SESSION[self::$oldSocialSecurityNumber];
 	}
 
+	public function setMemberId($memberId) {
+		$_SESSION[self::$currentMemberId] = $memberId;
+	}
+
 	public function setSessionPostedBoatListId($boatListId) {
 		$_SESSION[self::$postedBoatlistId] = $boatListId;
 	}
@@ -455,32 +497,34 @@ class MemberView {
 		}
 	}
 
-	public function getMemberListHTML() {
+	public function getMemberListHTML($memberList) {
 		//Ska returnera array med medlemmat - Format: "Förnamn", "Efternamn", "Personnummer", "Medlemmsnumemr"
-		$memberListArray = $this->memberModel->getMemberListArray();		
+		//$memberListArray = $this->memberModel->getMemberListArray();		
 		$memberListHTML = "<option selected>Välj medlem</option>\n";
-		foreach($memberListArray as $key => $value) {
-			if($value != null) {
-				$firstName = $value[MemberModel::$jsonFirstName];
-				$lastName = $value[MemberModel::$jsonLastName];
-				$memberId = $value[MemberModel::$jsonMemberId];
-				$personalId = $value[MemberModel::$jsonPersonalId];
-				$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personalId </option>\n";
+		foreach($memberList as $key => $member) {
+			if($member != null) {
+				$firstName = $member->first_name;
+				$lastName = $member->last_name;
+				$memberId = $member->member_id;
+				$personal_number = $member->personal_number;
+
+				$memberListHTML .= "<option value='$memberId'>$firstName $lastName - $personal_number </option>\n";
 			}
 		}
-		//var_dump($memberListHTML);
+
 		return $memberListHTML;
 	}
 
-	public function getSimpleMembersList() {
-		$memberListArray = $this->memberModel->getMemberListArray();		
+	public function getSimpleMembersList($membersList) {
+
 		$memberListHTML = "";
-		foreach($memberListArray as $key => $value) {
-			$firstName = $value[MemberModel::$jsonFirstName];
-			$lastName = $value[MemberModel::$jsonLastName];
-			$memberId = $value[MemberModel::$jsonMemberId];
-			$personalId = $value[MemberModel::$jsonPersonalId];
-			$boatAmount = $this->boatModel->getMemberAmountBoats($memberId);
+		foreach ($membersList as $key => $member) {
+			$firstName = $member->first_name;
+			$lastName = $member->last_name;
+			$memberId = $member->member_id;
+			$personalId = $member->personal_number;
+
+			$boatAmount = sizeof($member->boatList);
 			$memberListHTML .= "
 								<tr>
 									<td>$memberId</td>;
@@ -489,63 +533,67 @@ class MemberView {
 									<td>$boatAmount</td>
 								</tr>";
 		}
+
 		return $memberListHTML;
 	}
 
-	public function getDetailedMembersList() {
-		$memberListArray = $this->memberModel->getMemberListArray();		
-		//Iterera igenom boatList och får tillbaka array innehållandes array med alla båtar
-		$boatListArray = $this->boatModel->getBoatListArray();
+	public function getDetailedMembersList($membersList) {
+
 		$memberListHTML = "";
-		$lastMemberKey = sizeof($memberListArray) - 1;
-		foreach($memberListArray as $key => $value) {
-			$membersBoats = array();
-			$firstName = $value[MemberModel::$jsonFirstName];
-			$lastName = $value[MemberModel::$jsonLastName];
-			$memberId = $value[MemberModel::$jsonMemberId];
-			$personalId = $value[MemberModel::$jsonPersonalId];
-			//Itererar igenom alla båtar för att hitta de båtar som tillhör den spsoecika medlemmern
-			foreach ($boatListArray as $key2 => $value2) {
-				$boat = $boatListArray[$key2];
-				//Om båtradens värde är samma som aktuell medlems id, adderas ddata till array för denna medlems båtar
-				//Detta helt enkelt sorterar de olika båtarna utifrån medlem.
-				if($boat[MemberModel::$jsonMemberId] == $memberId) {
-					array_push($membersBoats, $boat);
-				}
-			}
-		
+
+		foreach ($membersList as $member) {
+			$first_name = $member->first_name;
+			$last_name = $member->last_name;
+			$personal_number = $member->personal_number;
+			$member_id = $member->member_id;
+
 			$memberListHTML .= "
 							<tr>
-								<td>$memberId</td>
-								<td>$personalId</td>
-								<td>$firstName</td>
-								<td>$lastName</td>
+								<td>$member_id</td>
+								<td>$personal_number</td>
+								<td>$first_name</td>
+								<td>$last_name</td>
 							";
-		//loopar ignom medlemsbåtar och skriver ut alla båtar om finns på de olika medlemmarna
-			foreach ($membersBoats as $key => $value) {
-				$boatType = $value[BoatModel::$ownersBoatType];
-				$boatLength = $value[BoatModel::$ownersBoatLength];
+
+			foreach ($member->boatList as $boat) {
+				$boatType = $boat->boatType;
+				$boatLength = $boat->boatLength;
+
 				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
 			}
-			$memberListHTML .= "</tr>";
 		}
+
+		$memberListHTML .= "</tr>";
+
 		return $memberListHTML;
+
 	}
 
-	public function getBoatList() {
+	public function getBoatList($boatList, $membersList) {
 		
 		//Ska returnera array med båtar - Format: "Medlem", "Typ", "Längd"
-		$boatListArray = $this->boatModel->getBoatListArray();
+		//$boatListArray = $this->boatModel->getBoatListArray();
 		$boatListHTML = "<option selected>Välj båt</option>\n";
-		foreach($boatListArray as $key => $value) {
-			$boatOwner = $value[BoatModel::$ownersName];
-			$boatType = $value[BoatModel::$ownersBoatType];
-			$boatLength = $value[BoatModel::$ownersBoatLength];
-			$boatId = $value[BoatModel::$ownersBoatId];
-			$memberId = $value[MemberModel::$jsonMemberId];
-			$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
-			
+
+		//var_dump($boatList);
+
+		foreach($boatList as $key => $boat) {
+
+			$ownersName;
+
+			foreach ($membersList as $member_id => $member) {
+				if($boat->member_id == $member_id) {
+					$ownersName = $member->first_name . " " . $member->last_name;
+				}
+			}
+				$boatOwner = $ownersName;
+				$boatType = $boat->boatType;
+				$boatLength = $boat->boatLength;
+				$boatId = $key;
+	//			$memberId = $value[MemberModel::$jsonMemberId];
+				$boatListHTML .= "<option value='$boatId'>Medlem: $boatOwner - Båttyp: $boatType - Längd: $boatLength</option>\n";
 		}
+
 		return $boatListHTML;
 	}
 
@@ -558,17 +606,20 @@ class MemberView {
 		return $ret;
 	}
 
-	public function getMemberBoatsListHTML($memberId) {
+	public function getMemberBoatsListHTML($member) {
 		$ret = "";
-		$memberBoats = $this->boatModel->getMemberBoatsListArray($memberId);
+
+		$memberBoats = $member->boatList;
+
 		$count = 0;
 		if($memberBoats != null) {
 			foreach ($memberBoats as $key => $value) {
+
 				if($value != null) {
 					$count++;
 					$boatNumber = $count;
-					$boatType = $value[BoatModel::$jsonBoatType];
-					$boatLength = $value[BoatModel::$jsonBoatLength];
+					$boatType = $value->boatType;
+					$boatLength = $value->boatLength;
 					$ret .= "<p><strong>Båt $boatNumber:</strong> Typ: $boatType - Längd: $boatLength cm</p>";
 				}
 			}

@@ -1,12 +1,14 @@
 <?php
 
+require_once("Member.php");
+
 class MemberModel {
 
 	public $fileName = "membersRegister.json";
-	public static $jsonFirstName = "First_name";
-	public static $jsonLastName = "Last_name";
-	public static $jsonPersonalId = "Personal_Id";
-	public static $jsonMemberId = "Member_Id";
+	public static $jsonFirstName = "first_name";
+	public static $jsonLastName = "last_name";
+	public static $jsonPersonalId = "personal_id";
+	public static $jsonMemberId = "member_id";
 	public static $jsonHighestBoatId = "highestBoatId";
 	public static $jsonMemberIdTracker = "memberId";
 
@@ -67,7 +69,7 @@ class MemberModel {
 		$newMemberJsonStr = (string) json_encode($decodedJson, JSON_PRETTY_PRINT);
 		//Skriv till fil
 		$myfile = fopen($this->fileName, "w");
-		fwrite($myfile, $newMemberJsonStr);		
+		fwrite($myfile, $newMemberJsonStr);
 	}
 
 	function editMemberData($newFirstName, $newLastName, $newPrsonalId, $memberId) {
@@ -106,7 +108,7 @@ class MemberModel {
 		if($json_data != null) {
 			$decodedJson = json_decode($json_data);
 			foreach ($decodedJson as $key => $object) {
-				if($key != self::$jsonHighestBoatId && $object != null && $object->Personal_Id == $personalId) {
+				if($key != self::$jsonHighestBoatId && $object != null && $object->personal_number == $personalId) {
 					return false;
 				}
 			}
@@ -134,6 +136,45 @@ class MemberModel {
 		}
 	}
 
+
+	function getMemberFromFilePersonalNumber($personal_number) {
+
+
+
+
+		if($personal_number != null) {
+			$json_data = $this->getRegisterJson();
+			$memberArray = array();
+			if($json_data != null) {
+				$decodedJson = json_decode($json_data, true);
+				foreach ($decodedJson as $key => $member) {
+					if($key == $memberIdStr){
+						$memberArray[self::$jsonFirstName] = $member[self::$jsonFirstName];
+						$memberArray[self::$jsonLastName] = $member[self::$jsonLastName];
+						$memberArray[self::$jsonPersonalId] = $member[self::$jsonPersonalId];
+						$memberArray[self::$jsonMemberId] = $member[self::$jsonMemberId];
+					}
+				}
+				return $memberArray;
+			}
+		}
+	}
+
+	function createMemberObject($first_name, $last_name, $personal_number, $member_id) {
+		$member = new Member();
+
+		$member->first_name = $first_name;
+		$member->last_name = $last_name;
+		$member->personal_number = $personal_number;
+		if($member_id == null) {
+			$member->member_id = null;
+		} else {
+			$member->member_id = (int) $member_id;
+		}
+
+		return $member;
+	}
+
 	function getSpecificMember($personal_Id) {
 		if($personal_Id != null) {
 			$json_data = $this->getRegisterJson();
@@ -152,6 +193,24 @@ class MemberModel {
 			}
 		}
 	}	
+
+
+	function getSpecificMemberMembersList($personal_number, $membersList) {
+		foreach ($membersList as $member) {
+			if($member->personal_number == $personal_number) {
+				return $member;
+			}
+		}
+	}
+
+	function getSpecificMemberFromListMemberId($memberId, $membersList) {
+		foreach ($membersList as $member) {
+			if($member->member_id == $memberId) {
+				return $member;
+			}
+		}
+	}
+
 
 	function getRegisterJson() {
 		if(file_exists($this->fileName)){

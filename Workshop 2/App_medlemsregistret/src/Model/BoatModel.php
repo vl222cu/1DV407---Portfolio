@@ -1,5 +1,7 @@
 <?php
 
+require_once("BoatObject.php");
+
 class BoatModel {
 
 	public $fileName = "membersRegister.json";
@@ -10,6 +12,133 @@ class BoatModel {
 	public static $ownersBoatType = "Boat_Type";
 	public static $ownersBoatLength = "Boat_Length";
 	public static $ownersBoatId = "Boat_Id";
+
+
+
+	function getBoatsListFromMembers($membersList) {
+		$boatsArray = array();
+
+		$count = 0;
+
+		foreach ($membersList as $member_id => $member) {
+			foreach ($member as $key => $property) {
+				if($key == "boatList"){
+					
+					foreach ($property as $key2 => $value) {
+
+						$boatObject = new BoatObject($value->boatType, $value->boatLength);
+
+						$boatObject->member_id = $member_id;
+
+						//var_dump($boatObject->member_id);
+
+						$boatsArray[$count] = $boatObject;
+						
+						$count++;
+					}
+				}
+			}
+		}
+
+		return $boatsArray;
+	}
+
+
+	function createBoatObject($boatType, $boatLength) {
+		return new BoatObject($boatType, $boatLength);
+	}
+
+
+	function addBoatToMemberList($member, $membersList, $boatObject) {
+
+		if(!is_array($member->boatList)) {
+			$member->boatList = array();
+		}
+
+		array_push($member->boatList, $boatObject);
+
+		$newList = array();
+
+		foreach ($membersList as $memberInList) {
+			if($memberInList->member_id == $member->member_id) {
+				array_push($newList, $member);
+			} else {
+				array_push($newList, $memberInList);
+			}
+		}
+
+		return $newList;
+	}
+
+	function updateBoatInMembersList($membersList, $boatList, $boatId, $boatType, $boatLength, $memberId) {
+		$updatedBoatList = array();
+
+			foreach ($boatList as $id => $boat) {
+				$updatedBoat;
+
+				if($id == $boatId) {
+					$updatedBoat = new boatObject($boatType, $boatLength);
+					$updatedBoat->member_id = $boat->member_id;
+				} else {
+					$updatedBoat = $boat;
+				}
+
+				array_push($updatedBoatList, $updatedBoat);
+			}
+
+
+			$updatedMembersList = array();
+
+			foreach ($membersList as $key => $member) {
+				$member->boatList = array();
+			}
+
+
+			//Sätt in var och en av båtarna på rätt medlemsobjekt
+			foreach ($updatedBoatList as $id => $boat) {
+
+				foreach ($membersList as $member_id => $member) {
+					
+					if($boat->member_id == $member_id) {
+						array_push($member->boatList, $boat);
+					}
+				}
+			}
+
+			return $membersList;
+	}
+
+	function deleteBoatInMembersList($membersList, $boatList, $boatId, $memberId) {
+		$updatedBoatList = array();
+
+			foreach ($boatList as $id => $boat) {
+				if($id != $boatId) {
+					array_push($updatedBoatList, $boat);
+				}
+			}
+
+
+			$updatedMembersList = array();
+
+			foreach ($membersList as $key => $member) {
+				$member->boatList = array();
+			}
+
+
+			//Sätt in var och en av båtarna på rätt medlemsobjekt
+			foreach ($updatedBoatList as $id => $boat) {
+
+				foreach ($membersList as $member_id => $member) {
+					
+					if($boat->member_id == $member_id) {
+						array_push($member->boatList, $boat);
+					}
+				}
+			}
+
+			return $membersList;
+	}
+
 
 	function saveBoatToFile($memberId, $boatType, $boatLength) {
 		$memberId = (int) $memberId;
@@ -100,7 +229,19 @@ class BoatModel {
 		} 
 	}
 
-	function getMaxBoatAmount() {
+	function getMaxBoatAmount($membersList) {
+
+		$highestAmount = 0;
+
+		foreach ($membersList as $key => $member) {
+			if(sizeof($member->boatList) > $highestAmount) {
+				$highestAmount = sizeof($member->boatList);
+			}
+		}
+
+		return $highestAmount;
+
+		/*
 		//Hämta jsonfilen
 		$json_data = $this->getRegisterJson();
 		$highestAmount = 0;
@@ -122,6 +263,7 @@ class BoatModel {
 			}
 			return $highestAmount;
 		}
+		*/
 	}
 
 	function editBoat($boatId, $boatType, $boatLength) {
@@ -170,8 +312,22 @@ class BoatModel {
 		$myfile = fopen($this->fileName, "w");
 		fwrite($myfile, $newMemberJsonStr);
 	}
+/*
+	function getSpecificBoatData($boatId, $boatsList) {
 
-	function getSpecificBoatData($boatId) {
+		$boatObj;
+		foreach ($boatsList as $id => $boat) {
+			if($id == $boatId) {
+				$boatObj = $boat; 
+			}
+		}
+
+		return array()	
+
+
+	}
+*/
+	function getSpecificBoatData2($boatId, $boatsList) {
 		$json_data = $this->getRegisterJson();
 		$boatIdStr = "$boatId";
 		$boatArray = array();

@@ -1,72 +1,33 @@
-{
-    "highestBoatId": 10,
-    "memberId1": null,
-    "memberId3": {
-        "Member_Id": 3,
-        "First_name": "Vivi",
-        "Last_name": "Lam",
-        "Personal_Id": "1234567891",
-        "MemberBoats": {
-            "1": null,
-            "2": {
-                "BoatType": "Motorb\u00e5t",
-                "BoatLength": "1000000"
+[
+    {
+        "first_name": "hejzzz",
+        "last_name": "hejzzzz",
+        "personal_number": "8383",
+        "member_id": 1,
+        "boatList": [
+            {
+                "boatLength": "33333",
+                "boatType": "Segelb\u00e5t",
+                "member_id": 0
             },
-            "10": {
-                "BoatType": "\u00d6vrigt",
-                "BoatLength": "100000000000000"
+            {
+                "boatLength": "1231231",
+                "boatType": "Segelb\u00e5t",
+                "member_id": 0
             }
-        }
+        ]
     },
-    "memberId4": {
-        "Member_Id": 4,
-        "First_name": "Kick",
-        "Last_name": "Ass",
-        "Personal_Id": "11223344",
-        "MemberBoats": {
-            "3": {
-                "BoatType": "Motorseglare",
-                "BoatLength": "88888"
-            },
-            "4": null
-        }
-    },
-    "memberId5": null,
-    "memberId6": {
-        "Member_Id": 6,
-        "First_name": "Ola",
-        "Last_name": "Lala",
-        "Personal_Id": "2233445566",
-        "MemberBoats": {
-            "5": null
-        }
-    },
-    "memberId7": null,
-    "memberId8": {
-        "Member_Id": 8,
-        "First_name": "Kalle",
-        "Last_name": "Kaviar",
-        "Personal_Id": "9999999999",
-        "MemberBoats": {
-            "7": {
-                "BoatType": "Kajak\/Kanot",
-                "BoatLength": "74560"
+    {
+        "first_name": "dijd",
+        "last_name": "ijwdij",
+        "personal_number": "929292",
+        "member_id": 2,
+        "boatList": [
+            {
+                "boatLength": "9191991",
+                "boatType": "Motorseglare",
+                "member_id": 1
             }
-        }
-    },
-    "memberId9": null,
-    "memberId10": {
-        "Member_Id": 10,
-        "First_name": "Curlie",
-        "Last_name": "Sue",
-        "Personal_Id": "88888888",
-        "MemberBoats": {
-            "8": {
-                "BoatType": "Segelb\u00e5t",
-                "BoatLength": "46320"
-            },
-            "9": null
-        }
-    },
-    "memberId11": null
-}
+        ]
+    }
+]
