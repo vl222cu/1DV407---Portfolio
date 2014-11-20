@@ -1,19 +1,24 @@
 [
     {
-        "first_name": "hejzzz",
+        "first_name": "hej",
         "last_name": "hejzzzz",
         "personal_number": "8383",
-        "member_id": 1,
+        "member_id": null,
         "boatList": [
             {
                 "boatLength": "33333",
                 "boatType": "Segelb\u00e5t",
-                "member_id": 0
+                "member_id": null
             },
             {
                 "boatLength": "1231231",
                 "boatType": "Segelb\u00e5t",
-                "member_id": 0
+                "member_id": null
+            },
+            {
+                "boatLength": "12313",
+                "boatType": "Segelb\u00e5t",
+                "member_id": null
             }
         ]
     },
@@ -21,13 +26,53 @@
         "first_name": "dijd",
         "last_name": "ijwdij",
         "personal_number": "929292",
-        "member_id": 2,
+        "member_id": null,
         "boatList": [
             {
                 "boatLength": "9191991",
                 "boatType": "Motorseglare",
-                "member_id": 1
+                "member_id": null
+            },
+            {
+                "boatLength": "22222",
+                "boatType": "Segelb\u00e5t",
+                "member_id": null
             }
         ]
+    },
+    {
+        "first_name": "khsbf",
+        "last_name": "khbf",
+        "personal_number": "91827",
+        "member_id": null,
+        "boatList": null
+    },
+    {
+        "first_name": "hdouh",
+        "last_name": "ouwhd",
+        "personal_number": "82828222222",
+        "member_id": null,
+        "boatList": null
+    },
+    {
+        "first_name": "dw\u00f6qkmd",
+        "last_name": "lknw",
+        "personal_number": "101928",
+        "member_id": null,
+        "boatList": null
+    },
+    {
+        "first_name": "wjf",
+        "last_name": "jwnfjn",
+        "personal_number": "91919191918\u00a7",
+        "member_id": null,
+        "boatList": []
+    },
+    {
+        "first_name": "kjqfn",
+        "last_name": "jfnjf",
+        "personal_number": "12345",
+        "member_id": null,
+        "boatList": []
     }
 ]

@@ -58,6 +58,8 @@ class FileHandler {
 		} elseif (empty($last_name)) {
 			return false;
 		} elseif ($first_name && $last_name && $personal_number !== null) {
+
+
 			$memberArray = $member->toArray();
 
 			$arrayToSave = array();
@@ -71,7 +73,17 @@ class FileHandler {
 				array_push($arrayToSave, $memberArray);
 			}
 
-			$this->writeMembersListToFile($arrayToSave);
+
+			$membersList = $this->getMembersListFromFile();
+
+			$newMembersList = array();
+			foreach ($membersList as $member_id => $memberInList) {
+				array_push($newMembersList, $memberInList);
+			}
+
+			array_push($newMembersList, $member);
+
+			$this->writeMembersListToFile($newMembersList);
 		}
 	}
 
@@ -108,6 +120,14 @@ class FileHandler {
 	}
 
 	function writeMembersListToFile($membersList) {
+		//var_dump($membersList);
+
+		foreach ($membersList as $key => $member) {
+			if($member != null) {
+				$member->member_id = null;
+			}
+		}
+
 		$newMemberJsonStr = (string) json_encode($membersList, JSON_PRETTY_PRINT);
 		$myfile = fopen($this->fileName, "w");
 		fwrite($myfile, $newMemberJsonStr);

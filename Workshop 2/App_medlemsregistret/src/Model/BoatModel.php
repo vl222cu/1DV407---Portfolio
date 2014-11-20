@@ -22,7 +22,7 @@ class BoatModel {
 
 		foreach ($membersList as $member_id => $member) {
 			foreach ($member as $key => $property) {
-				if($key == "boatList"){
+				if($key == "boatList" && $property != null){
 					
 					foreach ($property as $key2 => $value) {
 
@@ -100,7 +100,8 @@ class BoatModel {
 				foreach ($membersList as $member_id => $member) {
 					
 					if($boat->member_id == $member_id) {
-						array_push($member->boatList, $boat);
+						$newBoat = new BoatObject($boat->boatType, $boat->boatLength);
+						array_push($member->boatList, $newBoat);
 					}
 				}
 			}
