@@ -555,11 +555,13 @@ class MemberView {
 								<td>$last_name</td>
 							";
 
-			foreach ($member->boatList as $boat) {
-				$boatType = $boat->boatType;
-				$boatLength = $boat->boatLength;
+			if($member->boatList != null) {
+				foreach ($member->boatList as $boat) {
+					$boatType = $boat->boatType;
+					$boatLength = $boat->boatLength;
 
-				$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
+					$memberListHTML .="<td>Typ: $boatType Längd: $boatLength cm</td>";
+				}
 			}
 		}
 

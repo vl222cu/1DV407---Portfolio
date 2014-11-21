@@ -1,7 +1,7 @@
 [
     {
         "first_name": "hej",
-        "last_name": "hejzzzz",
+        "last_name": "hej",
         "personal_number": "8383",
         "member_id": null,
         "boatList": [
@@ -60,19 +60,5 @@
         "personal_number": "101928",
         "member_id": null,
         "boatList": null
-    },
-    {
-        "first_name": "wjf",
-        "last_name": "jwnfjn",
-        "personal_number": "91919191918\u00a7",
-        "member_id": null,
-        "boatList": []
-    },
-    {
-        "first_name": "kjqfn",
-        "last_name": "jfnjf",
-        "personal_number": "12345",
-        "member_id": null,
-        "boatList": []
     }
 ]
