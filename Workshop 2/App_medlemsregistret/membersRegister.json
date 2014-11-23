@@ -1,24 +1,24 @@
 [
     {
-        "first_name": "hej",
+        "first_name": "hejhej",
         "last_name": "hej",
         "personal_number": "8383",
         "member_id": null,
         "boatList": [
             {
-                "boatLength": "33333",
-                "boatType": "Segelb\u00e5t",
-                "member_id": null
-            },
-            {
                 "boatLength": "1231231",
                 "boatType": "Segelb\u00e5t",
-                "member_id": null
+                "member_id": 0
             },
             {
                 "boatLength": "12313",
-                "boatType": "Segelb\u00e5t",
-                "member_id": null
+                "boatType": "Motorb\u00e5t",
+                "member_id": 0
+            },
+            {
+                "boatLength": "10000",
+                "boatType": "Kajak\/Kanot",
+                "member_id": 0
             }
         ]
     },
@@ -31,12 +31,12 @@
             {
                 "boatLength": "9191991",
                 "boatType": "Motorseglare",
-                "member_id": null
+                "member_id": 1
             },
             {
                 "boatLength": "22222",
                 "boatType": "Segelb\u00e5t",
-                "member_id": null
+                "member_id": 1
             }
         ]
     },
@@ -45,20 +45,39 @@
         "last_name": "khbf",
         "personal_number": "91827",
         "member_id": null,
-        "boatList": null
+        "boatList": [
+
+        ]
     },
     {
         "first_name": "hdouh",
         "last_name": "ouwhd",
         "personal_number": "82828222222",
         "member_id": null,
-        "boatList": null
+        "boatList": [
+
+        ]
     },
     {
-        "first_name": "dw\u00f6qkmd",
-        "last_name": "lknw",
-        "personal_number": "101928",
+        "first_name": "Kick",
+        "last_name": "Ass",
+        "personal_number": "11111",
         "member_id": null,
-        "boatList": null
+        "boatList": [
+
+        ]
+    },
+    {
+        "first_name": "Vivi",
+        "last_name": "Lam",
+        "personal_number": "123456789",
+        "member_id": null,
+        "boatList": [
+            {
+                "boatLength": "99999",
+                "boatType": "Segelb\u00e5t",
+                "member_id": 5
+            }
+        ]
     }
 ]
